@@ -1,0 +1,28 @@
+PATH
+  remote: .
+  specs:
+    x_network (1.0)
+      motion-async
+      x_files
+
+PATH
+  remote: /Users/joffreyjaffeux/Projects/x_files
+  specs:
+    x_files (1.2.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    motion-async (0.6)
+    rake (10.4.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rake
+  x_files!
+  x_network!
+
+BUNDLED WITH
+   1.10.3
