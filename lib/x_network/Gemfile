@@ -1,6 +1,0 @@
-source 'https://rubygems.org'
-
-# Define all dependencies in your .gemspec file
-gem 'x_network', path: "/Users/joffreyjaffeux/Projects/x_network"
-gem 'x_files', path: "/Users/joffreyjaffeux/Projects/x_files"
-gemspec
