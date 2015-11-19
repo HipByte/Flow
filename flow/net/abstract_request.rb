@@ -1,4 +1,4 @@
-module XNetwork
+module Net
   class AbstractRequest
     attr_accessor :options
     attr_accessor :http_verb

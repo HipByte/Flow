@@ -1,4 +1,4 @@
-module XNetwork
+module Net
   class Response < AbstractResponse
     def initialize(connection, response)
       @connection = connection

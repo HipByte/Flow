@@ -1,4 +1,4 @@
-module XNetwork
+module Net
   module Config
     class << self
       attr_accessor :user_agent

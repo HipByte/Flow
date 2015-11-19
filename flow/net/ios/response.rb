@@ -1,4 +1,4 @@
-module XNetwork
+module Net
   class Response < AbstractResponse
     def initialize(raw_body, response)
       @raw_body = raw_body

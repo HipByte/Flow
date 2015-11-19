@@ -1,4 +1,4 @@
-module XNetwork
+module Net
   class Request < AbstractRequest
     def get(url, options:request_options, callback:callback)
       @url = Java::Net::URL.new(url)
@@ -14,7 +14,7 @@ module XNetwork
       MotionAsync.async do
   		  connection = @url.openConnection
   		  connection.setRequestMethod(@http_verb)
-  		  connection.setRequestProperty("User-Agent", Config.user_agent || XNetwork::USER_AGENT)
+  		  connection.setRequestProperty("User-Agent", Config.user_agent || Net::USER_AGENT)
 
         input_reader = Java::Io::InputStreamReader.new(connection.getInputStream)
   		  input = Java::Io::BufferedReader.new(input_reader)

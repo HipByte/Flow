@@ -1,5 +1,5 @@
-module XNetwork
-  USER_AGENT = "XNetwork - https://github.com/xmotion/x_network"
+module Net
+  USER_AGENT = "Net - https://github.com/xmotion/x_network"
 
   def self.get(url, options = {}, &callback)
     request = Request.new

@@ -1,4 +1,4 @@
-module XNetwork
+module Net
   module JSON
     # extracted from bubble wrap
     # would probably need a cross platform gem

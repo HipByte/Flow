@@ -1,4 +1,4 @@
-module XNetwork
+module Net
   class AbstractResponse
     def status
       fail

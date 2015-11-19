@@ -1,4 +1,4 @@
-module XNetwork
+module Net
   class Request < AbstractRequest
     def get(url, options:request_options, callback:callback)
       @url = NSURL.URLWithString(url)
@@ -61,7 +61,7 @@ module XNetwork
 
     def build_options
       options = {}
-      default_user_agent = Config.user_agent || XNetwork::USER_AGENT
+      default_user_agent = Config.user_agent || Net::USER_AGENT
       options[:headers] = {'User-Agent' => default_user_agent}.merge(options[:headers] || {})
       options[:verbose] ||= Config.verbose
       options[:connect_timeout] = options.fetch(:connect_timeout, Config.connect_timeout)
