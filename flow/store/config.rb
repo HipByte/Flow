@@ -5,11 +5,6 @@ module Store
       def db_path
         @db_path || "store.sqlite"
       end
-
-      attr_accessor :adapter
-      def adapter
-        @adapter || :sqlite
-      end
     end
   end
 end

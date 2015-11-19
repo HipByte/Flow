@@ -1,5 +1,5 @@
 module Store
-  class AbstractAdapter
+  class AbstractSqlite
     def open_connection(db_path)
       fail
     end

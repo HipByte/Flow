@@ -2,19 +2,19 @@ module Store
   class Store < AbstractStore
     def initialize(db_path)
       @db_path = db_path
-      # open_connection using adapter
+      # open_connection using sqlite
     end
 
     def set(key, value)
-      # set key using adapter and serializer
+      # set key using sqlite and serializer
     end
 
     def get(key)
-      # get key using adapter and deserializer
+      # get key using sqlite and deserializer
     end
 
     def delete(key)
-      # delete key using adapter
+      # delete key using sqlite
     end
 
     def path
