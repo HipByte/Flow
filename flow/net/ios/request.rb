@@ -63,7 +63,6 @@ module Net
       options = {}
       default_user_agent = Config.user_agent || Net::USER_AGENT
       options[:headers] = {'User-Agent' => default_user_agent}.merge(options[:headers] || {})
-      options[:verbose] ||= Config.verbose
       options[:connect_timeout] = options.fetch(:connect_timeout, Config.connect_timeout)
       options[:read_timeout] = options.fetch(:read_timeout, Config.read_timeout)
       options
