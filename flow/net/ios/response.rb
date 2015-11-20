@@ -14,11 +14,7 @@ module Net
     end
 
     def body
-      if json?
-        body = NSString.alloc.initWithData(@raw_body, encoding:NSUTF8StringEncoding)
-        return JSON.parse(body)
-      end
-      @raw_body
+      @body ||= build_body
     end
 
     def status_message
@@ -31,6 +27,13 @@ module Net
 
     def json?
       mime_type == "application/json"
+    end
+
+    def build_body
+      if json?
+        return JSON.load(@raw_body.to_str)
+      end
+      @raw_body
     end
   end
 end
