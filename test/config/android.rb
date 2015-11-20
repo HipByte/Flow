@@ -5,4 +5,5 @@ Motion::Project::App.setup do |app|
   app.name = 'test'
   app.archs = ['x86']
   app.vm_debug_logs = true
+  app.permissions = ["android.permission.INTERNET"]
 end
