@@ -47,7 +47,24 @@ end
 
 class Object
   def to_json
-    obj = Org::JSON::JSONObject.wrap(self)
+    # The Android JSON API expects real Java String objects.
+    obj = self
+    case obj
+      when String
+        obj = obj.toString
+      when Hash
+        map = Hash.new
+        obj.each do |key, value|
+          key = key.toString if key.is_a?(String)
+          value = value.toString if value.is_a?(String)
+          map[key] = value
+        end
+        obj = map
+      when Array
+        obj = obj.map { |item| item.is_a?(String) ? item.toString : item }
+    end
+
+    obj = Org::JSON::JSONObject.wrap(obj)
     if obj == nil
       raise "Can't serialize object to JSON"
     end
