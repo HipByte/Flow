@@ -6,9 +6,11 @@ module Store
 
     def set(key, value)
     end
+    alias_method :[]=, :set
 
     def get(key)
     end
+    alias_method :[], :get
 
     def delete(key)
     end
