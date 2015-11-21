@@ -29,6 +29,8 @@ module Net
       mime_type == "application/json"
     end
 
+    private
+
     def build_body
       if json?
         return JSON.load(@raw_body.to_str)
