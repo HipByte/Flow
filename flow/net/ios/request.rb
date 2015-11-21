@@ -1,11 +1,14 @@
 module Net
-  class Request < AbstractRequest
-    def get(url, options:request_options, callback:callback)
-      @url = NSURL.URLWithString(url)
-      @http_verb = "GET"
-      @options = options.merge(request_options)
+  class Request
+    extend Actions
+
+    attr_accessor :options
+
+    def initialize(base_url, options, callback)
+      @url = NSURL.URLWithString(base_url)
+      @options = options
       @callback = callback
-      run
+      set_defaults
     end
 
     def run
@@ -26,7 +29,9 @@ module Net
     end
 
     def build_session
-      NSURLSession.sessionWithConfiguration(@session_configuration, delegate:self, delegateQueue:nil)
+      NSURLSession.sessionWithConfiguration(@session_configuration,
+                                            delegate:self,
+                                            delegateQueue:nil)
     end
 
     def request
@@ -35,7 +40,7 @@ module Net
 
     def build_request
       request = NSMutableURLRequest.requestWithURL(@url)
-      request.setHTTPMethod(http_verb)
+      request.setHTTPMethod(options[:method].to_s.upcase)
       request
     end
 
@@ -53,16 +58,11 @@ module Net
       config
     end
 
-    def options
-      @options ||= build_options
-    end
-
     private
 
-    def build_options
-      options = {}
-      default_user_agent = Config.user_agent || Net::USER_AGENT
-      options[:headers] = {'User-Agent' => default_user_agent}.merge(options[:headers] || {})
+    def set_defaults
+      options[:headers] ||= {}
+      options[:headers] = {'User-Agent' => Config.user_agent}.merge(options[:headers])
       options[:connect_timeout] = options.fetch(:connect_timeout, Config.connect_timeout)
       options[:read_timeout] = options.fetch(:read_timeout, Config.read_timeout)
       options

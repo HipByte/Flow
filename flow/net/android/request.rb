@@ -1,11 +1,10 @@
 module Net
-  class Request < AbstractRequest
-    def get(url, options:request_options, callback:callback)
+  class Request
+    def initialize(base_url, options, callback)
       @url = Java::Net::URL.new(url)
-      @http_verb = "GET"
-      @options = options.merge(request_options)
+      @options = options
       @callback = callback
-      run
+      set_defaults
     end
 
     def run
@@ -13,8 +12,8 @@ module Net
       # be a good idea
       MotionAsync.async do
   		  connection = @url.openConnection
-  		  connection.setRequestMethod(@http_verb)
-  		  connection.setRequestProperty("User-Agent", Config.user_agent || Net::USER_AGENT)
+  		  connection.setRequestMethod(@http_verb.to_s.upcase)
+  		  connection.setRequestProperty("User-Agent", Config.user_agent)
 
         input_reader = Java::Io::InputStreamReader.new(connection.getInputStream)
   		  input = Java::Io::BufferedReader.new(input_reader)
@@ -29,8 +28,14 @@ module Net
       end
     end
 
-    def options
-      @options ||= {}
+    private
+
+    def set_defaults
+      options[:headers] ||= {}
+      options[:headers] = {'User-Agent' => Config.user_agent}.merge(options[:headers])
+      options[:connect_timeout] = options.fetch(:connect_timeout, Config.connect_timeout)
+      options[:read_timeout] = options.fetch(:read_timeout, Config.read_timeout)
+      options
     end
   end
 end
