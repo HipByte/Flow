@@ -11,6 +11,9 @@ describe "Net" do
     end
     wait do
       @response.body.should.match /User-agent: */
+      @response.status.should == 200
+      @response.mime_type.should == "text/plain"
+      @response.status_message.should == "no error"
     end
   end
 
@@ -29,10 +32,11 @@ describe "Net" do
     wait do
       @response.body['args']['test'].should == "1"
       @response.body['json']['user'].should == 1
+      @response.mime_type.should == "application/json"
     end
   end
 
-  it "can POST TXT to a valid form url encoded endpoint" do
+  it "can POST FORM to a valid form url encoded endpoint" do
     @response = nil
     options = {
       body: "user=1"
@@ -54,6 +58,7 @@ describe "Net" do
     end
     wait do
       @response.body['args']['test'].should == "1"
+      @response.mime_type.should == "application/json"
     end
   end
 end

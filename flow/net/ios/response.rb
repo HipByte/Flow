@@ -1,5 +1,5 @@
 module Net
-  class Response < AbstractResponse
+  class Response
     def initialize(raw_body, response)
       @raw_body = raw_body
       @response = response

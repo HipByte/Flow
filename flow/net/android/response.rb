@@ -1,5 +1,5 @@
 module Net
-  class Response < AbstractResponse
+  class Response
     def initialize(connection, response)
       @connection = connection
       @response = response
