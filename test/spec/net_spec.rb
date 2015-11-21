@@ -3,7 +3,7 @@ describe "Net" do
     @response = nil
   end
 
-  it "can GET a TXT endpoint" do
+  it "can GET TXT from a valid TXT endpoint" do
     @response = nil
     Net.get('https://httpbin.org/robots.txt') do |response|
       @response = response
@@ -14,7 +14,7 @@ describe "Net" do
     end
   end
 
-  it "can POST a JSON endpoint" do
+  it "can POST JSON to a valid JSON endpoint" do
     @response = nil
     options = {
       headers: {
@@ -32,7 +32,7 @@ describe "Net" do
     end
   end
 
-  it "can POST as form url encoded" do
+  it "can POST TXT to a valid form url encoded endpoint" do
     @response = nil
     options = {
       body: "user=1"
@@ -46,7 +46,7 @@ describe "Net" do
     end
   end
 
-  it "can GET a JSON endpoint" do
+  it "can GET JSON from a valid JSON endpoint" do
     @response = nil
     Net.get('https://httpbin.org/get?test=1') do |response|
       @response = response
