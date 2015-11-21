@@ -1,7 +1,11 @@
 module Net
   class Request
+    extend Actions
+
+    attr_accessor :options
+
     def initialize(base_url, options, callback)
-      @url = Java::Net::URL.new(url)
+      @url = Java::Net::URL.new(base_url)
       @options = options
       @callback = callback
       set_defaults
@@ -12,7 +16,7 @@ module Net
       # be a good idea
       MotionAsync.async do
   		  connection = @url.openConnection
-  		  connection.setRequestMethod(@http_verb.to_s.upcase)
+  		  connection.setRequestMethod(options[:method].to_s.upcase)
   		  connection.setRequestProperty("User-Agent", Config.user_agent)
 
         input_reader = Java::Io::InputStreamReader.new(connection.getInputStream)
