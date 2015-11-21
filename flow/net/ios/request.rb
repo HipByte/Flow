@@ -22,20 +22,24 @@ module Net
       task.resume
     end
 
-    private
-
     def session
       @session ||= build_session
     end
 
-    def build_session
-      NSURLSession.sessionWithConfiguration(@session_configuration,
-                                            delegate:self,
-                                            delegateQueue:nil)
-    end
-
     def request
       @request ||= build_request
+    end
+
+    def session_configuration
+      @session_configuration ||= build_session_configuration
+    end
+
+    private
+
+    def build_session
+      NSURLSession.sessionWithConfiguration(session_configuration,
+                                            delegate:self,
+                                            delegateQueue:nil)
     end
 
     def build_request
@@ -44,28 +48,21 @@ module Net
       request
     end
 
-    def session_configuration
-      @session_configuration ||= build_session_configuration
-    end
-
     def build_session_configuration
       config = NSURLSessionConfiguration.defaultSessionConfiguration
       config.allowsCellularAccess = false
-      config.setHTTPAdditionalHeaders(@options[:headers])
-      config.timeoutIntervalForRequest = @options[:connect_timeout]
-      config.timeoutIntervalForResource = @options[:read_timeout]
+      config.setHTTPAdditionalHeaders(options[:headers])
+      config.timeoutIntervalForRequest = options[:connect_timeout]
+      config.timeoutIntervalForResource = options[:read_timeout]
       config.HTTPMaximumConnectionsPerHost = 1
       config
     end
-
-    private
 
     def set_defaults
       options[:headers] ||= {}
       options[:headers] = {'User-Agent' => Config.user_agent}.merge(options[:headers])
       options[:connect_timeout] = options.fetch(:connect_timeout, Config.connect_timeout)
       options[:read_timeout] = options.fetch(:read_timeout, Config.read_timeout)
-      options
     end
   end
 end
