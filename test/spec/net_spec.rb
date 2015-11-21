@@ -3,6 +3,17 @@ describe "Net" do
     @response = nil
   end
 
+  it "can GET a TXT endpoint" do
+    @response = nil
+    Net.get('https://httpbin.org/robots.txt') do |response|
+      @response = response
+      Dispatch::Queue.main.async { resume }
+    end
+    wait do
+      @response.body.should.match /User-agent: */
+    end
+  end
+
   it "can POST a JSON endpoint" do
     @response = nil
     options = {

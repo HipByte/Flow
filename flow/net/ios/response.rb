@@ -35,7 +35,7 @@ module Net
       if json?
         return JSON.load(@raw_body.to_str)
       end
-      @raw_body
+      @raw_body.to_str
     end
   end
 end
