@@ -40,6 +40,12 @@ module Net
       options[:headers].fetch('Content-Type', false) == "application/json"
     end
 
+    def data_body(body)
+      body ||= ""
+      return body.to_json.to_data if body && json?
+      body.to_data
+    end
+
     def build_session
       NSURLSession.sessionWithConfiguration(session_configuration,
                                             delegate:self,
@@ -49,15 +55,7 @@ module Net
     def build_request
       request = NSMutableURLRequest.requestWithURL(@url)
       request.setHTTPMethod(options[:method].to_s.upcase)
-
-      if options.fetch(:body, nil)
-        if json?
-          request.setHTTPBody(options[:body].to_json.to_data, dataUsingEncoding:NSUTF8StringEncoding)
-        else
-          request.setHTTPBody(options[:body].to_data, dataUsingEncoding:NSUTF8StringEncoding)
-        end
-      end
-
+      request.setHTTPBody(data_body(options[:body]), dataUsingEncoding:NSUTF8StringEncoding)
       request
     end
 
