@@ -4,9 +4,9 @@ describe "Net" do
   end
 
   it "can GET TXT from a valid TXT endpoint" do
-    Net.get('http://localhost:4567/robots.txt') do |response|
+    Net.get("#{HTTP_SERVER}/robots.txt") do |response|
       @response = response
-      Dispatch::Queue.main.async { resume }
+      Concurrency::Queue.main.async { resume }
     end
 
     wait do
@@ -25,9 +25,9 @@ describe "Net" do
       },
       body: {user: 1}
     }
-    Net.post('http://localhost:4567/json?test=1', options) do |response|
+    Net.post("#{HTTP_SERVER}/json?test=1", options) do |response|
       @response = response
-      Dispatch::Queue.main.async { resume }
+      Concurrency::Queue.main.async { resume }
     end
     wait do
       @response.body['params']['test'].should == "1"
@@ -41,9 +41,9 @@ describe "Net" do
     options = {
       body: "user=1"
     }
-    Net.post('http://localhost:4567', options) do |response|
+    Net.post(HTTP_SERVER, options) do |response|
       @response = response
-      Dispatch::Queue.main.async { resume }
+      Concurrency::Queue.main.async { resume }
     end
     wait do
       @response.body['body']['user'].should == "1"
@@ -52,13 +52,24 @@ describe "Net" do
 
   it "can GET JSON from a valid JSON endpoint" do
     @response = nil
-    Net.get('http://localhost:4567/json?test=1') do |response|
+    Net.get("#{HTTP_SERVER}/json?test=1") do |response|
       @response = response
-      Dispatch::Queue.main.async { resume }
+      Concurrency::Queue.main.async { resume }
     end
     wait do
       @response.body['params']['test'].should == "1"
       @response.mime_type.should == "application/json"
+    end
+  end
+
+  it "can PATCH to a valid endpoint" do
+    @response = nil
+    Net.patch("#{HTTP_SERVER}?test=1") do |response|
+      @response = response
+      Concurrency::Queue.main.async { resume }
+    end
+    wait do
+      @response.body['params']['test'].should == "1"
     end
   end
 end

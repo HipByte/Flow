@@ -13,4 +13,5 @@ Motion::Project::App.setup do |app|
     app.files.concat(Dir.glob(File.join(libdir, 'android/*.rb')))
   end
   app.files.delete_if { |path| path.start_with?('./app/ios') }
+  app.spec_files.delete_if { |path| path.start_with?('./spec/helpers/ios') }
 end
