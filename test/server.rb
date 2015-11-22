@@ -1,34 +1,90 @@
 require 'sinatra'
 require 'json'
 
-get('/robots.txt') do
-  [
-    200,
-    {"Content-Type" => "text/plain"},
-    'User-agent: *'
-  ]
+helpers do
+  def payload_request
+    body = request.body.read
+    [
+      200,
+      {
+        "Content-Type" => "application/json",
+        "X-Request-Method" => request.env['REQUEST_METHOD']
+      },
+      {
+        "args" => params,
+        "data" => body,
+        "json" => JSON.load(body)
+      }.to_json
+    ]
+  end
 end
 
-get('/json') do
+get('/') do
   [
     200,
-    {"Content-Type" => "application/json"},
-    {params: params, body: JSON.load(request.body)}.to_json
+    {
+      "Content-Type": "application/json",
+      "X-Request-Method" => request.env['REQUEST_METHOD']
+    },
+    {
+      "args" => params
+    }.to_json
   ]
 end
 
 post('/') do
+  payload_request
+end
+
+patch('/') do
+  payload_request
+end
+
+delete('/') do
+  payload_request
+end
+
+put('/') do
+  payload_request
+end
+
+options('/') do
   [
     200,
-    {"Content-Type" => "application/json"},
-    {params: params, body: params}.to_json
+    {
+      "X-Request-Method" => request.env['REQUEST_METHOD']
+    },
+    nil
   ]
 end
 
-post('/json') do
+head('/') do
+  [
+    200,
+    {
+      "X-Request-Method" => request.env['REQUEST_METHOD']
+    },
+    nil
+  ]
+end
+
+get('/txt') do
+  [
+    200,
+    {"Content-Type" => "text/plain"},
+    "User: #{params['user']}"
+  ]
+end
+
+post('/form') do
   [
     200,
     {"Content-Type" => "application/json"},
-    {params: params, body: JSON.load(request.body)}.to_json
+
+    {
+      "args" => params,
+      "data" => request.body.read,
+      "json" => params
+    }.to_json
   ]
 end
