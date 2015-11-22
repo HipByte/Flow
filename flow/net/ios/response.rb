@@ -26,7 +26,7 @@ module Net
     end
 
     def json?
-      mime_type == "application/json"
+      mime_type.match /application\/json/
     end
 
     private
