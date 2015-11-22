@@ -12,9 +12,7 @@ module Net
     end
 
     def run
-      # a cross platform async gem would probably
-      # be a good idea
-      MotionAsync.async do
+      AsyncTask.async do
   		  connection = @url.openConnection
   		  connection.setRequestMethod(options[:method].to_s.upcase)
   		  connection.setRequestProperty("User-Agent", Config.user_agent)
