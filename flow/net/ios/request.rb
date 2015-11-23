@@ -16,7 +16,9 @@ module Net
         if response.nil? && error
           fail
         end
-        @callback.call(Response.new(body, response))
+        Dispatch::Queue.main.sync do
+          @callback.call(Response.new(body, response))
+        end
       }
       task = session.dataTaskWithRequest(request, completionHandler:handler)
       task.resume
