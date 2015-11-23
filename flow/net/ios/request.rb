@@ -12,16 +12,18 @@ module Net
     end
 
     def run
-      handler = lambda { |body, response, error|
-        if response.nil? && error
-          fail
-        end
-        Dispatch::Queue.main.sync do
-          @callback.call(Response.new(body, response))
-        end
-      }
-      task = session.dataTaskWithRequest(request, completionHandler:handler)
-      task.resume
+      Dispatch::Queue.new("request.net.flow").async do
+        handler = lambda { |body, response, error|
+          if response.nil? && error
+            fail
+          end
+          Dispatch::Queue.main.sync do
+            @callback.call(Response.new(body, response))
+          end
+        }
+        task = session.dataTaskWithRequest(request, completionHandler:handler)
+        task.resume
+      end
     end
 
     def session
