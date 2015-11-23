@@ -1,6 +1,7 @@
 require File.join(File.dirname(__FILE__), 'common.rb')
 
-$:.unshift("/Library/RubyMotion/lib")
+#$:.unshift("/Library/RubyMotion/lib")
+$:.unshift("/Users/lrz/src/RubyMotion/lib")
 require 'motion/project/template/android'
 
 Motion::Project::App.setup do |app|

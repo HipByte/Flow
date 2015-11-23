@@ -4,7 +4,7 @@ module Digest
       @digest = Java::Security::MessageDigest.getInstance(algo)
     end
 
-    def _update(str)
+    def update(str)
       @digest.update(str.chars.map { |x| x.ord })
       self
     end
@@ -25,7 +25,7 @@ module Digest
     end
 
     def self.digest(str)
-      self.new._update(str).hexdigest
+      self.new.update(str).hexdigest
     end
   end
 
@@ -35,7 +35,7 @@ module Digest
     end
 
     def self.digest(str)
-      self.new._update(str).hexdigest
+      self.new.update(str).hexdigest
     end
   end
 end
