@@ -26,7 +26,9 @@ module Net
         end
         input.close
 
-        @callback.call(Response.new(connection, response))
+        AsyncTask.main_async do
+          @callback.call(Response.new(connection, response))
+        end
       end
     end
 
