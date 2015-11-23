@@ -15,7 +15,17 @@ module Net
       AsyncTask.async do
   		  connection = @url.openConnection
   		  connection.setRequestMethod(options[:method].to_s.upcase)
+        connection.setDoOutput(true) if options[:method] == :post
   		  connection.setRequestProperty("User-Agent", Config.user_agent)
+
+        (options[:headers] || []).each do |key, value|
+          connection.setRequestProperty(key, value)
+        end
+
+        if options[:method] == :post && options[:body]
+          stream = connection.getOutputStream()
+          stream.write(Java::Lang::String.new(@options[:body]).getBytes("UTF-8"))
+        end
 
         input_reader = Java::Io::InputStreamReader.new(connection.getInputStream)
   		  input = Java::Io::BufferedReader.new(input_reader)
