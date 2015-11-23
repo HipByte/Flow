@@ -1,0 +1,2 @@
+# -*- coding: utf-8 -*-
+require '../../lib/motion-flow.rb'
