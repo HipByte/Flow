@@ -2,3 +2,4 @@
 test/build
 samples/*/build
 **/*/.repl_history
+flow/digest/build-*

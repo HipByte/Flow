@@ -11,6 +11,10 @@ Motion::Project::App.setup do |app|
     libdir = File.join(File.dirname(__FILE__), '../flow/' + comp)
     app.files.concat(Dir.glob(File.join(libdir, '*.rb')))
     app.files.concat(Dir.glob(File.join(libdir, 'ios/*.rb')))
+
+    unless Dir.glob(File.join(libdir, 'ios/*.{m,h}')).empty?
+      app.vendor_project libdir, :static
+    end
   end
   app.files.delete_if { |path| path.start_with?('./app/android') }
   app.spec_files.delete_if { |path| path.start_with?('./spec/helpers/android') }
