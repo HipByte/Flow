@@ -14,7 +14,7 @@ module Digest
       self
     end
 
-    def hexdigest
+    def digest
       @digest.digest.map { |x| String.format('%02x', x) }.join
     end
   end
@@ -25,7 +25,7 @@ module Digest
     end
 
     def self.digest(str)
-      self.new.update(str).hexdigest
+      self.new.update(str).digest
     end
   end
 
@@ -35,7 +35,7 @@ module Digest
     end
 
     def self.digest(str)
-      self.new.update(str).hexdigest
+      self.new.update(str).digest
     end
   end
 end
