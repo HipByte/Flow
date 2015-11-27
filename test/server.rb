@@ -5,6 +5,17 @@ Thin::Logging.debug = true
 Thin::Logging.trace = true
 
 helpers do
+  def protect!
+    return if authorized?
+    headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
+    halt 401, "Not authorized\n"
+  end
+
+  def authorized?
+    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['username', 'admin']
+  end
+
   def payload_request
     body = request.body.read
     [
@@ -20,6 +31,11 @@ helpers do
       }.to_json
     ]
   end
+end
+
+get('/protected') do
+  protect!
+  "Welcome"
 end
 
 get('/') do
