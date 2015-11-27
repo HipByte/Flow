@@ -1,5 +1,8 @@
 require 'sinatra'
 require 'json'
+require 'thin'
+Thin::Logging.debug = true
+Thin::Logging.trace = true
 
 helpers do
   def payload_request
