@@ -41,7 +41,7 @@ session = Net.build('https://httpbin.org') do
   authorize(username: 'rubymotion', password: 'flow')
 end
 
-session.get("/basic-auth/rubymotion/flow", options) do |response|
+session.get("/basic-auth/rubymotion/flow") do |response|
   if response.status == 200
     p response.body['authenticated'] # true
   end
