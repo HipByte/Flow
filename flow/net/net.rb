@@ -2,7 +2,7 @@ module Net
   USER_AGENT = "Net - https://bitbucket.org/hipbyte/flow"
 
   class << self
-    def session(base_url, &block)
+    def build(base_url, &block)
       Session.build(base_url, &block)
     end
 
