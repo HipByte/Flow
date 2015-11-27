@@ -5,13 +5,27 @@ Thin::Logging.debug = true
 Thin::Logging.trace = true
 
 helpers do
-  def protect!
-    return if authorized?
+  def restricted_area
     headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
     halt 401, "Not authorized\n"
   end
 
-  def authorized?
+  def http_protect!
+    return if http_authorized?
+    restricted_area
+  end
+
+  def token_protect!
+    return if token_authorized?
+    restricted_area
+  end
+
+  def token_authorized?
+    request.env.fetch('HTTP_AUTHORIZATION', nil) &&
+    'rubymotion' == request.env['HTTP_AUTHORIZATION'].match(/Token token="(.*)"/).captures.first
+  end
+
+  def http_authorized?
     @auth ||=  Rack::Auth::Basic::Request.new(request.env)
     @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['username', 'admin']
   end
@@ -33,8 +47,13 @@ helpers do
   end
 end
 
+get('/token_auth_protected') do
+  token_protect!
+  "Welcome"
+end
+
 get('/basic_auth_protected') do
-  protect!
+  http_protect!
   "Welcome"
 end
 

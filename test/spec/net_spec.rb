@@ -4,6 +4,20 @@ describe "Net" do
   end
 
   describe ".get" do
+    it "can pass Token based HTTP auth" do
+      session = Net.build(HTTP_SERVER) do
+        authorize(token: 'rubymotion')
+      end
+      session.get('/token_auth_protected') do |response|
+        @response = response
+        Concurrency::Queue.main.async { resume }
+      end
+
+      wait do
+        @response.body.should == "Welcome"
+      end
+    end
+
     it "can pass Basic HTTP auth" do
       session = Net::Session.build(HTTP_SERVER) do
         authorize(username: 'username', password: 'admin')

@@ -97,6 +97,11 @@ module Net
           auth_value = "Basic #{auth_data.base64EncodedStringWithOptions(0)}"
           configuration[:headers].merge!({'Authorization' => auth_value})
         end
+
+        if authorization && authorization.token?
+          auth_value = 'Token token="' + authorization.to_s + '"'
+          configuration[:headers].merge!({'Authorization' => auth_value})
+        end
       end
 
       configuration.merge!(@options)
