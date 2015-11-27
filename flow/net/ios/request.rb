@@ -2,86 +2,104 @@ module Net
   class Request
     extend Actions
 
-    attr_accessor :options
+    attr_reader :configuration, :session
 
-    def initialize(base_url, options, callback)
-      @url = NSURL.URLWithString(base_url)
+    def initialize(url, options = {}, session = nil)
+      @url = NSURL.URLWithString(url)
       @options = options
-      @callback = callback
+      @session = session
+      @configuration = {}
+
       set_defaults
+      configure
     end
 
-    def run
+    def run(&callback)
       Dispatch::Queue.new("request.net.flow").async do
         handler = lambda { |body, response, error|
           if response.nil? && error
             fail
           end
           Dispatch::Queue.main.sync do
-            @callback.call(Response.new(body, response))
+            callback.call(Response.new(body, response))
           end
         }
-        task = session.dataTaskWithRequest(request, completionHandler:handler)
+        task = ns_url_session.dataTaskWithRequest(ns_mutable_request,
+                                                  completionHandler:handler)
         task.resume
       end
     end
 
-    def session
-      @session ||= build_session
-    end
-
-    def request
-      @request ||= build_request
-    end
-
-    def session_configuration
-      @session_configuration ||= build_session_configuration
-    end
-
     private
 
-    def json?
-      options[:headers].fetch('Content-Type', false) == "application/json"
+    def ns_url_session
+      @ns_url_session ||= build_ns_url_session
     end
 
-    def data_body(body)
-      body ||= ""
-      return body.to_json.to_data if body && json?
+    def ns_mutable_request
+      @ns_mutable_request ||= build_ns_mutable_request
+    end
+
+    def ns_url_session_configuration
+      @ns_url_session_configuration ||= build_ns_url_session_configuration
+    end
+
+    def json?
+      configuration[:headers].fetch('Content-Type', nil) == "application/json"
+    end
+
+    def build_body(body)
+      return body.to_json.to_data if json?
       body.to_data
     end
 
-    def build_session
-      NSURLSession.sessionWithConfiguration(session_configuration,
+    def build_ns_url_session
+      NSURLSession.sessionWithConfiguration(ns_url_session_configuration,
                                             delegate:self,
                                             delegateQueue:nil)
     end
 
-    def build_request
+    def build_ns_mutable_request
       request = NSMutableURLRequest.requestWithURL(@url)
-      request.setHTTPMethod(options[:method].to_s.upcase)
-      request.setHTTPBody(data_body(options[:body]), dataUsingEncoding:NSUTF8StringEncoding)
+      request.setHTTPMethod(configuration[:method].to_s.upcase)
+      request.setHTTPBody(build_body(configuration[:body]), dataUsingEncoding:NSUTF8StringEncoding)
       request
     end
 
-    def build_session_configuration
+    def build_ns_url_session_configuration
       config = NSURLSessionConfiguration.defaultSessionConfiguration
       config.allowsCellularAccess = false
-      config.setHTTPAdditionalHeaders(options[:headers])
-      config.timeoutIntervalForRequest = options[:connect_timeout]
-      config.timeoutIntervalForResource = options[:read_timeout]
+      config.setHTTPAdditionalHeaders(configuration[:headers])
+      config.timeoutIntervalForRequest = configuration[:connect_timeout]
+      config.timeoutIntervalForResource = configuration[:read_timeout]
       config.HTTPMaximumConnectionsPerHost = 1
       config
     end
 
     def set_defaults
-      options[:headers] ||= {}
-      options[:headers] = {
+      configuration[:headers] = {
         'User-Agent' => Config.user_agent,
-        'Content-Type' => options[:headers].fetch('Content-Type',
-                                                  'application/x-www-form-urlencoded')
-      }.merge(options[:headers])
-      options[:connect_timeout] = options.fetch(:connect_timeout, Config.connect_timeout)
-      options[:read_timeout] = options.fetch(:read_timeout, Config.read_timeout)
+        'Content-Type' => 'application/x-www-form-urlencoded'
+      }
+      configuration[:method] = :get
+      configuration[:body] = ""
+      configuration[:connect_timeout] = Config.connect_timeout
+      configuration[:read_timeout] = Config.read_timeout
+    end
+
+    def configure
+      if session
+        configuration[:headers].merge!(session.headers)
+
+        authorization = session.authorization
+        if authorization && authorization.basic?
+          auth_data = "#{authorization}".to_data
+          auth_value = "Basic #{auth_data.base64EncodedStringWithOptions(0)}"
+          configuration[:headers].merge!({'Authorization' => auth_value})
+        end
+      end
+
+      configuration.merge!(@options)
     end
   end
 end

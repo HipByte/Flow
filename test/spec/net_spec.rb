@@ -4,18 +4,17 @@ describe "Net" do
   end
 
   describe ".get" do
-    it "has a correct JSON response" do
-      Net.get("#{HTTP_SERVER}?test=1") do |response|
+    it "can pass Basic HTTP auth" do
+      session = Net::Session.build(HTTP_SERVER) do
+        authorize(username: 'username', password: 'admin')
+      end
+      session.get('/protected') do |response|
         @response = response
         Concurrency::Queue.main.async { resume }
       end
 
       wait do
-        @response.body['args']['test'].should == "1"
-        @response.status.should == 200
-        @response.mime_type.should == "application/json"
-        @response.headers['X-Request-Method'].should == "GET"
-        @response.status_message.should == "no error"
+        @response.body.should == "Welcome"
       end
     end
 

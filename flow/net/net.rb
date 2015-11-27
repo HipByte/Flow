@@ -1,31 +1,15 @@
 module Net
   USER_AGENT = "Net - https://bitbucket.org/hipbyte/flow"
 
-  def self.get(url, *options, &callback)
-    Request.get(url, options.shift || {}, callback)
+  def self.session(base_url, &block)
+    Session.build(base_url, &block)
   end
 
-  def self.post(url, *options, &callback)
-    Request.post(url, options.shift || {}, callback)
-  end
-
-  def self.delete(url, *options, &callback)
-    Request.delete(url, options.shift || {}, callback)
-  end
-
-  def self.put(url, *options, &callback)
-    Request.put(url, options.shift || {}, callback)
-  end
-
-  def self.patch(url, *options, &callback)
-    Request.patch(url, options.shift || {}, callback)
-  end
-
-  def self.head(url, *options, &callback)
-    Request.head(url, options.shift || {}, callback)
-  end
-
-  def self.options(url, *options, &callback)
-    Request.options(url, options.shift || {}, callback)
+  class << self
+    [:get, :post, :put, :delete, :patch, :options, :head].each do |http_medhod|
+      define_method(http_medhod) do |base_url, *options, &callback|
+        Request.send(http_medhod, base_url, options.shift || {}, &callback)
+      end
+    end
   end
 end
