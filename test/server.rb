@@ -33,7 +33,7 @@ helpers do
   end
 end
 
-get('/protected') do
+get('/basic_auth_protected') do
   protect!
   "Welcome"
 end

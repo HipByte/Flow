@@ -8,7 +8,7 @@ describe "Net" do
       session = Net::Session.build(HTTP_SERVER) do
         authorize(username: 'username', password: 'admin')
       end
-      session.get('/protected') do |response|
+      session.get('/basic_auth_protected') do |response|
         @response = response
         Concurrency::Queue.main.async { resume }
       end
