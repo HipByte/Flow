@@ -2,9 +2,10 @@ module Net
   class Request
     extend Actions
 
-    attr_reader :configuration, :session
+    attr_reader :configuration, :session, :base_url
 
     def initialize(url, options = {}, session = nil)
+      @base_url = url
       @url = Java::Net::URL.new(url)
       @options = options
       @session = session
@@ -15,6 +16,11 @@ module Net
     end
 
     def run(&callback)
+      if response = match_expectation
+        callback.call(response)
+        return
+      end
+
       AsyncTask.async do
         configuration[:headers].each do |key, value|
           url_connection.setRequestProperty(key, value)
@@ -41,6 +47,10 @@ module Net
     end
 
     private
+
+    def match_expectation
+      Expectation.response_for(self)
+    end
 
     def url_connection
       @url_connection ||= build_url_connection

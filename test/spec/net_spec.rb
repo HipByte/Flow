@@ -3,6 +3,21 @@ describe "Net" do
     @response = nil
   end
 
+  describe ".stub" do
+    before do
+      @url = "http://unkown_domain.test"
+      @request = Net::Request.new(@url)
+      @expected_response = Net::Response.new
+    end
+
+    it "doesnt hit network" do
+      Net.stub(@url).and_return(@expected_response)
+      Net.get(@url) do |response|
+        response.should == @expected_response
+      end
+    end
+  end
+
   describe ".get" do
     it "can pass Token based HTTP auth" do
       session = Net.build(HTTP_SERVER) do

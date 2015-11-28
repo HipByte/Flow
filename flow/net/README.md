@@ -47,3 +47,15 @@ session.get("/basic-auth/rubymotion/flow") do |response|
   end
 end
 ```
+
+#### Stubbing
+
+Flow::Net has stubbing out of the box. Testing network calls without hitting
+is very easy.
+
+```ruby
+Net.stub('www.example.com').and_return(Response.new(body:"example"))
+Net.get("www.example.com") do |response|
+  response.body # example
+end
+```

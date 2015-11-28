@@ -1,10 +1,11 @@
 module Net
   class Response
-    attr_accessor :options
+    attr_accessor :options, :mock
 
     def initialize(options = {})
       @options = options
       @headers = options[:headers]
+      @mock = false
     end
 
     def status
