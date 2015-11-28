@@ -41,7 +41,6 @@ describe "Net" do
       wait do
         @response.body.should.match /User: 1/
         @response.status.should == 200
-        @response.mime_type.should == "text/plain"
         @response.status_message.should == "no error"
       end
     end
@@ -64,7 +63,6 @@ describe "Net" do
         @response.body['args']['test'].should == "1"
         @response.body['json']['user'].should == 1
         @response.status.should == 200
-        @response.mime_type.should == "application/json"
         @response.headers['X-Request-Method'].should == "POST"
         @response.status_message.should == "no error"
       end
@@ -102,7 +100,6 @@ describe "Net" do
         @response.body['args']['test'].should == "1"
         @response.body['json']['user'].should == 1
         @response.status.should == 200
-        @response.mime_type.should == "application/json"
         @response.headers['X-Request-Method'].should == "PUT"
         @response.status_message.should == "no error"
       end
@@ -126,7 +123,6 @@ describe "Net" do
         @response.body['args']['test'].should == "1"
         @response.body['json']['user'].should == 1
         @response.status.should == 200
-        @response.mime_type.should == "application/json"
         @response.headers['X-Request-Method'].should == "PATCH"
         @response.status_message.should == "no error"
       end
@@ -150,7 +146,6 @@ describe "Net" do
         @response.body['args']['test'].should == "1"
         @response.body['json']['user'].should == 1
         @response.status.should == 200
-        @response.mime_type.should == "application/json"
         @response.headers['X-Request-Method'].should == "DELETE"
         @response.status_message.should == "no error"
       end

@@ -35,7 +35,7 @@ module Net
         input.close
 
         AsyncTask.main_async do
-          callback.call(Response.new(connection, response))
+          callback.call(AndroidResponse.new(connection, response))
         end
       end
     end
