@@ -72,6 +72,11 @@ module Net
         if authorization && authorization.basic?
           # TODO : implement base64 encoding for android
         end
+
+        if authorization && authorization.token?
+          auth_value = 'Token token="' + authorization.to_s + '"'
+          configuration[:headers].merge!({'Authorization' => auth_value})
+        end
       end
 
       configuration.merge!(@options)
