@@ -24,3 +24,4 @@ Flow is currently composed of several libraries:
 * [x] Support for auth
 * [ ] Support for upload
 * [ ] Support for streaming
+* [ ] Support for simple image fetching
