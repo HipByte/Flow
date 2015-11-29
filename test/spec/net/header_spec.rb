@@ -1,4 +1,4 @@
-describe "Net::Header" do
+describe Net::Header do
   it "has a a field and a value" do
     header = Net::Header.new('Content-Type', 'application/json')
     header.field.should == 'Content-Type'

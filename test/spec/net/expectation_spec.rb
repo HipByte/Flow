@@ -1,4 +1,4 @@
-describe "Net::Expectation" do
+describe Net::Expectation do
   before do
     @url = "www.example.com"
     @subject = Net::Expectation.new(@url)

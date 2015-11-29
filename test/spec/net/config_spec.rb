@@ -1,4 +1,4 @@
-describe "Net::Config" do
+describe Net::Config do
   it "can set connect_timeout" do
     Net::Config.connect_timeout = 10
     Net::Config.connect_timeout.should == 10

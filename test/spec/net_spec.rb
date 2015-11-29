@@ -1,4 +1,4 @@
-describe "Net" do
+describe Net do
   before do
     @response = nil
   end

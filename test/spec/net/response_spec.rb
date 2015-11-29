@@ -1,4 +1,4 @@
-describe "Net::Response" do
+describe Net::Response do
   before do
     @response = Net::Response.new({
       status_code: 200,
