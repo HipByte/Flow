@@ -1,6 +1,7 @@
 module Net
   class Request
     extend Actions
+    include Request::Stubbable
 
     attr_reader :configuration, :session, :base_url
 
@@ -16,10 +17,7 @@ module Net
     end
 
     def run(&callback)
-      if response = match_expectation
-        callback.call(response)
-        return
-      end
+      return if stub!(&callback)
 
       AsyncTask.async do
         configuration[:headers].each do |key, value|
@@ -47,10 +45,6 @@ module Net
     end
 
     private
-
-    def match_expectation
-      Expectation.response_for(self)
-    end
 
     def url_connection
       @url_connection ||= build_url_connection

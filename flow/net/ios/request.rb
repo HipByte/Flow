@@ -1,6 +1,7 @@
 module Net
   class Request
     extend Actions
+    include Request::Stubbable
 
     attr_reader :configuration, :session, :base_url
 
@@ -16,10 +17,7 @@ module Net
     end
 
     def run(&callback)
-      if response = match_expectation
-        callback.call(response)
-        return
-      end
+      return if stub!(&callback)
 
       Dispatch::Queue.new("request.net.flow").async do
         handler = lambda { |body, response, error|
@@ -37,10 +35,6 @@ module Net
     end
 
     private
-
-    def match_expectation
-      Expectation.response_for(self)
-    end
 
     def ns_url_session
       @ns_url_session ||= build_ns_url_session
