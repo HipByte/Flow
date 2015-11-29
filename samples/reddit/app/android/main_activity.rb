@@ -13,10 +13,10 @@ class MainActivity < Android::App::Activity
     @list.onItemClickListener = self
     self.contentView = @list
 
-    TweetFetcher.fetch_tweets do |tweets|
-      @list.adapter.tweets = tweets
+    RedditFetcher.fetch_posts do |posts|
+      @list.adapter.posts = posts
       @list.adapter.clear()
-      @list.adapter.addAll(tweets)
+      @list.adapter.addAll(posts)
       @list.adapter.notifyDataSetChanged
     end
   end

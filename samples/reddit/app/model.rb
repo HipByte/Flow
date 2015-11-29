@@ -32,7 +32,6 @@ class Model
   end
 
   class << self
-
     def attribute_names
       @_attribute_names ||= ['id']
     end
@@ -45,19 +44,5 @@ class Model
         attr_accessor arg
       end
     end
-
-    def has_one(name, klass)
-      attribute_names << name.to_s
-      define_method name.to_s do
-        orig_obj = instance_variable_get("@#{name}")
-        new_obj = instance_variable_set("@#{name}", klass.new) if orig_obj.nil?
-        orig_obj || new_obj
-      end
-      define_method "#{name}=" do |obj|
-        orig_obj = instance_variable_get("@#{name}")
-        instance_variable_set("@#{name}", build_or_update_object(orig_obj, klass, obj))
-      end
-    end
-
   end
 end
