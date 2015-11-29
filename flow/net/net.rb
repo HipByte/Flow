@@ -17,7 +17,7 @@ module Net
 
     [:get, :post, :put, :delete, :patch, :options, :head].each do |http_medhod|
       define_method(http_medhod) do |base_url, *options, &callback|
-        Request.send(http_medhod, base_url, options.shift || {}, &callback)
+        Request.send(http_medhod, base_url, options.shift || {}, callback)
       end
     end
   end
