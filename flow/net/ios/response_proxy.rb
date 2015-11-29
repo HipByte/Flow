@@ -1,5 +1,5 @@
 module Net
-  class IosResponse
+  class ResponseProxy
     def self.build_response(raw_body, response)
       new(raw_body, response).response
     end

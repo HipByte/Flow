@@ -1,5 +1,5 @@
 module Net
-  class AndroidResponse
+  class ResponseProxy
     def self.build_response(connection, response)
       new(connection, response).response
     end

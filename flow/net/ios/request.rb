@@ -27,7 +27,7 @@ module Net
             fail
           end
           Dispatch::Queue.main.sync do
-            callback.call(IosResponse.build_response(body, response))
+            callback.call(ResponseProxy.build_response(body, response))
           end
         }
         task = ns_url_session.dataTaskWithRequest(ns_mutable_request,
