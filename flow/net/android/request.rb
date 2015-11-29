@@ -39,7 +39,7 @@ module Net
         input.close
 
         AsyncTask.main_async do
-          callback.call(ResponseProxy.new(connection, response))
+          callback.call(ResponseProxy.build_response(url_connection, response))
         end
       end
     end
