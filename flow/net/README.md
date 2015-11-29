@@ -11,7 +11,7 @@ HTTP networking
 ```ruby
 Net.get("https://httpbin.org/get?user_id=1") do |response|
   if response.status == 200
-    p response.body['args']['user_id'] # 1
+    response.body['args']['user_id'] # 1
   end
 end
 ```
@@ -27,7 +27,7 @@ options = {
 }
 Net.post("https://httpbin.org/post", options) do |response|
   if response.status == 200
-    p response.body['json']['user_id'] # 1
+    response.body['json']['user_id'] # 1
   end
 end
 ```
@@ -43,7 +43,7 @@ end
 
 session.get("/basic-auth/rubymotion/flow") do |response|
   if response.status == 200
-    p response.body['authenticated'] # true
+    response.body['authenticated'] # true
   end
 end
 ```
