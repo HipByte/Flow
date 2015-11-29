@@ -11,7 +11,8 @@ Motion::Project::App.setup do |app|
   FLOW_COMPONENTS.each do |comp|
     libdir = File.join(File.dirname(__FILE__), '../flow/' + comp)
     app.files.concat(Dir.glob(File.join(libdir, '*.rb')))
-    app.files.concat(Dir.glob(File.join(libdir, 'android/*.rb')))
+    app.files.concat(Dir.glob(File.join(libdir, '**/*.rb')))
+    app.files.delete_if { |path| path.include?('ios') }
   end
   app.files.delete_if { |path| path.start_with?('./app/ios') }
   app.spec_files.delete_if { |path| path.start_with?('./spec/helpers/ios') }
