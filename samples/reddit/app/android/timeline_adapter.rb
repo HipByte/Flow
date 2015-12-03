@@ -9,26 +9,30 @@ class TimelineAdapter < Android::Widget::ArrayAdapter
     layout_params = Android::Widget::LinearLayout::LayoutParams.new(100,100)
     layout_params.setMargins(10, 10, 10, 10)
     avatar_view.setLayoutParams(layout_params)
+    avatar_view.visibility = Android::View::View::GONE
 
-    unless @posts[position].thumbnail == 'self'
+    post = @posts[position]
+
+    if post.thumbnail
       Net::AsyncTask.async do
-        stream = Java::Net::URL.new(@posts[position].thumbnail).openStream
+        stream = Java::Net::URL.new(post.thumbnail).openStream
         bitmap = Android::Graphics::BitmapFactory.decodeStream(stream)
 
         Net::AsyncTask.main_async do
           avatar_view.setImageBitmap(bitmap)
+          avatar_view.visibility = Android::View::View::VISIBLE
         end
       end
     end
 
     title_view = Android::Widget::TextView.new(context)
-    title_view.text = @posts[position].title
+    title_view.text = post.title
     title_view.textSize = 18
     title_view.setTypeface(nil, Android::Graphics::Typeface::BOLD)
     title_view.textColor = Android::Graphics::Color::BLACK
 
     subreddit_view = Android::Widget::TextView.new(context)
-    subreddit_view.text = "@#{@posts[position].subreddit}"
+    subreddit_view.text = "@#{post.subreddit}"
     subreddit_view.textSize = 16
     subreddit_view.textColor = Android::Graphics::Color::BLACK
     subreddit_view.setPadding(10,0,0,0)

@@ -5,7 +5,11 @@ class ViewController < UITableViewController
     self.tableView.dataSource = self
     self.tableView.delegate = self
 
-    RedditFetcher.fetch_posts do |posts|
+    search('cats')
+  end
+
+  def search(query)
+    RedditFetcher.fetch_posts(query) do |posts|
       self.posts = posts
       self.tableView.reloadData
     end
@@ -18,21 +22,24 @@ class ViewController < UITableViewController
   CELL_ID = "reddit_post"
   def tableView(tableView, cellForRowAtIndexPath:index)
     cell = tableView.dequeueReusableCellWithIdentifier(CELL_ID)
-    if cell.nil?
+    unless cell
       cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier:CELL_ID)
     end
 
-    thumbnail = self.posts[index.row].thumbnail
+    post = self.posts[index.row]
 
-    unless thumbnail == 'self'
-      Net.get(self.posts[index.row].thumbnail) do |response|
+    if post.thumbnail
+      Net.get(post.thumbnail) do |response|
         cell.imageView.image = UIImage.imageWithData(response.body.to_data)
         cell.setNeedsLayout
       end
+    else
+      cell.imageView.image = nil
+      cell.setNeedsLayout
     end
 
-    cell.textLabel.text = self.posts[index.row].title
-    cell.detailTextLabel.text = "sub: #{self.posts[index.row].subreddit}"
+    cell.textLabel.text = post.title
+    cell.detailTextLabel.text = "sub: #{post.subreddit}"
     cell
   end
 end

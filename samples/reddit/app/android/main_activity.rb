@@ -13,7 +13,11 @@ class MainActivity < Android::App::Activity
     @list.onItemClickListener = self
     self.contentView = @list
 
-    RedditFetcher.fetch_posts do |posts|
+    search('cats')
+  end
+
+  def search(query)
+    RedditFetcher.fetch_posts(query) do |posts|
       @list.adapter.posts = posts
       @list.adapter.clear()
       @list.adapter.addAll(posts)
