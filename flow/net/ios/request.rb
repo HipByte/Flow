@@ -22,7 +22,7 @@ module Net
       Dispatch::Queue.new("request.net.flow").async do
         handler = lambda { |body, response, error|
           if response.nil? && error
-            fail
+            raise error.localizedDescription
           end
           Dispatch::Queue.main.sync do
             callback.call(ResponseProxy.build_response(body, response))
