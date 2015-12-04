@@ -1,1 +1,1 @@
-FLOW_COMPONENTS = %w{net json digest}
+FLOW_COMPONENTS = %w{net json digest store}

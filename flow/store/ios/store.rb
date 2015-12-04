@@ -1,26 +1,17 @@
-module Store
-  class Store < AbstractStore
-    def initialize(db_path)
-      @db_path = db_path
-      # open_connection using sqlite
-    end
+class Store
+  def self.[](key)
+    _storage.objectForKey(key)
+  end
 
-    def set(key, value)
-      # set key using sqlite and serializer
-    end
-    alias_method :[]=, :set
+  def self.[]=(key, value)
+    _storage.setObject(value, forKey:key)
+  end
 
-    def get(key)
-      # get key using sqlite and deserializer
-    end
-    alias_method :[], :get
+  def self.all
+    _storage.dictionaryRepresentation
+  end
 
-    def delete(key)
-      # delete key using sqlite
-    end
-
-    def path
-      @db_path
-    end
+  def self._storage
+    NSUserDefaults.standardUserDefaults
   end
 end

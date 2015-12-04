@@ -1,22 +1,23 @@
-module Store
-  class Store < AbstractStore
-    def initialize(db_path)
-      @db_path = db_path
-    end
+class Store
+  def self.[](key)
+    _storage.getString(key, nil)
+  end
 
-    def set(key, value)
-    end
-    alias_method :[]=, :set
+  def self.[]=(key, value)
+    editor = _storage.edit
+    editor.putString(key, value)
+    editor.commit
+  end
 
-    def get(key)
-    end
-    alias_method :[], :get
+  def self.all
+    _storage.getAll
+  end
 
-    def delete(key)
-    end
+  def self.context=(context)
+    @storage = context.getSharedPreferences('userdefaults', Android::Content::Context::MODE_PRIVATE)
+  end
 
-    def path
-      @db_path
-    end
+  def self._storage
+    @storage or raise "Call `Store.context = self' in your main activity"
   end
 end
