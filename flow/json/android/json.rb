@@ -24,7 +24,7 @@ class Org::JSON::JSONObject
         when Org::JSON::JSONObject, Org::JSON::JSONArray
           obj = obj._to_obj
       end
-      hash[key] = obj
+      hash[key.to_s] = obj
     end
     hash
   end
