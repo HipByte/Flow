@@ -1,5 +1,6 @@
 describe Store do
   before do
+    Store.context = main_activity
     Store['string'] = 1
     Store[:symbol] = 1
     Store['hash'] = {test: 1}
