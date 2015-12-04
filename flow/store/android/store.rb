@@ -11,6 +11,12 @@ class Store
     editor.commit
   end
 
+  def self.delete(key)
+    editor = _storage.edit
+    editor.remove(key)
+    editor.commit
+  end
+
   def self.all
     all = {}
     _storage.getAll.each { |key, value| all[key] = JSON.load(value) }

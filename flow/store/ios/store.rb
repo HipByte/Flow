@@ -7,6 +7,10 @@ class Store
     _storage.setObject(value, forKey:key)
   end
 
+  def self.delete(key)
+    _storage.removeObjectForKey(key)
+  end
+
   def self.all
     _storage.dictionaryRepresentation
   end
