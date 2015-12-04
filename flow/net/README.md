@@ -59,3 +59,12 @@ Net.get("www.example.com") do |response|
   response.body # example
 end
 ```
+
+## TODO
+
+* [x] Support for Json
+* [x] Support for http verbs
+* [x] Support for auth
+* [ ] Support for upload
+* [ ] Support for streaming
+* [ ] Support for simple image fetching
