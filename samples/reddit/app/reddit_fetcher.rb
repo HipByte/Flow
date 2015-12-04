@@ -4,9 +4,7 @@ class RedditFetcher
       if data = response.body['data']
         if children = data['children']
           posts = children.map do |t|
-            post = Post.new(t['data'])
-            post.thumbnail = nil unless post.thumbnail.start_with?('http')
-            post
+            Post.new(t['data'])
           end
         end
       end
