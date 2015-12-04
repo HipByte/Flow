@@ -1,16 +1,20 @@
 class Store
+  DoesNotExist = '<____does_not_exist____>'
   def self.[](key)
-    _storage.getString(key, nil)
+    val = _storage.getString(key, DoesNotExist)
+    val == DoesNotExist ? nil : JSON.load(val)
   end
 
   def self.[]=(key, value)
     editor = _storage.edit
-    editor.putString(key, value)
+    editor.putString(key, value.to_json)
     editor.commit
   end
 
   def self.all
-    _storage.getAll
+    all = {}
+    _storage.getAll.each { |key, value| all[key] = JSON.load(value) }
+    all
   end
 
   def self.context=(context)
