@@ -6,7 +6,7 @@ describe "JSON" do
   end
 
   it "can serialize complex arrays" do
-    ary = [1, 'two', {'three' => 3}, true, false, [5, 6.0, [7.1, 8]], 9, 10]
+    ary = [1, 'two', {'three' => 3}, true, false, [5, 6.1, [7.2, 8]], 9, 10]
     txt = ary.to_json
     txt.class.should == String
 
@@ -28,9 +28,9 @@ describe "JSON" do
       'three' => { 'three' => 3 },
       'four' => true,
       'five' => false,
-      'six' => 6.0,
-      'seven' => [7.0, 7.1, 7.2],
-      'eight' => [8, 8, 8, [8, [8, 8, 8]], 8, 8]
+      'six' => 6.1,
+      'seven' => [7.1, 7.2, 7.3],
+      'eight' => [8, 8, 8, [8, [8, 8.8, 8]], 8, 8]
     }
     txt = hash.to_json
     txt.class.should == String

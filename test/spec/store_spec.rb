@@ -1,11 +1,10 @@
 describe Store do
   before do
-    Store.context = main_activity
     Store['string'] = 1
     Store[:symbol] = 1
-    Store['hash'] = {test: 1}
+    Store['hash'] = {'test' => 1}
     Store['array'] = [1, 2, 3]
-    Store['complex'] = [1, 2, {test: 1}, "A", [{test: 2}]]
+    Store['complex'] = [1, 2, {'test' => 1}, "A", [{'test' => 2}]]
   end
 
   describe "hash methods" do
@@ -32,11 +31,12 @@ describe Store do
 
   describe ".all" do
     it "returns all stored values" do
-      Store.all['string'].should != nil
-      Store.all[:symbol] .should != nil
-      Store.all['hash'].should != nil
-      Store.all['array'].should != nil
-      Store.all['complex'].should != nil
+      dict = Store.all
+      dict['string'].should == 1
+      dict[:symbol].should == nil
+      dict['hash'].should == {'test' => 1}
+      dict['array'].should == [1, 2, 3]
+      dict['complex'].should == [1, 2, {'test' => 1}, "A", [{'test' => 2}]]
     end
   end
 
