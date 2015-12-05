@@ -19,13 +19,13 @@ Flow is currently composed of the following libraries:
 * [**Net**](https://github.com/jjaffeux/Flow/tree/master/flow/net) - HTTP networking
 * [**JSON**](https://github.com/jjaffeux/Flow/tree/master/flow/json) - JSON serialization
 * [**Digest**](https://github.com/jjaffeux/Flow/tree/master/flow/digest) - Digest cryptography
-* [**Store**](https://github.com/jjaffeux/Flow/tree/master/flow/digest) - Key-value store
+* [**Store**](https://github.com/jjaffeux/Flow/tree/master/flow/store) - Key-value store
 
 ## Usage
 
 ### Installing
 
-Flow comes as a gem. 
+Flow comes as a gem.
 
 ```
 $ sudo gem install motion-flow
