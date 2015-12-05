@@ -1,6 +1,6 @@
 # Flow
 
-![Flow Logo](flow-logo.png)
+<img src="flow-logo.png" alt="flow logo" width="300">
 
 Flow is a set of cross-platform libraries for RubyMotion. It can be seen as RubyMotion's missing standard library.
 
