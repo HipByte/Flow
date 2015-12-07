@@ -11,7 +11,7 @@ describe Net::Authorization do
     end
 
     it ".to_s" do
-      @subject.to_s.should == "foo:bar"
+      @subject.to_s.should == "Basic Zm9vOmJhcg=="
     end
 
     it ".username" do
@@ -37,7 +37,7 @@ describe Net::Authorization do
     end
 
     it ".to_s" do
-      @subject.to_s.should == "xxxx"
+      @subject.to_s.should == "Token token=\"xxxx\""
     end
 
     it ".basic?" do

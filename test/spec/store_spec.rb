@@ -33,7 +33,7 @@ describe Store do
     it "returns all stored values" do
       dict = Store.all
       dict['string'].should == 1
-      dict[:symbol].should == nil
+      dict[:symbol].should == 1
       dict['hash'].should == {'test' => 1}
       dict['array'].should == [1, 2, 3]
       dict['complex'].should == [1, 2, {'test' => 1}, "A", [{'test' => 2}]]
