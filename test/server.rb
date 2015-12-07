@@ -61,7 +61,7 @@ get('/') do
   [
     200,
     {
-      "Content-Type": "application/json",
+      "Content-Type" => "application/json",
       "X-Request-Method" => request.env['REQUEST_METHOD']
     },
     {
