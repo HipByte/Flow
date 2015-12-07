@@ -10,7 +10,7 @@ module Net
 
     def to_s
       if basic?
-        base_64 = Flow::Base64.encode("#{username}:#{password}"
+        base_64 = Flow::Base64.encode("#{username}:#{password}")
         return "Basic #{base_64}"
       end
       if token?
