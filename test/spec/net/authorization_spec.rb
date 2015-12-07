@@ -1,4 +1,10 @@
 describe Net::Authorization do
+  context "Invalid params" do
+    it "expects valid token or basic params" do
+      Proc.new { Net::Authorization.new }.should.raise RuntimeError
+    end
+  end
+
   context "Basic authorization" do
     before do
       @subject = Net::Authorization.new(username: "foo", password: "bar")
