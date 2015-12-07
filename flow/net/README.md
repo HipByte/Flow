@@ -34,6 +34,20 @@ end
 
 ### Advanced usage
 
+#### Share a session with common configuration
+
+```ruby
+session = Net.build('https://httpbin.org') do
+  header(content_type: :json)
+end
+
+session.get("/users") do |response|
+end
+
+session.get("/posts") do |response|
+end
+```
+
 #### Basic HTTP auth
 
 ```ruby
