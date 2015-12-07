@@ -20,6 +20,7 @@ Flow is currently composed of the following libraries:
 * [**JSON**](https://github.com/jjaffeux/Flow/tree/master/flow/json) - JSON serialization
 * [**Digest**](https://github.com/jjaffeux/Flow/tree/master/flow/digest) - Digest cryptography
 * [**Store**](https://github.com/jjaffeux/Flow/tree/master/flow/store) - Key-value store
+* [**Base64**](https://github.com/jjaffeux/Flow/tree/master/flow/base64) - Base64 encoding/decoding
 
 ## Usage
 
