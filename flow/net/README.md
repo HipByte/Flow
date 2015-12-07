@@ -38,7 +38,7 @@ end
 
 ```ruby
 session = Net.build('https://httpbin.org') do
-  header(content_type: :json)
+  header(:content_type, :json)
 end
 
 session.get("/users") do |response|
