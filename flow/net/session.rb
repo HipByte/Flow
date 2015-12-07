@@ -1,6 +1,7 @@
 module Net
   class Session
     attr_reader :authorization
+    attr_reader :headers
 
     def initialize(base_url, &block)
       @base_url = base_url
