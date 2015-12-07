@@ -71,15 +71,8 @@ module Net
     def configure
       if session
         configuration[:headers].merge!(session.headers)
-
-        authorization = session.authorization
-        if authorization && authorization.basic?
-          # TODO : implement base64 encoding for android
-        end
-
-        if authorization && authorization.token?
-          auth_value = 'Token token="' + authorization.to_s + '"'
-          configuration[:headers].merge!({'Authorization' => auth_value})
+        if session.authorization
+          configuration[:headers].merge!({'Authorization' => authorization.to_s})
         end
       end
 

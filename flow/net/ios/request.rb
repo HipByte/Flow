@@ -94,17 +94,8 @@ module Net
     def configure
       if session
         configuration[:headers].merge!(session.headers)
-
-        authorization = session.authorization
-        if authorization && authorization.basic?
-          auth_data = "#{authorization}".to_data
-          auth_value = "Basic #{auth_data.base64EncodedStringWithOptions(0)}"
-          configuration[:headers].merge!({'Authorization' => auth_value})
-        end
-
-        if authorization && authorization.token?
-          auth_value = 'Token token="' + authorization.to_s + '"'
-          configuration[:headers].merge!({'Authorization' => auth_value})
+        if session.authorization
+          configuration[:headers].merge!({'Authorization' => session.authorization.to_s})
         end
       end
 
