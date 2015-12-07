@@ -12,13 +12,21 @@ module Net
     def response
       Response.new({
         status_code: status_code,
-        status_message: NSHTTPURLResponse.localizedStringForStatusCode(status_code),
-        headers: @response.allHeaderFields,
+        status_message: status_message,
+        headers: headers,
         body: build_body
       })
     end
 
     private
+
+    def status_message
+      NSHTTPURLResponse.localizedStringForStatusCode(status_code)
+    end
+
+    def headers
+      @response.allHeaderFields
+    end
 
     def mime_type
       @response.MIMEType
