@@ -30,11 +30,11 @@ module Net
     end
 
     def basic?
-      username && password
+      !!username && !!password
     end
 
     def token?
-      token
+      !!token
     end
   end
 end
