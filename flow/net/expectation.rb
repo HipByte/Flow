@@ -1,5 +1,25 @@
 module Net
   class Expectation
+    attr_reader :response
+    attr_reader :url
+
+    def initialize(url)
+      @url = url
+    end
+
+    def and_return(response)
+      @response = response
+    end
+
+    def response
+      @response.mock = true
+      @response
+    end
+
+    def matches?(request)
+      url_match?(request.base_url)
+    end
+
     class << self
       def all
         @expectations ||= []
@@ -20,25 +40,6 @@ module Net
           expectation.matches?(request)
         end
       end
-    end
-
-    attr_reader :response
-
-    def initialize(url)
-      @url = url
-    end
-
-    def and_return(response)
-      @response = response
-    end
-
-    def matches?(request)
-      url_match?(request.base_url)
-    end
-
-    def response
-      @response.mock = true
-      @response
     end
 
     private

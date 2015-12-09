@@ -1,6 +1,6 @@
 describe Net::Expectation do
   before do
-    @url = "www.example.com"
+    @url = "http://www.example.com"
     @subject = Net::Expectation.new(@url)
   end
 
@@ -10,7 +10,7 @@ describe Net::Expectation do
 
   describe ".new" do
     it "sets url" do
-      @subject.instance_variable_get(:@url).should == @url
+      @subject.url.should == @url
     end
   end
 
