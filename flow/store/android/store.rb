@@ -1,19 +1,19 @@
 class Store
   DoesNotExist = '<____does_not_exist____>'
   def self.[](key)
-    val = _storage.getString(key, DoesNotExist)
+    val = _storage.getString(key.to_s, DoesNotExist)
     val == DoesNotExist ? nil : JSON.load(val)
   end
 
   def self.[]=(key, value)
     editor = _storage.edit
-    editor.putString(key, value.to_json)
+    editor.putString(key.to_s, value.to_json)
     editor.commit
   end
 
   def self.delete(key)
     editor = _storage.edit
-    editor.remove(key)
+    editor.remove(key.to_s)
     editor.commit
   end
 

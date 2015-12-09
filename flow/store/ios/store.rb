@@ -1,14 +1,14 @@
 class Store
   def self.[](key)
-    _storage.objectForKey(key)
+    _storage.objectForKey(key.to_s)
   end
 
   def self.[]=(key, value)
-    _storage.setObject(value, forKey:key)
+    _storage.setObject(value, forKey:key.to_s)
   end
 
   def self.delete(key)
-    _storage.removeObjectForKey(key)
+    _storage.removeObjectForKey(key.to_s)
   end
 
   def self.all
