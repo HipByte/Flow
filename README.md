@@ -1,3 +1,5 @@
+* WORK IN PROGRESS : android specs are broken, and APIs will change. If you want to help please get in touch. *
+
 # Flow
 
 <img src="flow-logo.png" alt="flow logo" width="300">

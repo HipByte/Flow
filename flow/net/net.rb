@@ -1,5 +1,5 @@
 module Net
-  USER_AGENT = "Net - https://bitbucket.org/hipbyte/flow"
+  USER_AGENT = "Flow - https://github.com/HipByte/flow"
 
   class << self
     def build(base_url, &block)
