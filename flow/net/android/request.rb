@@ -72,7 +72,7 @@ module Net
       if session
         configuration[:headers].merge!(session.headers)
         if session.authorization
-          configuration[:headers].merge!({'Authorization' => authorization.to_s})
+          configuration[:headers].merge!({'Authorization' => session.authorization.to_s})
         end
       end
 
