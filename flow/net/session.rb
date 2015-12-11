@@ -27,7 +27,9 @@ module Net
     end
 
     def headers
-      Hash[*@headers.map { |header| [header.field, header.value] }.flatten]
+      hash = {}
+      @headers.map {|header| hash[header.field] = header.value}
+      hash
     end
 
     def authorize(options)
