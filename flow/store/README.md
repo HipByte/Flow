@@ -11,7 +11,7 @@ This library was inspired by https://github.com/GantMan/PackingPeanut.
 #### Set a value for a key
 
 ```ruby
-Store['key'] = value
+Store['key'] = 42
 ```
 
 #### Get the value of a key
@@ -26,8 +26,8 @@ Store['key']
 Store.delete('key')
 ```
 
-#### Get all keys
+#### Get all keys/values
 
 ```ruby
-Store.all
+Store.all #=> { 'hey' => 42 }
 ```
