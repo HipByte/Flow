@@ -1,8 +1,8 @@
 # Flow::Store
 
-Simple cross platform Key/Value store.
-* Simple API
-* Uses NSUserDefaults on iOS and SharedPreferences on Android
+Key/value storage.
+
+This library was inspired by https://github.com/GantMan/PackingPeanut.
 
 ## Documentation
 
