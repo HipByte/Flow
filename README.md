@@ -1,5 +1,3 @@
-* WORK IN PROGRESS : android specs are broken, and APIs will change. If you want to help please get in touch. *
-
 # Flow
 
 <img src="flow-logo.png" alt="flow logo" width="300">
@@ -13,6 +11,8 @@ Each library implements the following requirements:
 * No external dependencies
 * Covered by tests
 * Documented
+
+**WARNING**: Flow is currently a work in progress. Some specs might be broken and APIs might change. If you want to help please get in touch.
 
 ## Libraries
 
