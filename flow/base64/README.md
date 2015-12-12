@@ -1,6 +1,6 @@
 # Flow::Base64
 
-Cross platform Base64 encoding/decoding
+Base64 encoding/decoding library.
 
 ## Documentation
 
@@ -9,11 +9,11 @@ Cross platform Base64 encoding/decoding
 #### Encode a string
 
 ```ruby
-Base64.encode('xx') # eHg=
+Base64.encode('xx') #=> eHg=
 ```
 
 #### Decode a string
 
 ```ruby
-Base64.decode('eHg=') # xx
+Base64.decode('eHg=') #=> xx
 ```
