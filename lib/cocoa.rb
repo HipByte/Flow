@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__), 'common.rb')
 
 $:.unshift("/Library/RubyMotion/lib")
-template = Motion::Project::App.template
+template = ENV['template'] || 'ios'
 require "motion/project/template/#{template}"
 
 Motion::Project::App.setup do |app|
@@ -21,6 +21,10 @@ Motion::Project::App.setup do |app|
       app.vendor_project libdir, :static
     end
   end
-  app.files.delete_if { |path| path.start_with?('./app/android') }
+
+  samples = %w(android ios osx).delete_if {|t| t == template}
+  samples.each do |sample|
+    app.files.delete_if { |path| path.start_with?("./app/#{sample}") }
+  end
   app.spec_files.delete_if { |path| path.start_with?('./spec/helpers/android') }
 end
