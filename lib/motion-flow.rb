@@ -6,6 +6,8 @@ if defined?(Motion::Project::App)
       require "#{dirname}/android.rb"
     when :ios
       require "#{dirname}/ios.rb"
+    when :osx
+      require "#{dirname}/osx.rb"
     else
       raise "Project template #{Motion::Project::App.template} not supported by Flow"
   end
@@ -185,6 +187,40 @@ else
     desc "Run the test/spec suite on the emulator"
     task "spec:emulator" do
       invoke_rake 'android', 'spec:emulator'
+    end
+  end
+  namespace 'osx' do
+    desc "Build the project for development"
+    task 'build' do
+      invoke_rake 'osx', 'build'
+    end
+    desc "Build the project for release"
+    task 'build:release' do
+      invoke_rake 'osx', 'build:release'
+    end
+    desc "Run the project"
+    task 'run' do
+      invoke_rake 'osx', 'run'
+    end
+    desc "Run the test/spec suite"
+    task 'spec' do
+      invoke_rake 'osx', 'run:spec'
+    end
+    desc "Create a .pkg archive"
+    task 'archive' do
+      invoke_rake 'osx', 'archive'
+    end
+    desc "Create a .pkg archive for distribution (AppStore)"
+    task 'archive:distribution' do
+      invoke_rake 'osx', 'archive:distribution'
+    end
+    desc "Create a .a static library"
+    task 'static' do
+      invoke_rake 'osx', 'static'
+    end
+    desc "Open the latest crash report generated for the app"
+    task "crashlog" do
+      invoke_rake 'osx', 'crashlog'
     end
   end
 end
