@@ -222,5 +222,9 @@ else
     task "crashlog" do
       invoke_rake 'osx', 'crashlog'
     end
+    desc "Clear local build objects"
+    task "clean" do
+      invoke_rake 'osx', 'clean'
+    end
   end
 end
