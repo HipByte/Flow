@@ -204,7 +204,7 @@ else
     end
     desc "Run the test/spec suite"
     task 'spec' do
-      invoke_rake 'osx', 'run:spec'
+      invoke_rake 'osx', 'spec'
     end
     desc "Create a .pkg archive"
     task 'archive' do
