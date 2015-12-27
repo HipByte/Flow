@@ -4,10 +4,8 @@ if defined?(Motion::Project::App)
   case Motion::Project::App.template
     when :android
       require "#{dirname}/android.rb"
-    when :ios
-      require "#{dirname}/ios.rb"
-    when :osx
-      require "#{dirname}/osx.rb"
+    when :cocoa, :tvos, :osx, :'ios-extension'
+      require "#{dirname}/cocoa.rb"
     else
       raise "Project template #{Motion::Project::App.template} not supported by Flow"
   end
