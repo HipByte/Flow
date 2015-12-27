@@ -15,7 +15,7 @@ else
     trace = Rake.application.options.trace == true
 
     template = platform == :android ? 'android' : 'cocoa'
-    system "template=#{platform} /usr/bin/rake -r \"#{File.dirname(__FILE__)}/#{template}.rb\" -f \"config/#{template}.rb\" \"#{task}\" #{trace ? '--trace' : ''}" or exit 1
+    system "template=#{platform} /usr/bin/rake -r \"#{File.dirname(__FILE__)}/#{template}.rb\" -f \"config/#{platform}.rb\" \"#{task}\" #{trace ? '--trace' : ''}" or exit 1
   end
   namespace 'ios' do
     desc "Create an .ipa archive"
