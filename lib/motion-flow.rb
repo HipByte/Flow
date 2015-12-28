@@ -4,8 +4,8 @@ if defined?(Motion::Project::App)
   case Motion::Project::App.template
     when :android
       require "#{dirname}/android.rb"
-    when :ios
-      require "#{dirname}/ios.rb"
+    when :ios, :tvos, :osx, :'ios-extension'
+      require "#{dirname}/cocoa.rb"
     else
       raise "Project template #{Motion::Project::App.template} not supported by Flow"
   end
@@ -13,7 +13,9 @@ else
   # Flow project.
   def invoke_rake(platform, task)
     trace = Rake.application.options.trace == true
-    system "/usr/bin/rake -r \"#{File.dirname(__FILE__)}/#{platform}.rb\" -f \"config/#{platform}.rb\" \"#{task}\" #{trace ? '--trace' : ''}" or exit 1
+
+    template = platform == :android ? 'android' : 'cocoa'
+    system "template=#{platform} /usr/bin/rake -r \"#{File.dirname(__FILE__)}/#{template}.rb\" -f \"config/#{platform}.rb\" \"#{task}\" #{trace ? '--trace' : ''}" or exit 1
   end
   namespace 'ios' do
     desc "Create an .ipa archive"
@@ -185,6 +187,44 @@ else
     desc "Run the test/spec suite on the emulator"
     task "spec:emulator" do
       invoke_rake 'android', 'spec:emulator'
+    end
+  end
+  namespace 'osx' do
+    desc "Build the project for development"
+    task 'build' do
+      invoke_rake 'osx', 'build'
+    end
+    desc "Build the project for release"
+    task 'build:release' do
+      invoke_rake 'osx', 'build:release'
+    end
+    desc "Run the project"
+    task 'run' do
+      invoke_rake 'osx', 'run'
+    end
+    desc "Run the test/spec suite"
+    task 'spec' do
+      invoke_rake 'osx', 'spec'
+    end
+    desc "Create a .pkg archive"
+    task 'archive' do
+      invoke_rake 'osx', 'archive'
+    end
+    desc "Create a .pkg archive for distribution (AppStore)"
+    task 'archive:distribution' do
+      invoke_rake 'osx', 'archive:distribution'
+    end
+    desc "Create a .a static library"
+    task 'static' do
+      invoke_rake 'osx', 'static'
+    end
+    desc "Open the latest crash report generated for the app"
+    task "crashlog" do
+      invoke_rake 'osx', 'crashlog'
+    end
+    desc "Clear local build objects"
+    task "clean" do
+      invoke_rake 'osx', 'clean'
     end
   end
 end
