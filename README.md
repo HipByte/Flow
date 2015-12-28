@@ -7,7 +7,7 @@ Flow is a set of cross-platform libraries for RubyMotion. It can be seen as Ruby
 Each library implements the following requirements:
 
 * Simple Ruby API
-* 100% cross-platform (iOS and Android)
+* 100% cross-platform (iOS, Android and OS X)
 * No external dependencies
 * Covered by tests
 * Documented
