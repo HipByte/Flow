@@ -38,7 +38,7 @@ $ sudo gem install motion-flow
 
 #### Flow projects
 
-Flow comes with its own RubyMotion template, which creates a hybrid (iOS + Android) project.
+Flow comes with its own RubyMotion template, which creates a hybrid (iOS + Android + OS X) project.
 
 ```
 $ motion create --template=flow Hello
@@ -48,7 +48,7 @@ $ rake -T
 
 #### RubyMotion projects
 
-Flow can be added as a dependency of an existing iOS or Android RubyMotion project, by adding the `motion-flow` gem in the project's `Gemfile`.
+Flow can be added as a dependency of an existing iOS, Android or OS XRubyMotion project, by adding the `motion-flow` gem in the project's `Gemfile`.
 
 ## License
 
