@@ -14,5 +14,5 @@ script:
   - ruby server.rb &
   - bundle exec rake ios:clean:all
   - bundle exec rake ios:spec
-  - bundle exec rake osx:clean:all
+  - bundle exec rake osx:clean
   - bundle exec rake osx:spec
