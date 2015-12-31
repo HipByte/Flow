@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/HipByte/Flow.svg?branch=master)](https://travis-ci.org/HipByte/Flow)
+
 # Flow
 
 <img src="flow-logo.png" alt="flow logo" width="300">
