@@ -1,19 +1,23 @@
 class AppDelegate
+  attr_reader :window
+
   def applicationDidFinishLaunching(notification)
     buildMenu
     buildWindow
+
+    @controller = RedditController.new
+
+    RedditFetcher.fetch_posts('cats') do |posts|
+      @controller.data = posts
+    end
   end
 
   def buildWindow
-    @mainWindow = NSWindow.alloc.initWithContentRect([[240, 180], [480, 360]],
+    @window = NSWindow.alloc.initWithContentRect([[240, 180], [480, 360]],
                                                      styleMask: NSTitledWindowMask|NSClosableWindowMask|NSMiniaturizableWindowMask|NSResizableWindowMask,
                                                      backing: NSBackingStoreBuffered,
                                                      defer: false)
-    @mainWindow.title = NSBundle.mainBundle.infoDictionary['CFBundleName']
-    @mainWindow.orderFrontRegardless
-
-    RedditFetcher.fetch_posts('cats') do |posts|
-      puts posts.inspect
-    end
+    @window.title = NSBundle.mainBundle.infoDictionary['CFBundleName']
+    @window.orderFrontRegardless
   end
 end
