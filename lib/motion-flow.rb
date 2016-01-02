@@ -14,7 +14,7 @@ else
   def invoke_rake(platform, task)
     trace = Rake.application.options.trace == true
 
-    template = platform == :android ? 'android' : 'cocoa'
+    template = platform.to_s == 'android' ? 'android' : 'cocoa'
     system "template=#{platform} /usr/bin/rake -r \"#{File.dirname(__FILE__)}/#{template}.rb\" -f \"config/#{platform}.rb\" \"#{task}\" #{trace ? '--trace' : ''}" or exit 1
   end
   namespace 'ios' do
