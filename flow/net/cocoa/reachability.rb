@@ -3,7 +3,7 @@ module Net
     def initialize(hostname, &block)
       @internal_callback = Proc.new do |target, flags, pointer|
         block.call(reachable_with_flags?(flags))
-	    end
+      end
       block.weak!
       @reachability = SCNetworkReachabilityCreateWithName(KCFAllocatorDefault,
                                                           hostname.UTF8String)
@@ -15,7 +15,7 @@ module Net
       SCNetworkReachabilityUnscheduleFromRunLoop(@reachability,
                                                  CFRunLoopGetCurrent(),
                                                  KCFRunLoopDefaultMode)
-		  SCNetworkReachabilitySetCallback(@reachability, nil, @context)
+      SCNetworkReachabilitySetCallback(@reachability, nil, @context)
     end
 
     protected
