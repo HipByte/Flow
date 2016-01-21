@@ -27,4 +27,6 @@ Motion::Project::App.setup do |app|
     app.files.delete_if { |path| path.start_with?("./app/#{sample}") }
   end
   app.spec_files.delete_if { |path| path.start_with?('./spec/helpers/android') }
+
+  app.frameworks << 'SystemConfiguration'
 end

@@ -6,6 +6,10 @@ module Net
       Session.build(base_url, &block)
     end
 
+    def reachable?(hostname, &block)
+      Reachability.new(hostname, &block)
+    end
+
     def stub(base_url)
       expectation = Expectation.all.find{ |e| e.base_url == base_url }
       if expectation.nil?

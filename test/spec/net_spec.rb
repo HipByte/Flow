@@ -3,6 +3,23 @@ describe Net do
     @response = nil
   end
 
+  describe ".reachable?" do
+    before do
+      @reachable = false
+    end
+
+    it "tracks network reachability state" do
+      Net.reachable?("www.google.com") do |reachable|
+        @reachable = reachable
+        Concurrency::Queue.main.async { resume }
+      end
+
+      wait do
+        @reachable.should == true
+      end
+    end
+  end
+
   describe ".stub" do
     before do
       @url = "http://unkown_domain.test"

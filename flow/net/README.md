@@ -62,6 +62,22 @@ session.get("/basic-auth/rubymotion/flow") do |response|
 end
 ```
 
+#### Reachability
+
+You can track the reachability of a hostname using Net
+
+```ruby
+# this block will be called each time network status is updated
+reachability = Net.reachable?("www.google.fr") do |reachable|
+  if reachable
+    ###
+  end
+end
+
+# stop network reachability tracking
+reachability.stop
+```
+
 #### Stubbing
 
 Flow::Net has stubbing out of the box. Testing network calls without hitting
