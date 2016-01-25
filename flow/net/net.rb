@@ -6,7 +6,7 @@ module Net
       Session.build(base_url, &block)
     end
 
-    def reachable?(hostname, &block)
+    def reachable?(hostname = 'www.google.com', &block)
       Reachability.new(hostname, &block)
     end
 
