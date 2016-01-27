@@ -10,18 +10,14 @@ class ReachabilityDelegate < Android::Net::ConnectivityManager::NetworkCallback
       sock = Java::Net::Socket.new
       sock.connect(sockaddr, 2000) # 2 seconds timeout
       sock.close
-      _available(true)
+      @block.call(true)
     rescue
-      _available(false)
+      @block.call(false)
     end
   end
 
   def onLost(network)
-    _available(false)
-  end
-
-  def _available(flag)
-    @block.call(flag)
+    @block.call(false)
   end
 end
 
