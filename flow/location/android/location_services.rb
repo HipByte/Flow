@@ -62,6 +62,10 @@ class Location
   end
 
   class Geocoder
+    def self.enabled?
+      Android::Location::Geocoder.isPresent
+    end
+
     def initialize(obj, block)
       geocoder = Android::Location::Geocoder.new(Location._context)
       addresses =

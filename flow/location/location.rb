@@ -13,6 +13,10 @@ class Location
     Location::Monitor.new(options, block)
   end
 
+  def self.geocode_enabled?
+    Location::Geocoder.enabled?
+  end
+
   def self.geocode(str, &block)
     Location::Geocoder.new(str, block)
   end

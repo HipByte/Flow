@@ -46,6 +46,10 @@ class Location
   end
 
   class Geocoder
+    def self.enabled?
+      true
+    end
+
     def initialize(obj, block)
       @callback = block
       @geocoder = CLGeocoder.new
