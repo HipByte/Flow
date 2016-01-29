@@ -24,6 +24,10 @@ monitor = Location.monitor do |location, err|
 end
 ```
 
+The `Location.monitor` method can optionally accept a `Hash` of key/value pairs. The current values are supported:
+
+- `:distance_filter`: specifies the distance in meters (as a `Fixnum` object) with the previous location that should trigger a monitor update.
+
 #### Stop/resume monitoring location updates
 
 ```ruby
@@ -41,6 +45,12 @@ puts location.altitude
 puts location.time
 puts location.speed
 puts location.accuracy
+```
+
+#### Check if the geocoder service is accessible
+
+```ruby
+Location.geocode_enabled? # => true or false
 ```
 
 #### Geocode a location object
