@@ -9,7 +9,7 @@ class Location
     Location::Monitor.enabled?
   end
 
-  def self.monitor(options, &block)
+  def self.monitor(options={}, &block)
     Location::Monitor.new(options, block)
   end
 
