@@ -10,6 +10,7 @@ class Location
   end
 
   def self.monitor(options={}, &block)
+    options[:distance_filter] ||= 0
     Location::Monitor.new(options, block)
   end
 

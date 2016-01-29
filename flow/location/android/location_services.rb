@@ -48,12 +48,13 @@ class Location
     end
 
     def initialize(options, callback)
+      @options = options
       @delegate = MonitorDelegate.new(callback)
       start
     end
 
     def start
-      Location._location_service.requestLocationUpdates('gps', 1000, 10, @delegate)
+      Location._location_service.requestLocationUpdates('gps', 1000, @options[:distance_filter], @delegate)
     end
 
     def stop

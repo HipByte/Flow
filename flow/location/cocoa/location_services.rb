@@ -21,6 +21,7 @@ class Location
       @callback = callback
       @location_manager = CLLocationManager.new
       @location_manager.desiredAccuracy = KCLLocationAccuracyBest
+      @location_manager.distanceFilter = options[:distance_filter]
       @location_manager.delegate = self
       @location_manager.requestAlwaysAuthorization
       start
