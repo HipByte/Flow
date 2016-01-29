@@ -28,5 +28,5 @@ Motion::Project::App.setup do |app|
   end
   app.spec_files.delete_if { |path| path.start_with?('./spec/helpers/android') }
 
-  app.frameworks << 'SystemConfiguration'
+  app.frameworks += ['SystemConfiguration', 'CoreLocation', 'AddressBookUI']
 end
