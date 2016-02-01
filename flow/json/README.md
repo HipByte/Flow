@@ -1,6 +1,6 @@
-# Flow::JSON
+# JSON
 
-JSON serialization
+JSON serialization/deserialization library.
 
 ## Documentation
 

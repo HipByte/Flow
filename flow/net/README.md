@@ -1,6 +1,6 @@
-# Flow::Net
+# Net
 
-HTTP networking
+HTTP networking / host reachability library.
 
 ## Usage
 

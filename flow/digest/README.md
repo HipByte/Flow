@@ -1,4 +1,4 @@
-# Flow::Digest*
+# Digest*
 
 Cryprographic digest functions.
 

@@ -1,6 +1,6 @@
-# Flow::Location
+# Location
 
-Location management and geocoding / reverse geocoding.
+Location management and geocoding / reverse geocoding library.
 
 ## Documentation
 

@@ -1,6 +1,6 @@
-# Flow::Store
+# Store
 
-Key/value storage.
+Simple key/value storage library.
 
 This library was inspired by https://github.com/GantMan/PackingPeanut.
 
