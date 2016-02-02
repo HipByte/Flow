@@ -6,7 +6,7 @@ class Task
         begin
           block.call
         ensure
-          src.cancel! unless repeats
+          stop unless repeats
         end
       end        
     end
