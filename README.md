@@ -20,12 +20,13 @@ Each library implements the following requirements:
 
 Flow is currently composed of the following libraries:
 
-* [**Net**](https://github.com/jjaffeux/Flow/tree/master/flow/net) - HTTP networking and reachability
+* [**Net**](https://github.com/jjaffeux/Flow/tree/master/flow/net) - HTTP networking and host reachability
 * [**JSON**](https://github.com/jjaffeux/Flow/tree/master/flow/json) - JSON serialization
 * [**Digest**](https://github.com/jjaffeux/Flow/tree/master/flow/digest) - Digest cryptography
 * [**Store**](https://github.com/jjaffeux/Flow/tree/master/flow/store) - Key-value store
 * [**Base64**](https://github.com/jjaffeux/Flow/tree/master/flow/base64) - Base64 encoding/decoding
 * [**Location**](https://github.com/jjaffeux/Flow/tree/master/flow/location) - Location management and (reverse) geocoding
+* [**Task**](https://github.com/jjaffeux/Flow/tree/master/flow/task) - Lightweight tasks scheduler
 
 ## Usage
 
