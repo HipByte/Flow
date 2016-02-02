@@ -31,6 +31,10 @@ class Task
       @queue.execute(block)
     end
 
+    def wait
+      @queue.submit(-> {}).get
+    end
+
     def self.schedule_on_main(block)
       @main_handle ||= begin
         looper = Android::Os::Looper.getMainLooper

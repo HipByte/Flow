@@ -29,6 +29,10 @@ class Task
       @queue.async(&block)
     end
 
+    def wait
+      @queue.sync {}
+    end
+
     def self.schedule_on_main(block)
       Dispatch::Queue.main.async(&block)
     end
