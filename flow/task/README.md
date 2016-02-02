@@ -56,21 +56,16 @@ q = Task.queue
 
 #### Run a block on a serial queue
 
-Blocks will be run on the thread associated to the queue in sequential order.
+Blocks will be run on the thread associated to the queue in sequential order; the first block will have to finish before the second block can run.
 
 ```ruby
-# This snippet will, in a separate thread:
-#   sleep one second
-#   print "ok1"
-#   sleep one second
-#   print "ok2"
+q.schedule do
+  # ...
+end
+```
 
-q.schedule do
-  sleep 1
-  puts "ok1"
-end
-q.schedule do
-  sleep 1
-  puts "ok2"
-end
+#### Wait for all scheduled blocks to finish on a serial queue
+
+```ruby
+q.wait
 ```
