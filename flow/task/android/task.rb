@@ -26,7 +26,7 @@ class Task
     def self.schedule_on_main(block)
       @main_handle ||= begin
         looper = Android::Os::Looper.getMainLooper
-        Android::Os::Handler.new(Android::Os::Looper.getMainLooper)
+        Android::Os::Handler.new(looper)
       end
       @main_handle.post(block)
     end
