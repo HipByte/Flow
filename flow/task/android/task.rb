@@ -23,6 +23,14 @@ class Task
   end
 
   class Queue
+    def initialize
+      @queue = Java::Util::Concurrent::Executors.newSingleThreadExecutor
+    end
+
+    def schedule(&block)
+      @queue.execute(block)
+    end
+
     def self.schedule_on_main(block)
       @main_handle ||= begin
         looper = Android::Os::Looper.getMainLooper

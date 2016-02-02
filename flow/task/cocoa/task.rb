@@ -20,6 +20,15 @@ class Task
   end
 
   class Queue
+    @@counter = 0
+    def initialize
+      @queue = Dispatch::Queue.new("com.hipbyte.flow.queue#{@@counter += 1}")
+    end
+
+    def schedule(&block)
+      @queue.async(&block)
+    end
+
     def self.schedule_on_main(block)
       Dispatch::Queue.main.async(&block)
     end

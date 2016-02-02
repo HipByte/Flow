@@ -14,4 +14,8 @@ class Task
   def self.background(&block)
     Task::Queue.schedule_on_background(block)
   end
+
+  def self.queue
+    Task::Queue.new
+  end
 end
