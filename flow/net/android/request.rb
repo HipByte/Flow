@@ -19,7 +19,7 @@ module Net
     def run(&callback)
       return if stub!(&callback)
 
-      AsyncTask.async do
+      Task.background do
         configuration[:headers].each do |key, value|
           url_connection.setRequestProperty(key, value)
         end
@@ -38,7 +38,7 @@ module Net
         end
         input.close
 
-        AsyncTask.main_async do
+        Task.main do
           callback.call(ResponseProxy.build_response(url_connection, response))
         end
       end

@@ -19,12 +19,12 @@ module Net
     def run(&callback)
       return if stub!(&callback)
 
-      Dispatch::Queue.new("request.net.flow").async do
+      Task.background do
         handler = lambda { |body, response, error|
           if response.nil? && error
             raise error.localizedDescription
           end
-          Dispatch::Queue.main.sync do
+          Task.main do
             callback.call(ResponseProxy.build_response(body, response))
           end
         }

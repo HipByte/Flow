@@ -14,11 +14,11 @@ class TimelineAdapter < Android::Widget::ArrayAdapter
     post = @posts[position]
 
     if post.thumbnail
-      Net::AsyncTask.async do
+      Task.async do
         stream = Java::Net::URL.new(post.thumbnail).openStream
         bitmap = Android::Graphics::BitmapFactory.decodeStream(stream)
 
-        Net::AsyncTask.main_async do
+        Task.main do
           avatar_view.setImageBitmap(bitmap)
           avatar_view.visibility = Android::View::View::VISIBLE
         end
