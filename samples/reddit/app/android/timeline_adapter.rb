@@ -14,7 +14,7 @@ class TimelineAdapter < Android::Widget::ArrayAdapter
     post = @posts[position]
 
     if post.thumbnail
-      Task.async do
+      Task.background do
         stream = Java::Net::URL.new(post.thumbnail).openStream
         bitmap = Android::Graphics::BitmapFactory.decodeStream(stream)
 
