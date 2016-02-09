@@ -24,7 +24,7 @@ class Task
 
   class Queue
     def self.main?
-      Looper.myLooper() == Looper.getMainLooper()
+      Android::Os::Looper.myLooper == Android::Os::Looper.getMainLooper
     end
 
     def initialize
