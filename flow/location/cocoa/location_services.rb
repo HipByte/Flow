@@ -23,7 +23,10 @@ class Location
       @location_manager.desiredAccuracy = KCLLocationAccuracyBest
       @location_manager.distanceFilter = options[:distance_filter]
       @location_manager.delegate = self
-      @location_manager.requestAlwaysAuthorization
+      if @location_manager.respond_to?(:requestAlwaysAuthorization)
+        # iOS 8 or above.
+        @location_manager.requestAlwaysAuthorization
+      end
       start
     end
 
