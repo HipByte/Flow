@@ -1,6 +1,6 @@
 # Task
 
-Task manager / scheduler. A simpler (but portable) version of Apple's dispatch library. Uses `Dispatch` on Cocoa and `java.util.concurrent.Executors` on Android. 
+Task manager / scheduler. A simpler (but portable) version of Apple's dispatch library. Uses `Dispatch` on Cocoa and `java.util.concurrent.Executors` on Android.
 
 ## Documentation
 
@@ -48,7 +48,7 @@ end
 
 #### Create a serial queue
 
-A `Task::Queue` object keeps a reference to a single thread. 
+A `Task::Queue` object keeps a reference to a single thread.
 
 ```ruby
 q = Task.queue
@@ -68,4 +68,10 @@ end
 
 ```ruby
 q.wait
+```
+
+#### Check if code block is running on main thread
+
+```ruby
+Task.main?
 ```

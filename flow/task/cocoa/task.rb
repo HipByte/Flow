@@ -8,7 +8,7 @@ class Task
         ensure
           stop unless repeats
         end
-      end        
+      end
     end
 
     def stop
@@ -20,6 +20,10 @@ class Task
   end
 
   class Queue
+    def self.main?
+      NSThread.isMainThread
+    end
+
     @@counter = 0
     def initialize
       @queue = Dispatch::Queue.new("com.hipbyte.flow.queue#{@@counter += 1}")

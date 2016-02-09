@@ -23,6 +23,10 @@ class Task
   end
 
   class Queue
+    def self.main?
+      Looper.myLooper() == Looper.getMainLooper()
+    end
+
     def initialize
       @queue = Java::Util::Concurrent::Executors.newSingleThreadExecutor
     end
