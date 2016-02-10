@@ -1,4 +1,8 @@
 class Task
+  def self.main?
+    Android::Os::Looper.myLooper == Android::Os::Looper.getMainLooper
+  end
+
   class Timer
     def initialize(interval, repeats, block)
       interval *= 1000
@@ -23,10 +27,6 @@ class Task
   end
 
   class Queue
-    def self.main?
-      Android::Os::Looper.myLooper == Android::Os::Looper.getMainLooper
-    end
-
     def initialize
       @queue = Java::Util::Concurrent::Executors.newSingleThreadExecutor
     end

@@ -1,4 +1,8 @@
 class Task
+  def self.main?
+    NSThread.isMainThread
+  end
+
   class Timer
     def initialize(interval, repeats, block)
       queue = Dispatch::Queue.current
@@ -20,10 +24,6 @@ class Task
   end
 
   class Queue
-    def self.main?
-      NSThread.isMainThread
-    end
-
     @@counter = 0
     def initialize
       @queue = Dispatch::Queue.new("com.hipbyte.flow.queue#{@@counter += 1}")

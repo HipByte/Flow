@@ -1,8 +1,4 @@
 class Task
-  def self.main?
-    Task::Queue.main?
-  end
-
   def self.every(interval, &block)
     Task::Timer.new(interval, true, block)
   end
