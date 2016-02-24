@@ -6,6 +6,8 @@ module UI
     when Symbol
       UI::Color.symbol(color)
     else
+    when Array
+      UI::Color.rgba(*color)
       color
     end
   end
@@ -40,7 +42,7 @@ module UI
       rgba(r, g, b, 1)
     end
 
-    def self.rgba(r, g, b, a)
+    def self.rgba(r, g, b, a = 1)
       if a > 1.0
         a = a / 255.0
       end
