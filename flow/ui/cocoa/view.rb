@@ -1,8 +1,5 @@
 module UI
   class View < CSSNode
-    def initialize
-    end
-
     def margin=(margin)
       case margin
       when Fixnum
@@ -37,10 +34,6 @@ module UI
       container.hidden = hidden
     end
 
-    def parent
-      container.superview
-    end
-
     def container
       @container ||= proxies[:ui_view]
     end
@@ -73,6 +66,10 @@ module UI
     end
 
     def proxies
+      @proxies ||= build_proxies
+    end
+
+    def build_proxies
       ui_view = UIView.alloc.init
       ui_view.translatesAutoresizingMaskIntoConstraints = false
 
