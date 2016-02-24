@@ -5,3 +5,6 @@ samples/*/build
 **/*/.repl_history
 flow/digest/build-*
 *.swp
+build
+flow/digest/cocoa/libdigest.a
+flow/ui/cocoa/libcss_node.a
