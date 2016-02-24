@@ -22,6 +22,8 @@ module UI
     end
 
     def loadView
+      @screen.view.width = UIScreen.mainScreen.bounds.size.width
+      @screen.view.height = UIScreen.mainScreen.bounds.size.height
       @screen.container.translatesAutoresizingMaskIntoConstraints = true
       self.view = @screen.container
     end
