@@ -163,7 +163,7 @@ node_layout(VALUE rcv, SEL sel, int argc, VALUE *argv)
 {
     struct ruby_css_node *node = NODE(rcv);
     VALUE max_width = Qnil, max_height = Qnil;
-    rb_scan_args(argc, argv, "03", &max_width, &max_height);
+    rb_scan_args(argc, argv, "02", &max_width, &max_height);
     layoutNode(node->node,
 	    max_width == Qnil ? CSS_UNDEFINED : NUM2DBL(max_width),
 	    max_height == Qnil ? CSS_UNDEFINED : NUM2DBL(max_height),
