@@ -1,5 +1,6 @@
 *.gem
 test/build
+ui_app/build
 samples/*/build
 **/*/.repl_history
 flow/digest/build-*
