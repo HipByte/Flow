@@ -6,7 +6,7 @@ class WelcomeScreen < UI::Screen
     background.width = 300
     background.height = 400
     background.background_color = :blue
-    self.add_child(background)
+    self.view.add_child(background)
 
     label = UI::Label.new
     label.width = 230
