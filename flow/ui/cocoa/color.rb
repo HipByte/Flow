@@ -5,10 +5,12 @@ module UI
       UI::Color.hex(color)
     when Symbol
       UI::Color.symbol(color)
-    else
     when Array
       UI::Color.rgba(*color)
+    when UIColor
       color
+    else
+      raise ArgumentError
     end
   end
 
