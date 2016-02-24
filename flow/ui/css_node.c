@@ -54,6 +54,8 @@ node_alloc(VALUE rcv, SEL sel)
 	return value; \
     }
 
+define_property_float(flex, style.flex)
+
 define_property_float(width, style.dimensions[CSS_WIDTH])
 define_property_float(height, style.dimensions[CSS_HEIGHT])
 
@@ -183,6 +185,8 @@ Init_CSSNode(void)
 #define declare_property(name) \
     rb_define_method(rb_cCSSNode, #name, node_##name##_get, 0); \
     rb_define_method(rb_cCSSNode, #name "=", node_##name##_set, 1);
+
+    declare_property(flex)
 
     declare_property(width)
     declare_property(height)
