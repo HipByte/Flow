@@ -12,13 +12,13 @@ Motion::Project::App.setup do |app|
     libdir = File.join(File.dirname(__FILE__), '../flow/' + comp)
     app.files.concat(Dir.glob(File.join(libdir, '*.rb')))
     app.files.concat(Dir.glob(File.join(libdir, 'cocoa/*.rb')))
-    app.files.concat(Dir.glob(File.join(libdir, "cocoa/#{template}/*.rb")))
 
-    unless Dir.glob(File.join(libdir, 'cocoa/*.{m,h}')).empty?
-      app.vendor_project libdir, :static
-    end
-    unless Dir.glob(File.join(libdir, "cocoa/#{template}/*.{m,h}")).empty?
-      app.vendor_project libdir, :static
+    exts = Dir.glob(File.join(libdir, "cocoa/*.a"))
+    unless exts.empty?
+      app.vendor_project libdir, :static, :products => exts, :source_files => [], :force_load => true
+      if comp == 'ui'
+        app.custom_init_funcs << 'Init_CSSNode'
+      end
     end
   end
 

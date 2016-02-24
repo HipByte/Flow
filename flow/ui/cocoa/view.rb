@@ -1,30 +1,6 @@
 module UI
-  class View < CssNode
-    attr_accessor :style
-
+  class View < CSSNode
     def initialize
-      @children = []
-      @style = {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0
-      }
-    end
-
-    def tree
-      {
-        style: @style,
-        children: @children.map {|child| {style: child.style} }
-      }
-    end
-
-    def frame=(frame)
-      container.frame = frame
-    end
-
-    def frame
-      container.frame
     end
 
     def background_color
@@ -52,8 +28,30 @@ module UI
     end
 
     def add_child(child)
-      @children << child
+      super
       container.addSubview(child.container)
+    end
+
+    def delete_child(child)
+      if super
+        child.container.removeFromSuperview
+      end
+    end
+
+    def layout!
+      super
+      _apply_layout([0, 0])
+    end
+
+    def _apply_layout(absolute_point)
+      top_left = [absolute_point[0] + left, absolute_point[1] + top]
+      bottom_right = [absolute_point[0] + left + width, absolute_point[1] + top + height]
+      container.frame = [[left, top], [bottom_right[0] - top_left[0], bottom_right[1] - top_left[1]]]
+
+      absolute_point[0] += left
+      absolute_point[1] += top
+
+      children.each { |x| x._apply_layout(absolute_point) }
     end
 
     def proxies
