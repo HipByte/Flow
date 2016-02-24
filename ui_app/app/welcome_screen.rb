@@ -4,20 +4,13 @@ class WelcomeScreen < UI::Screen
   def on_load
     background = UI::View.new
     background.flex = 1
-    background.margin_top = 25
-    background.margin_left = 25
-    background.margin_right = 25
-    background.margin_bottom = 25
+    background.margin = 25
     background.background_color = :blue
     self.view.add_child(background)
 
     label = UI::Label.new
     label.height = 50
-    label.margin_top = 5
-    label.margin_left = 5
-    label.margin_right = 5
-    label.margin_bottom = 5
-    label.flex_direction = :column
+    label.margin = [10, 10, 50, 50]
     label.text = "Hello world"
     label.background_color = :red
     label.color = :white
@@ -26,9 +19,7 @@ class WelcomeScreen < UI::Screen
 
     button = UI::Button.new
     button.height = 50
-    button.margin_left = 5
-    button.margin_right = 5
-    button.flex_direction = :column
+    button.margin = [0, 5]
     button.title = "Submit"
     button.background_color = :yellow
     button.color = :black
