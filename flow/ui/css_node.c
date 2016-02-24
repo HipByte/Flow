@@ -93,7 +93,7 @@ define_property_float_6(border)
 	struct ruby_css_node *node = NODE(rcv); \
         for (int i = 0; i < count; i++) { \
 	    if (node_##name##s[i] == value) { \
-		node->node->style.name = i; \
+		(*(int *)&node->node->style.name) = i; \
 		return value; \
 	    } \
 	} \
@@ -170,6 +170,9 @@ node_layout(VALUE rcv, SEL sel, int argc, VALUE *argv)
     return Qnil;
 }
 
+#if defined(__cplusplus)
+extern "C"
+#endif
 void
 Init_CSSNode(void)
 {
