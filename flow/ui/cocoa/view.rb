@@ -3,6 +3,10 @@ module UI
     def initialize
     end
 
+    def frame
+      container.frame
+    end
+
     def background_color
       container.backgroundColor
     end
