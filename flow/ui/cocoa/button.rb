@@ -28,30 +28,30 @@ module UI
       case color
       when Hash
         color.map do |state, color|
-          container.setTitleColor(UI::Color(color), forState: _state_for_key(state))
+          container.setTitleColor(UI::Color(color), forState: CONTROL_STATES[state])
         end
       else
-        container.setTitleColor(UI::Color(color), forState: _state_for_key(:normal))
+        container.setTitleColor(UI::Color(color), forState: CONTROL_STATES[:normal])
       end
     end
 
     def color(state = :normal)
-      container.titleColorForState(_state_for_key(state))
+      container.titleColorForState(CONTROL_STATES[state])
     end
 
     def title=(title)
       case title
       when Hash
         title.map do |state, title|
-          container.setTitle(title, forState: _state_for_key(state))
+          container.setTitle(title, forState: CONTROL_STATES[state])
         end
       when String
-        container.setTitle(title, forState: _state_for_key(:normal))
+        container.setTitle(title, forState: CONTROL_STATES[:normal])
       end
     end
 
     def title(state = :normal)
-      container.titleForState(_state_for_key(state))
+      container.titleForState(CONTROL_STATES[state])
     end
 
     def container
