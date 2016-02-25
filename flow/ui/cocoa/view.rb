@@ -1,5 +1,19 @@
 module UI
   class View < CSSNode
+    RESIZE_MODE = {
+      scale_to_fill:  UIViewContentModeScaleToFill,
+      aspect_fit:     UIViewContentModeScaleAspectFit,
+      aspect_fill:    UIViewContentModeScaleAspectFill
+    }
+
+    def resize_mode=(resize_mode)
+      container.contentMode = RESIZE_MODE.fetch(resize_mode)
+    end
+
+    def resize_mode
+      RESIZE_MODE.key(container.contentMode)
+    end
+
     def frame
       container.frame
     end

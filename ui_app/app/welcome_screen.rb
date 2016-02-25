@@ -10,7 +10,7 @@ class WelcomeScreen < UI::Screen
 
     label = UI::Label.new
     label.height = 50
-    label.margin = [10, 10, 50, 50]
+    label.margin = [10, 10, 5, 10]
     label.text = "Hello world"
     label.background_color = :red
     label.color = :white
@@ -38,6 +38,13 @@ class WelcomeScreen < UI::Screen
     text_field.on(:blur) { p 'blur'}
     text_field.on(:focus) { p 'focus' }
     background.add_child(text_field)
+
+    logo = UI::Image.new
+    logo.source = "rubymotion-logo"
+    logo.height = 100
+    logo.margin = [10, 5]
+    logo.resize_mode = :aspect_fit
+    background.add_child(logo)
 
     self.view.layout!
   end
