@@ -78,6 +78,61 @@ define_property_float_6(border)
 
 #undef define_property_float_6
 
+#define define_property_float_ary(name) \
+    static VALUE \
+    node_##name##_set(VALUE rcv, SEL sel, VALUE obj) \
+    { \
+	css_node_t *node = NODE(rcv)->node; \
+	float top, right, bottom, left; \
+	if (rb_obj_is_kind_of(obj, rb_cArray)) { \
+	    switch (RARRAY_LEN(obj)) { \
+		case 4: \
+		    top = NUM2DBL(RARRAY_AT(obj, 0)); \
+		    right = NUM2DBL(RARRAY_AT(obj, 1)); \
+		    bottom = NUM2DBL(RARRAY_AT(obj, 2)); \
+		    left = NUM2DBL(RARRAY_AT(obj, 3)); \
+		    break; \
+		case 3: \
+		    top = NUM2DBL(RARRAY_AT(obj, 0)); \
+		    right = bottom = NUM2DBL(RARRAY_AT(obj, 1)); \
+		    left = NUM2DBL(RARRAY_AT(obj, 2)); \
+		    break; \
+		case 2: \
+		    top = bottom = NUM2DBL(RARRAY_AT(obj, 0)); \
+		    right = left = NUM2DBL(RARRAY_AT(obj, 1)); \
+		    break; \
+		default: \
+		    rb_raise(rb_eArgError, \
+			    "expected Array of 2, 3 or 4 elements"); \
+	    } \
+	} \
+	else { \
+	    top = right = bottom = left = NUM2DBL(obj); \
+	} \
+	node->style.name[CSS_TOP] = top; \
+	node->style.name[CSS_RIGHT] = right; \
+	node->style.name[CSS_BOTTOM] = bottom; \
+	node->style.name[CSS_LEFT] = left; \
+	return obj; \
+    } \
+    static VALUE \
+    node_##name##_get(VALUE rcv, SEL sel) \
+    { \
+	VALUE ary = rb_ary_new(); \
+	css_node_t *node = NODE(rcv)->node; \
+	rb_ary_push(ary, DBL2NUM(node->style.name[CSS_TOP])); \
+	rb_ary_push(ary, DBL2NUM(node->style.name[CSS_RIGHT])); \
+	rb_ary_push(ary, DBL2NUM(node->style.name[CSS_BOTTOM])); \
+	rb_ary_push(ary, DBL2NUM(node->style.name[CSS_LEFT])); \
+	return ary; \
+    }
+
+define_property_float_ary(padding)
+define_property_float_ary(margin)
+define_property_float_ary(border)
+
+#undef define_property_float_ary
+
 #define define_property_sym(name, count) \
     static VALUE node_##name##s[count] = { Qnil } ; \
     static VALUE \
@@ -204,6 +259,9 @@ Init_CSSNode(void)
     declare_property(name##_start) \
     declare_property(name##_end)
 
+    declare_property(padding)
+    declare_property(margin)
+    declare_property(border)
     declare_property_6(padding)
     declare_property_6(margin)
     declare_property_6(border)
