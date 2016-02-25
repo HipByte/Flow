@@ -1,7 +1,10 @@
 module UI
   class Control < View
     CONTROL_EVENTS = {
-      touch: UIControlEventTouchUpInside
+      touch:              UIControlEventTouchUpInside,
+      editing_changed:    UIControlEventEditingChanged,
+      editing_did_begin:  UIControlEventEditingDidBegin,
+      editing_did_end:    UIControlEventEditingDidEnd
     }
 
     CONTROL_STATES = {
@@ -20,7 +23,7 @@ module UI
       CONTROL_STATES.key(value)
     end
 
-    def _event_for_key(key, default = UIControlEventTouchUpInside)
+    def _event_for_key(key)
       CONTROL_EVENTS.fetch(key, default)
     end
 

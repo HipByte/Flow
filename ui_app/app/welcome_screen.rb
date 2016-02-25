@@ -28,6 +28,17 @@ class WelcomeScreen < UI::Screen
     button.border_radius = 3.0
     background.add_child(button)
 
+    text_field = UI::TextInput.new
+    text_field.height = 50
+    text_field.margin = [10, 5]
+    text_field.text = "A textfield"
+    text_field.background_color = :green
+    text_field.color = :black
+    text_field.on(:change) { |text| p text }
+    text_field.on(:blur) { p 'blur'}
+    text_field.on(:focus) { p 'focus' }
+    background.add_child(text_field)
+
     self.view.layout!
   end
 end

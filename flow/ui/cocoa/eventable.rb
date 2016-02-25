@@ -11,7 +11,8 @@ module UI
     end
 
     def trigger(event, *args)
-      registered_event = __events__.fetch(event)
+      # if no listner found we will do nothing
+      return unless registered_event = __events__.fetch(event, nil)
 
       case registered_event
       when String, Symbol
