@@ -1,18 +1,11 @@
 module UI
   class Label < View
-    TEXT_ALIGNMENT = {
-      left:     NSTextAlignmentLeft,
-      center:   NSTextAlignmentCenter,
-      right:    NSTextAlignmentRight,
-      justify:  NSTextAlignmentJustified
-    }
-
     def text_alignment
-      TEXT_ALIGNMENT.key(container.textAlignment)
+      UI::TEXT_ALIGNMENT.key(container.textAlignment)
     end
 
     def text_alignment=(text_alignment)
-      container.textAlignment = TEXT_ALIGNMENT.fetch(text_alignment, NSTextAlignmentLeft)
+      container.textAlignment = UI::TEXT_ALIGNMENT.fetch(text_alignment, NSTextAlignmentLeft)
     end
 
     def color
