@@ -7,7 +7,7 @@ module UI
     }
 
     def resize_mode=(resize_mode)
-      container.contentMode = RESIZE_MODE.fetch(resize_mode)
+      container.contentMode = RESIZE_MODE[resize_mode]
     end
 
     def resize_mode

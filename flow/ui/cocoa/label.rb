@@ -5,7 +5,7 @@ module UI
     end
 
     def text_alignment=(text_alignment)
-      container.textAlignment = UI::TEXT_ALIGNMENT.fetch(text_alignment, NSTextAlignmentLeft)
+      container.textAlignment = UI::TEXT_ALIGNMENT[text_alignment]
     end
 
     def color
