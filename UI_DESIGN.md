@@ -104,7 +104,7 @@ label.text_alignment = :right #:right, :left, :center, :justify
 
 Control is not designed to be instantiated, it shares common behavior for controls.
 
-### CONTROL_STATES
+## CONTROL_STATES
 
 Available states for controls changing behavior for various states.
 
@@ -157,7 +157,7 @@ input.color = :red
 input.secure = true
 ```
 
-### Events
+## Events
 
 ```ruby
 input.on(:change) {|text| }
