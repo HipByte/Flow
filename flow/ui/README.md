@@ -3,6 +3,7 @@
 * [CSSNode](#css_node)
   * [View](#view)
     * [Label](#label)
+    * [Image](#image)
     * [Control](#control)
       * [TextInput](#text_input)
       * [Button](#button)
@@ -95,6 +96,25 @@ label = UI::Label.new
 label.text = "Hello World"
 label.color = :blue
 label.text_alignment = :right #:right, :left, :center, :justify
+```
+
+
+# <a name="image"></a>Image
+
+
+## Constructor
+
+```ruby
+image = UI::Image.new
+```
+
+## Customizing the image
+
+```ruby
+image.source = "logo"
+
+# inherited from UI::View
+image.content_mode = :aspect_fit
 ```
 
 # <a name="control"></a>Control
