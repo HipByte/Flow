@@ -14,10 +14,6 @@ module UI
       RESIZE_MODE.key(container.contentMode)
     end
 
-    def frame
-      container.frame
-    end
-
     def background_color
       container.backgroundColor
     end
