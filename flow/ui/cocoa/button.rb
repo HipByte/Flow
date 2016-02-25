@@ -1,13 +1,5 @@
 module UI
   class Button < Control
-    def initialize
-      super
-    end
-
-    def container
-      @container ||= proxies[:ui_button]
-    end
-
     def border_color=(color)
       container.layer.borderColor = UI::Color(color).CGColor
     end
@@ -62,13 +54,12 @@ module UI
       container.titleForState(_state_for_key(state))
     end
 
-    def proxies
-      ui_button = UIButton.buttonWithType(UIButtonTypeCustom)
-      ui_button.translatesAutoresizingMaskIntoConstraints = false
-
-      {
-        ui_button: ui_button
-      }
+    def container
+      @container ||=begin
+        ui_button = UIButton.buttonWithType(UIButtonTypeCustom)
+        ui_button.translatesAutoresizingMaskIntoConstraints = false
+        ui_button
+      end
     end
   end
 end

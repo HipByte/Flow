@@ -7,10 +7,6 @@ module UI
       justify:  NSTextAlignmentJustified
     }
 
-    def initialize
-      super
-    end
-
     def text_alignment
       TEXT_ALIGNMENT.key(container.textAlignment)
     end
@@ -36,16 +32,11 @@ module UI
     end
 
     def container
-      @container ||= proxies[:ui_label]
-    end
-
-    def proxies
-      ui_label = UILabel.alloc.init
-      ui_label.translatesAutoresizingMaskIntoConstraints = false
-
-      {
-        ui_label: ui_label
-      }
+      @container ||=begin
+        ui_label = UILabel.alloc.init
+        ui_label.translatesAutoresizingMaskIntoConstraints = false
+        ui_label
+      end
     end
   end
 end

@@ -20,10 +20,6 @@ module UI
       container.hidden = hidden
     end
 
-    def container
-      @container ||= proxies[:ui_view]
-    end
-
     def add_child(child)
       super
       container.addSubview(child.container)
@@ -51,17 +47,12 @@ module UI
       children.each { |x| x._apply_layout(absolute_point) }
     end
 
-    def proxies
-      @proxies ||= build_proxies
-    end
-
-    def build_proxies
-      ui_view = UIView.alloc.init
-      ui_view.translatesAutoresizingMaskIntoConstraints = false
-
-      {
-        ui_view: ui_view
-      }
+    def container
+      @container ||=begin
+        ui_view = UIView.alloc.init
+        ui_view.translatesAutoresizingMaskIntoConstraints = false
+        ui_view
+      end
     end
   end
 end
