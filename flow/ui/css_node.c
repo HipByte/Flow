@@ -5,6 +5,7 @@
 static VALUE rb_cCSSNode = Qnil;
 
 struct ruby_css_node {
+    VALUE parent;
     css_node_t *node;
     VALUE children;
     bool dirty;
@@ -32,6 +33,7 @@ node_alloc(VALUE rcv, SEL sel)
     struct ruby_css_node *node =
 	(struct ruby_css_node *)malloc(sizeof(struct ruby_css_node));
     assert(node != NULL);
+    node->parent = Qnil;
     node->node = new_css_node();
     assert(node->node != NULL);
     node->node->context = node;
@@ -174,6 +176,7 @@ node_add_child(VALUE rcv, SEL sel, VALUE child)
     struct ruby_css_node *node = NODE(rcv);
     rb_ary_push(node->children, child);
     node->node->children_count++;
+    NODE(child)->parent = rcv; // weak
     return child;
 }
 
@@ -183,6 +186,7 @@ node_delete_child(VALUE rcv, SEL sel, VALUE child)
     struct ruby_css_node *node = NODE(rcv);
     if (rb_ary_delete(node->children, child) != Qnil) {
 	node->node->children_count--;
+	NODE(child)->parent = Qnil;
 	return child;
     }	
     return Qnil;
@@ -192,6 +196,26 @@ static VALUE
 node_children(VALUE rcv, SEL sel)
 {
     return NODE(rcv)->children;
+}
+
+static VALUE
+node_parent(VALUE rcv, SEL sel)
+{
+    return NODE(rcv)->parent;
+}
+
+static VALUE
+node_root(VALUE rcv, SEL sel)
+{
+    VALUE node = rcv;
+    while (true) {
+	VALUE parent = NODE(node)->parent;
+	if (parent == Qnil) {
+	    break;
+	}
+	node = parent;
+    }
+    return node;
 }
 
 static VALUE
@@ -300,6 +324,8 @@ Init_CSSNode(void)
     rb_define_method(rb_cCSSNode, "add_child", node_add_child, 1);
     rb_define_method(rb_cCSSNode, "delete_child", node_delete_child, 1);
     rb_define_method(rb_cCSSNode, "children", node_children, 0);
+    rb_define_method(rb_cCSSNode, "parent", node_parent, 0);
+    rb_define_method(rb_cCSSNode, "root", node_root, 0);
     rb_define_method(rb_cCSSNode, "dirty!", node_dirty, 0);
     rb_define_method(rb_cCSSNode, "layout!", node_layout, -1);
 }
