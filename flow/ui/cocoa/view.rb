@@ -1,5 +1,25 @@
 module UI
   class View < CSSNode
+    ANIMATION_OPTIONS = {
+      ease_out: UIViewAnimationOptionCurveEaseOut,
+      ease_in:  UIViewAnimationOptionCurveEaseIn,
+      linear:   UIViewAnimationOptionCurveLinear
+    }
+
+    def animate(options = {}, &block)
+      animation_options = options.fetch(:options, :linear)
+
+      UIView.animateWithDuration(options.fetch(:duration, 0),
+        delay: options.fetch(:delay, 0),
+        options: ANIMATION_OPTIONS.values_at(*animation_options).reduce(&:|),
+        animations: lambda {
+          self.root.update_layout
+        },
+        completion: lambda {|completion|
+          block.call if block
+        })
+    end
+
     def border_color=(color)
       container.layer.borderColor = UI::Color(color).CGColor
     end

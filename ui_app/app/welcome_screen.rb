@@ -49,5 +49,10 @@ class WelcomeScreen < UI::Screen
     background.add_child(logo)
 
     self.view.update_layout
+
+    # label.height = 200
+    # label.animate(delay: 1.0, duration: 0.25) do
+    #   p "animation ended"
+    # end
   end
 end
