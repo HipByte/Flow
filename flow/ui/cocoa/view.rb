@@ -1,22 +1,5 @@
 module UI
   class View < CSSNode
-    # XXX is this necessary with css-layout?
-=begin
-    RESIZE_MODE = {
-      scale_to_fill:  UIViewContentModeScaleToFill,
-      aspect_fit:     UIViewContentModeScaleAspectFit,
-      aspect_fill:    UIViewContentModeScaleAspectFill
-    }
-
-    def resize_mode=(resize_mode)
-      container.contentMode = RESIZE_MODE[resize_mode]
-    end
-
-    def resize_mode
-      RESIZE_MODE.key(container.contentMode)
-    end
-=end
-
     def background_color
       container.backgroundColor
     end

@@ -114,7 +114,7 @@ image = UI::Image.new
 image.source = "logo"
 
 # inherited from UI::View
-image.content_mode = :aspect_fit
+image.resize_mode = :aspect_fit
 ```
 
 # <a name="control"></a>Control
