@@ -9,7 +9,9 @@ module UI
     }
 
     def resize_mode=(resize_mode)
-      container.contentMode = RESIZE_MODES[resize_mode]
+      container.contentMode = RESIZE_MODES.fetch(resize_mode.to_sym) do
+        raise "Incorrect value, expected one of: #{RESIZE_MODES.keys.join(',')}"
+      end
     end
 
     def resize_mode
