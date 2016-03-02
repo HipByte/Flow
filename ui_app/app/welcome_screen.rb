@@ -48,11 +48,27 @@ class WelcomeScreen < UI::Screen
     #logo.resize_mode = :aspect_fit
     background.add_child(logo)
 
-    self.view.update_layout
-
     # label.height = 200
     # label.animate(delay: 1.0, duration: 0.25) do
     #   p "animation ended"
     # end
+
+    # list = UI::List.new
+    # list.data_source = ["laurent", "mark", "watson"]
+    # list.height = 150
+    # list.margin = [10, 5]
+    # list.render_row do |data|
+    #   label = UI::Label.new
+    #   label.text = data
+    #   label.flex = 1
+    #   label
+    # end
+    # background.add_child(list)
+    #
+    # Task.after 2.0 do
+    #   list.data_source = ["laurent", "mark", "watson"].reverse
+    # end
+
+    self.view.update_layout
   end
 end
