@@ -32,6 +32,17 @@ module UI
       super
       trigger(:view_did_load)
     end
+
+    def viewWillTransitionToSize(size, withTransitionCoordinator:coordinator)
+      super
+
+      did_rotate = lambda {|context|
+        @screen.view.width = size.width
+        @screen.view.height = size.height
+        @screen.view.update_layout
+      }
+      coordinator.animateAlongsideTransition(nil, completion:did_rotate)
+    end
   end
 
   class Screen
