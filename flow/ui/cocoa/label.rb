@@ -5,7 +5,9 @@ module UI
     end
 
     def text_alignment=(text_alignment)
-      container.textAlignment = UI::TEXT_ALIGNMENT[text_alignment]
+      container.textAlignment = UI::TEXT_ALIGNMENT.fetch(text_alignment) do
+        raise "Incorrect value, expected one of: #{UI::TEXT_ALIGNMENT.keys.join(',')}"
+      end
     end
 
     def color
