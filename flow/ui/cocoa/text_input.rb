@@ -54,7 +54,7 @@ module UI
     end
 
     def container
-      @container ||=begin
+      @container ||= begin
         ui_text_field = UITextField.alloc.init
         ui_text_field.translatesAutoresizingMaskIntoConstraints = false
         ui_text_field

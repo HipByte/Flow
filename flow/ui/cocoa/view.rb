@@ -1,5 +1,7 @@
 module UI
   class View < CSSNode
+    # XXX is this necessary with css-layout?
+=begin
     RESIZE_MODE = {
       scale_to_fill:  UIViewContentModeScaleToFill,
       aspect_fit:     UIViewContentModeScaleAspectFit,
@@ -13,6 +15,7 @@ module UI
     def resize_mode
       RESIZE_MODE.key(container.contentMode)
     end
+=end
 
     def background_color
       container.backgroundColor
@@ -41,12 +44,14 @@ module UI
       end
     end
 
-    def layout!
+    def update_layout
       super
       _apply_layout([0, 0])
     end
 
     def _apply_layout(absolute_point)
+      left, top, width, height = layout
+
       top_left = [absolute_point[0] + left, absolute_point[1] + top]
       bottom_right = [absolute_point[0] + left + width, absolute_point[1] + top + height]
       container.frame = [[left, top], [bottom_right[0] - top_left[0], bottom_right[1] - top_left[1]]]
@@ -58,7 +63,7 @@ module UI
     end
 
     def container
-      @container ||=begin
+      @container ||= begin
         ui_view = UIView.alloc.init
         ui_view.translatesAutoresizingMaskIntoConstraints = false
         ui_view

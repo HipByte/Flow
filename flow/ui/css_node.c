@@ -2,6 +2,16 @@
 #define CSS_LAYOUT_IMPLEMENTATION
 #include "css_layout.h"
 
+static double node_scale = 1.0;
+
+static VALUE
+node_set_scale(VALUE rcv, SEL sel, VALUE obj)
+{
+    node_scale = NUM2DBL(obj);
+    assert(node_scale > 0);
+    return obj;
+}
+
 static VALUE rb_cCSSNode = Qnil;
 
 struct ruby_css_node {
@@ -40,6 +50,7 @@ node_alloc(VALUE rcv, SEL sel)
     node->node->get_child = node_get_child;
     node->node->is_dirty = node_is_dirty;
     node->children = rb_retain(rb_ary_new());
+    node->dirty = true;
     return rb_class_wrap_new(node, rcv);
 }
 
@@ -47,12 +58,12 @@ node_alloc(VALUE rcv, SEL sel)
     static VALUE \
     node_##name##_get(VALUE rcv, SEL sel) \
     { \
-	return DBL2NUM(NODE(rcv)->node->expr); \
+	return DBL2NUM(NODE(rcv)->node->expr / node_scale); \
     } \
     static VALUE \
     node_##name##_set(VALUE rcv, SEL sel, VALUE value) \
     { \
-	NODE(rcv)->node->expr = NUM2DBL(value); \
+	NODE(rcv)->node->expr = NUM2DBL(value) * node_scale; \
 	return value; \
     }
 
@@ -111,10 +122,10 @@ define_property_float_6(border)
 	else { \
 	    top = right = bottom = left = NUM2DBL(obj); \
 	} \
-	node->style.name[CSS_TOP] = top; \
-	node->style.name[CSS_RIGHT] = right; \
-	node->style.name[CSS_BOTTOM] = bottom; \
-	node->style.name[CSS_LEFT] = left; \
+	node->style.name[CSS_TOP] = top * node_scale; \
+	node->style.name[CSS_RIGHT] = right * node_scale; \
+	node->style.name[CSS_BOTTOM] = bottom * node_scale; \
+	node->style.name[CSS_LEFT] = left * node_scale; \
 	return obj; \
     } \
     static VALUE \
@@ -122,10 +133,10 @@ define_property_float_6(border)
     { \
 	VALUE ary = rb_ary_new(); \
 	css_node_t *node = NODE(rcv)->node; \
-	rb_ary_push(ary, DBL2NUM(node->style.name[CSS_TOP])); \
-	rb_ary_push(ary, DBL2NUM(node->style.name[CSS_RIGHT])); \
-	rb_ary_push(ary, DBL2NUM(node->style.name[CSS_BOTTOM])); \
-	rb_ary_push(ary, DBL2NUM(node->style.name[CSS_LEFT])); \
+	rb_ary_push(ary, DBL2NUM(node->style.name[CSS_TOP] / node_scale)); \
+	rb_ary_push(ary, DBL2NUM(node->style.name[CSS_RIGHT] / node_scale)); \
+	rb_ary_push(ary, DBL2NUM(node->style.name[CSS_BOTTOM] / node_scale)); \
+	rb_ary_push(ary, DBL2NUM(node->style.name[CSS_LEFT] / node_scale)); \
 	return ary; \
     }
 
@@ -226,29 +237,42 @@ node_dirty(VALUE rcv, SEL sel)
 }
 
 static void
-node_sync(css_node_t *node)
+reset_layout(css_node_t *node)
 {
-    memcpy(node->style.position, node->layout.position,
-	    sizeof(node->style.position));
-    memcpy(node->style.dimensions, node->layout.dimensions,
-	    sizeof(node->style.dimensions));
+    node->layout.dimensions[CSS_WIDTH] = CSS_UNDEFINED;
+    node->layout.dimensions[CSS_HEIGHT] = CSS_UNDEFINED;
+    node->layout.position[CSS_LEFT] = 0;
+    node->layout.position[CSS_TOP] = 0;
     for (int i = 0; i < node->children_count; i++) {
-	node_sync(node->get_child(node->context, i));
+	reset_layout(node->get_child(node->context, i));
     }
 }
 
 static VALUE
-node_layout(VALUE rcv, SEL sel, int argc, VALUE *argv)
+node_update_layout(VALUE rcv, SEL sel, int argc, VALUE *argv)
 {
-    struct ruby_css_node *node = NODE(rcv);
     VALUE max_width = Qnil, max_height = Qnil;
     rb_scan_args(argc, argv, "02", &max_width, &max_height);
+
+    struct ruby_css_node *node = NODE(rcv);
+    reset_layout(node->node);
     layoutNode(node->node,
 	    max_width == Qnil ? CSS_UNDEFINED : NUM2DBL(max_width),
 	    max_height == Qnil ? CSS_UNDEFINED : NUM2DBL(max_height),
 	    CSS_DIRECTION_INHERIT);
-    node_sync(node->node);
     return Qnil;
+}
+
+static VALUE
+node_layout(VALUE rcv, SEL sel)
+{
+    css_node_t *node = NODE(rcv)->node;
+    VALUE ary = rb_ary_new();
+    rb_ary_push(ary, DBL2NUM(node->layout.position[CSS_LEFT]));
+    rb_ary_push(ary, DBL2NUM(node->layout.position[CSS_TOP]));
+    rb_ary_push(ary, DBL2NUM(node->layout.dimensions[CSS_WIDTH]));
+    rb_ary_push(ary, DBL2NUM(node->layout.dimensions[CSS_HEIGHT]));
+    return ary;
 }
 
 #if defined(__cplusplus)
@@ -259,6 +283,7 @@ Init_CSSNode(void)
 {
     rb_cCSSNode = rb_define_class("CSSNode", rb_cObject);
 
+    rb_define_singleton_method(rb_cCSSNode, "set_scale", node_set_scale, 1);
     rb_define_singleton_method(rb_cCSSNode, "alloc", node_alloc, 0);
 
 #define declare_property(name) \
@@ -327,5 +352,6 @@ Init_CSSNode(void)
     rb_define_method(rb_cCSSNode, "parent", node_parent, 0);
     rb_define_method(rb_cCSSNode, "root", node_root, 0);
     rb_define_method(rb_cCSSNode, "dirty!", node_dirty, 0);
-    rb_define_method(rb_cCSSNode, "layout!", node_layout, -1);
+    rb_define_method(rb_cCSSNode, "update_layout", node_update_layout, -1);
+    rb_define_method(rb_cCSSNode, "layout", node_layout, 0);
 }

@@ -55,7 +55,7 @@ module UI
     end
 
     def container
-      @container ||=begin
+      @container ||= begin
         ui_button = UIButton.buttonWithType(UIButtonTypeCustom)
         ui_button.translatesAutoresizingMaskIntoConstraints = false
         ui_button

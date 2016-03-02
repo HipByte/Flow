@@ -25,7 +25,7 @@ module UI
     end
 
     def container
-      @container ||=begin
+      @container ||= begin
         ui_label = UILabel.alloc.init
         ui_label.translatesAutoresizingMaskIntoConstraints = false
         ui_label

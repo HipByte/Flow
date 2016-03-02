@@ -47,17 +47,12 @@ module UI
       attr_accessor :__background_color__
       attr_accessor :__title__
 
-      def inherited(base)
-        base.__background_color__ = UI::Color.white
-        super
-      end
-
       def title(title)
         self.__title__ = title
       end
 
       def background_color(color)
-        self.__background_color__ = UI::Color(color)
+        self.__background_color__ = color
       end
     end
 
@@ -67,7 +62,7 @@ module UI
     end
 
     def before_on_load
-      view.background_color = self.class.__background_color__
+      view.background_color = UI::Color(self.class.__background_color__)
       proxies[:ui_view_controller].title = self.class.__title__
 
       on_load
@@ -89,15 +84,7 @@ module UI
     end
 
     def proxies
-      @proxies ||= build_proxies
-    end
-
-    def build_proxies
-      ui_view_controller = Controller.alloc.initWithScreen(self)
-
-      {
-        ui_view_controller: ui_view_controller
-      }
+      @proxies ||= { ui_view_controller: Controller.alloc.initWithScreen(self) }
     end
   end
 end

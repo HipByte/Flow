@@ -2,10 +2,12 @@ class WelcomeScreen < UI::Screen
   background_color "#F0C419"
 
   def on_load
+    $screen = self
+
     background = UI::View.new
     background.flex = 1
     background.margin = 25
-    background.background_color = :blue
+    background.background_color = :white
     self.view.add_child(background)
 
     label = UI::Label.new
@@ -21,11 +23,11 @@ class WelcomeScreen < UI::Screen
     button.height = 50
     button.margin = [0, 5]
     button.title = "Submit"
-    button.background_color = :yellow
+    button.background_color = :blue
     button.color = :black
-    button.border_width = 2.0
-    button.border_color = :black
-    button.border_radius = 3.0
+    #button.border_width = 2.0
+    #button.border_color = :black
+    #button.border_radius = 3.0
     background.add_child(button)
 
     text_field = UI::TextInput.new
@@ -34,18 +36,18 @@ class WelcomeScreen < UI::Screen
     text_field.text = "A textfield"
     text_field.background_color = :green
     text_field.color = :black
-    text_field.on(:change) { |text| p text }
-    text_field.on(:blur) { p 'blur'}
-    text_field.on(:focus) { p 'focus' }
+    #text_field.on(:change) { |text| p text }
+    #text_field.on(:blur) { p 'blur'}
+    #text_field.on(:focus) { p 'focus' }
     background.add_child(text_field)
 
     logo = UI::Image.new
-    logo.source = "rubymotion-logo"
+    logo.source = "rubymotion-logo.png"
     logo.height = 100
     logo.margin = [10, 5]
-    logo.resize_mode = :aspect_fit
+    #logo.resize_mode = :aspect_fit
     background.add_child(logo)
 
-    self.view.layout!
+    self.view.update_layout
   end
 end
