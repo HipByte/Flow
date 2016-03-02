@@ -1,5 +1,29 @@
 module UI
   class View < CSSNode
+    def border_color=(color)
+      container.layer.borderColor = UI::Color(color).CGColor
+    end
+
+    def border_radius=(radius)
+      container.layer.cornerRadius = radius
+    end
+
+    def border_width=(width)
+      container.layer.borderWidth = width
+    end
+
+    def border_color
+      container.layer.borderColor
+    end
+
+    def border_radius
+      container.layer.cornerRadius
+    end
+
+    def border_width
+      container.layer.borderWidth
+    end
+
     def background_color
       container.backgroundColor
     end
