@@ -13,19 +13,11 @@ module UI
       self
     end
 
-    def _view
-      screen.view
-    end
-
-    def _view=(view)
-      self.view = view.container
-    end
-
     def loadView
       @screen.view.width = UIScreen.mainScreen.bounds.size.width
       @screen.view.height = UIScreen.mainScreen.bounds.size.height
-      @screen.container.translatesAutoresizingMaskIntoConstraints = true
-      self.view = @screen.container
+      @screen.view.container.translatesAutoresizingMaskIntoConstraints = true
+      self.view = @screen.view.container
     end
 
     def viewDidLoad
@@ -47,7 +39,6 @@ module UI
 
   class Screen
     attr_accessor :view
-    attr_accessor :children
     attr_accessor :navigation
     attr_accessor :left_button_title
     attr_accessor :right_button_title
@@ -68,13 +59,12 @@ module UI
     end
 
     def initialize
-      @children = []
       @navigation = nil
     end
 
     def before_on_load
       view.background_color = UI::Color(self.class.__background_color__)
-      proxies[:ui_view_controller].title = self.class.__title__
+      container.title = self.class.__title__
 
       on_load
     end
@@ -85,17 +75,8 @@ module UI
       @view ||= UI::View.new
     end
 
-    def view=(view)
-      @view = view
-      proxies[:ui_view_controller]._view = view
-    end
-
     def container
-      @container ||= view.container
-    end
-
-    def proxies
-      @proxies ||= { ui_view_controller: Controller.alloc.initWithScreen(self) }
+      @container ||= Controller.alloc.initWithScreen(self)
     end
   end
 end
