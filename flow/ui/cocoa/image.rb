@@ -22,6 +22,8 @@ module UI
       if @source != source
         @source = source
         container.image = UIImage.imageNamed(source)
+        self.width = container.image.size.width
+        self.height = container.image.size.height
       end
     end
 
