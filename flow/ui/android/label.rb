@@ -9,11 +9,11 @@ module UI
     end
 
     def color
-      container.textColor
+      UI::Color(container.textColor)
     end
 
     def color=(color)
-      container.textColor = UI::Color(color)
+      container.textColor = UI::Color(color).container
     end
 
     def text=(text)

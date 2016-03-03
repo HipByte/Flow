@@ -5,7 +5,27 @@ module UI
     end
 
     def self.rgba(r, g, b, a = 1)
-      Android::Graphics::Color.argb(a, r, g, b)
+      new Android::Graphics::Color.argb(a, r, g, b)
+    end
+
+    def red
+      Android::Graphics::Color.red(container)
+    end
+
+    def green
+      Android::Graphics::Color.green(container)
+    end
+
+    def blue
+      Android::Graphics::Color.blue(container)
+    end
+
+    def alpha
+      Android::Graphics::Color.alpha(container)
+    end
+
+    def to_a
+      [red, green, blue, alpha]
     end
   end
 end

@@ -63,7 +63,7 @@ module UI
     end
 
     def before_on_load
-      view.background_color = UI::Color(self.class.__background_color__)
+      view.background_color = self.class.__background_color__
       container.title = self.class.__title__
 
       on_load

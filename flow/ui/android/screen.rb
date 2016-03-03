@@ -31,7 +31,7 @@ module UI
 
     def before_on_load
       CSSNode.set_scale UI.context.getResources.getDisplayMetrics.density
-      view.background_color = UI::Color(self.class._background_color)
+      view.background_color = self.class._background_color
       on_load
     end
 

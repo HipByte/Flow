@@ -19,11 +19,11 @@ module UI
 
     def background_color
       view = container.getBackground
-      view.is_a?(Android::Graphics::Drawable::ColorDrawable) ? view.getColor : nil
+      view.is_a?(Android::Graphics::Drawable::ColorDrawable) ? UI::Color(view.getColor) : nil
     end
 
     def background_color=(background_color)
-      container.setBackgroundColor(UI::Color(background_color))
+      container.backgroundColor = UI::Color(background_color).container
     end
 
     def add_child(child)

@@ -21,7 +21,7 @@ module UI
     end
 
     def border_color=(color)
-      container.layer.borderColor = UI::Color(color).CGColor
+      container.layer.borderColor = UI::Color(color).container.CGColor
     end
 
     def border_radius=(radius)
@@ -45,11 +45,11 @@ module UI
     end
 
     def background_color
-      container.backgroundColor
+      UI::Color(container.backgroundColor)
     end
 
     def background_color=(background_color)
-      container.backgroundColor = UI::Color(background_color)
+      container.backgroundColor = UI::Color(background_color).container
     end
 
     def hidden

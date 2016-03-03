@@ -4,15 +4,15 @@ module UI
       case color
       when Hash
         color.map do |state, color|
-          container.setTitleColor(UI::Color(color), forState: CONTROL_STATES[state])
+          container.setTitleColor(UI::Color(color).container, forState: CONTROL_STATES[state])
         end
       else
-        container.setTitleColor(UI::Color(color), forState: CONTROL_STATES[:normal])
+        container.setTitleColor(UI::Color(color).container, forState: CONTROL_STATES[:normal])
       end
     end
 
     def color(state = :normal)
-      container.titleColorForState(CONTROL_STATES[state])
+      UI::Color(container.titleColorForState(CONTROL_STATES[state]))
     end
 
     def title=(title)

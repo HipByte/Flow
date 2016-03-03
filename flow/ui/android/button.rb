@@ -1,11 +1,11 @@
 module UI
   class Button < UI::View
     def color
-      container.textColor
+      UI::Color(container.textColor)
     end
 
     def color=(color)
-      container.textColor = UI::Color(color)
+      container.textColor = UI::Color(color).container
     end
 
     def title=(text)

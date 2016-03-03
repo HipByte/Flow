@@ -1,22 +1,29 @@
 module UI
   def self.Color(color)
     if UI::Color._native?(color)
-      color
+      UI::Color.new(color)
     else
       case color
-      when String
-        UI::Color.hex(color)
-      when Symbol
-        UI::Color.symbol(color)
-      when Array
-        UI::Color.rgba(*color)
-      else
-        raise "Color should be a String, Symbol, Array of Fixnum objects or a native color object"
+        when UI::Color
+          self
+        when String
+          UI::Color.hex(color)
+        when Symbol
+          UI::Color.symbol(color)
+        when Array
+          UI::Color.rgba(*color)
+        else
+          raise "Expected UI::Color, String, Symbol or Array of Fixnum objects"
       end
     end
   end
 
   class Color
+    attr_reader :container
+    def initialize(container)
+      @container = container
+    end
+
     def self.symbol(symbol)
       send(symbol)
     end
