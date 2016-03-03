@@ -11,6 +11,13 @@ module UI
         when Symbol
           UI::Color.symbol(color)
         when Array
+          case color.size
+            when 3
+              color = color + [255]
+            when 4
+            else
+              raise "Expected Array of 3 or 4 elements"
+          end
           UI::Color.rgba(*color)
         else
           raise "Expected UI::Color, String, Symbol or Array of Fixnum objects"

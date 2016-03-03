@@ -4,7 +4,7 @@ module UI
       color.is_a?(UIColor)
     end
 
-    def self.rgba(r, g, b, a = 255)
+    def self.rgba(r, g, b, a)
       new UIColor.colorWithRed(r/255.0, green:g/255.0, blue:b/255.0, alpha:a/255.0)
     end
 
