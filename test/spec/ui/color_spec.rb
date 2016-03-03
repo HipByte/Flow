@@ -10,39 +10,39 @@ describe UI::Color do
     end
 
     it "should convert a String with a #" do
-      UI::Color("#00F").should == @blue_color
+      UI::Color("#00F").container.should == @blue_color
     end
 
     it "should convert a String without a #" do
-      UI::Color("00F").should == @blue_color
+      UI::Color("00F").container.should == @blue_color
     end
 
     it "should convert a String without 3 digits" do
-      UI::Color("00F").should == @blue_color
+      UI::Color("00F").container.should == @blue_color
     end
 
     it "should convert a String without 6 digits" do
-      UI::Color("FF8A19").should == @orange_color
+      UI::Color("FF8A19").container.should == @orange_color
     end
 
     it "should convert a String without 8 digits (alpha component)" do
-      UI::Color("88FF8A19").should == @orange_alpha_color
+      UI::Color("88FF8A19").container.should == @orange_alpha_color
     end
 
-    it "should convert a 3 values Array to rgba with alpha = 1" do
-      UI::Color([0, 0, 1]).should == @blue_alpha_color
+    it "should convert a 3 values Array to rgba with default alpha = 255" do
+      UI::Color([0, 0, 1]).container.should == @blue_alpha_color
     end
 
     it "should convert a 4 values Array" do
-      UI::Color([0, 0, 1, 1]).should == @blue_alpha_color
+      UI::Color([0, 0, 1, 255]).container.should == @blue_alpha_color
     end
 
     it "should convert a UIColor" do
-      UI::Color(UIColor.blueColor).should == @blue_color
+      UI::Color(UIColor.blueColor).container.should == @blue_color
     end
 
     it "should convert a Symbol" do
-      UI::Color(:blue).should == UIColor.blueColor
+      UI::Color(:blue).container.should == UIColor.blueColor
     end
   end
 end

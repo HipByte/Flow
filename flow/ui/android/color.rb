@@ -4,7 +4,7 @@ module UI
       color.is_a?(Fixnum)
     end
 
-    def self.rgba(r, g, b, a = 1)
+    def self.rgba(r, g, b, a = 255)
       new Android::Graphics::Color.argb(a, r, g, b)
     end
 
