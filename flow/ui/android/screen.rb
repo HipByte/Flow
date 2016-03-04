@@ -12,14 +12,6 @@ class FlowFragment < Android::App::Fragment
 end
 
 module UI
-  def self.context
-    @context or raise "Context missing"
-  end
-
-  def self.context=(context)
-    @context = context
-  end
-
   class Screen
     def self._background_color
       @background_color
