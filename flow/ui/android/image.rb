@@ -7,7 +7,9 @@ module UI
         @source = source
         stream = UI.context.getAssets.open(source)
         drawable = Android::Graphics::Drawable::Drawable.createFromStream(stream, nil)
-        container.setImageDrawable(drawable)
+        container.imageDrawable = drawable
+        self.width = drawable.intrinsicWidth * UI.density
+        self.height = drawable.intrinsicHeight * UI.density
       end
     end
 
