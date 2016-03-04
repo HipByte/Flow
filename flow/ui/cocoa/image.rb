@@ -2,10 +2,20 @@ module UI
   class Image < View
     attr_reader :source
 
+    def source=(source)
+      if @source != source
+        @source = source
+        container.image = UIImage.imageNamed(source)
+        self.width = container.image.size.width
+        self.height = container.image.size.height
+      end
+    end
+
+
     RESIZE_MODES = {
-      scale_to_fill:  UIViewContentModeScaleToFill,
-      aspect_fit:     UIViewContentModeScaleAspectFit,
-      aspect_fill:    UIViewContentModeScaleAspectFill
+      cover: UIViewContentModeScaleToFill,
+      contain: UIViewContentModeScaleAspectFit,
+      stretch: UIViewContentModeScaleAspectFill
     }
 
     def resize_mode=(resize_mode)
@@ -16,15 +26,6 @@ module UI
 
     def resize_mode
       RESIZE_MODES.key(container.contentMode)
-    end
-
-    def source=(source)
-      if @source != source
-        @source = source
-        container.image = UIImage.imageNamed(source)
-        self.width = container.image.size.width
-        self.height = container.image.size.height
-      end
     end
 
     def container

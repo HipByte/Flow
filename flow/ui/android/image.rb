@@ -11,6 +11,22 @@ module UI
       end
     end
 
+    RESIZE_MODES = {
+      cover: Android::Widget::ImageView::ScaleType::CENTER_CROP,
+      contain: Android::Widget::ImageView::ScaleType::CENTER_INSIDE,
+      stretch: Android::Widget::ImageView::ScaleType::FIT_XY
+    }
+
+    def resize_mode=(resize_mode)
+      container.scaleType = RESIZE_MODES.fetch(resize_mode.to_sym) do
+        raise "Incorrect value, expected one of: #{RESIZE_MODES.keys.join(',')}"
+      end
+    end
+
+    def resize_mode
+      RESIZE_MODES.key(container.scaleType)
+    end
+
     def container
       @container ||= Android::Widget::ImageView.new(UI.context)
     end
