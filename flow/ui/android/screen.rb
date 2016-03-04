@@ -22,7 +22,7 @@ module UI
     end
 
     def before_on_load
-      CSSNode.set_scale UI.context.getResources.getDisplayMetrics.density
+      CSSNode.set_scale UI.density
       view.background_color = self.class._background_color
       on_load
     end
@@ -36,13 +36,13 @@ module UI
         view.container.setLayoutParams(Android::View::ViewGroup::LayoutParams.new(Android::View::ViewGroup::LayoutParams::MATCH_PARENT, Android::View::ViewGroup::LayoutParams::MATCH_PARENT))
         metrics = Android::Util::DisplayMetrics.new
         main_screen_metrics = UI.context.windowManager.defaultDisplay.getMetrics(metrics)
-        view.width = main_screen_metrics.width / UI.context.resources.displayMetrics.density
+        view.width = main_screen_metrics.width / UI.density
         title_bar_height = 0
         resource_id = UI.context.resources.getIdentifier("status_bar_height", "dimen", "android")
         if resource_id > 0
           title_bar_height = UI.context.resources.getDimensionPixelSize(resource_id)
         end
-        view.height = (main_screen_metrics.height - title_bar_height) / UI.context.resources.displayMetrics.density
+        view.height = (main_screen_metrics.height - title_bar_height) / UI.density
         view
       end
     end
