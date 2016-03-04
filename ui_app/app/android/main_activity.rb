@@ -11,8 +11,6 @@ class MainActivity < Android::App::Activity
     UI.context = self
 
     @main_screen = WelcomeScreen.new
-    @main_screen.view.width = 1080
-    @main_screen.view.height = 1700
 
     main_fragment = @main_screen.proxies[:fragment]
     transaction = getFragmentManager.beginTransaction
