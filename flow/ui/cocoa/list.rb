@@ -5,24 +5,17 @@ module UI
 
       attr_accessor :content_view
 
-      def prepareForReuse
-        super
-        # TODO this is far from optimal, we should find a
-        # better way to achieve this
-        @content_view.children.each { |child| @content_view.delete_child(child) }
-      end
-
-      def add_child(child)
-        @content_view = child
+      def content_view=(content_view)
+        @content_view = content_view
         self.contentView.addSubview(@content_view.container)
         @content_view.width = self.contentView.frame.size.width
-        @content_view.update_layout
       end
     end
 
     def initialize
       super
       @data_source = []
+      @render_row_block = lambda {|section_index, row_index| ListRow }
       container.registerClass(CustomListCell, forCellReuseIdentifier: CustomListCell::IDENTIFIER)
       @sizing_cell = CustomListCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier: CustomListCell::IDENTIFIER)
     end
@@ -36,21 +29,23 @@ module UI
     end
 
     def tableView(table_view, heightForRowAtIndexPath: index_path)
-      content_view = @render_row_block.call(@data_source[index_path.row],
-                                            index_path.row,
-                                            index_path.section,
-                                            {ui_table_view_cell: @sizing_cell})
-      @sizing_cell.add_child(content_view)
+      if !@sizing_cell.content_view
+        content_view = @render_row_block.call(index_path.section, index_path.row).new
+        @sizing_cell.content_view = content_view
+      end
+      @sizing_cell.content_view.update(@data_source[index_path.row])
+      @sizing_cell.content_view.update_layout
       @sizing_cell.content_view.layout[3]
     end
 
     def tableView(table_view, cellForRowAtIndexPath: index_path)
       cell = table_view.dequeueReusableCellWithIdentifier(CustomListCell::IDENTIFIER, forIndexPath: index_path)
-      content_view = @render_row_block.call(@data_source[index_path.row],
-                                            index_path.row,
-                                            index_path.section,
-                                            {ui_table_view_cell: cell})
-      cell.add_child(content_view)
+      if !cell.content_view
+        content_view = @render_row_block.call(index_path.section, index_path.row).new
+        cell.content_view = content_view
+      end
+      cell.content_view.update(@data_source[index_path.row])
+      cell.content_view.update_layout
       cell
     end
 
