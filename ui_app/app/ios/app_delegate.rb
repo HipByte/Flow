@@ -1,10 +1,9 @@
 class AppDelegate
+  attr_accessor :window #needed atm
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
-    # We will make it cleaner once we provide an abstraction for AppDelegate
-    @window.rootViewController = WelcomeScreen.new.container
-    @window.makeKeyAndVisible
-
-    true
+    main_screen = WelcomeScreen.new
+    navigation = UI::Navigation.new(main_screen)
+    flow_app = UI::Application.new(navigation, self)
+    flow_app.start
   end
 end

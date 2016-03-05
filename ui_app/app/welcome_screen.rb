@@ -1,6 +1,10 @@
 class WelcomeScreen < UI::Screen
   background_color "#F0C419"
 
+  def on_show
+    self.navigation.hide_bar
+  end
+
   def on_load
     $screen = self
 
@@ -54,15 +58,19 @@ class WelcomeScreen < UI::Screen
     # end
 
     # list = UI::List.new
-    # list.data_source = ["laurent", "mark", "watson"]
-    # list.height = 150
-    # list.margin = [10, 5]
     # list.render_row do |data|
     #   label = UI::Label.new
     #   label.text = data
-    #   label.flex = 1
+    #   # label.flex = 1
+    #   # label.margin = 5
+    #   label.height = 100
+    #   label.width = 100
+    #   label.background_color = :green
     #   label
     # end
+    # list.data_source = ["laurent", "mark", "watson"]
+    # list.height = 150
+    # list.margin = 5
     # background.add_child(list)
     #
     # Task.after 2.0 do

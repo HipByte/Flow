@@ -1,0 +1,23 @@
+class UI::Application
+  def initialize(navigation, context)
+    UI.context = context
+    @navigation = navigation
+    UI.context.contentView = container
+  end
+
+  def start
+    fragment = @navigation.root_screen.container
+    transaction = UI.context.fragmentManager.beginTransaction
+    transaction.add(container.id, fragment, "screen-#{fragment.object_id}")
+    transaction.addToBackStack("screen-#{fragment.object_id}")
+    transaction.commit
+  end
+
+  def container
+    @container ||=begin
+      container = Android::Widget::FrameLayout.new(UI.context)
+      container.id = Android::View::View.generateViewId
+      container
+    end
+  end
+end

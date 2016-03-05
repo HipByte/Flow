@@ -2,14 +2,15 @@ module UI
   class Controller < UIViewController
     include Eventable
 
+    attr_accessor :navigation
+
     def initWithScreen(screen)
       @screen = screen
       init
-
-      on(:view_did_load) do
-        @screen.before_on_load
-      end
-
+      on(:view_did_load) { @screen.before_on_load}
+      on(:view_did_load) { @screen.before_on_load}
+      on(:view_will_appear) { @screen.before_on_show}
+      on(:view_did_appear) { @screen.on_show}
       self
     end
 
@@ -18,6 +19,16 @@ module UI
       @screen.view.height = UIScreen.mainScreen.bounds.size.height
       @screen.view.container.translatesAutoresizingMaskIntoConstraints = true
       self.view = @screen.view.container
+    end
+
+    def viewDidAppear(animated)
+      super
+      trigger(:view_did_appear)
+    end
+
+    def viewWillAppear(animated)
+      super
+      trigger(:view_will_appear)
     end
 
     def viewDidLoad
@@ -68,8 +79,10 @@ module UI
 
       on_load
     end
-
     def on_load; end
+
+    def before_on_show; end
+    def on_show; end
 
     def view
       @view ||= UI::View.new

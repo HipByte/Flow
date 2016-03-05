@@ -1,4 +1,4 @@
-class FlowFragment < Android::App::Fragment
+class FlowUIFragment < Android::App::Fragment
   def initialize(screen)
     @screen = screen
   end
@@ -9,10 +9,18 @@ class FlowFragment < Android::App::Fragment
       @screen.view.container
     end
   end
+
+  def onResume
+    super
+    @screen.before_on_show
+    @screen.on_show
+  end
 end
 
 module UI
   class Screen
+    attr_accessor :navigation
+
     def self._background_color
       @background_color
     end
@@ -22,13 +30,14 @@ module UI
     end
 
     def before_on_load
-      CSSNode.set_scale UI.density
+      CSSNode.set_scale(UI.density)
       view.background_color = self.class._background_color
       on_load
     end
+    def on_load; end
 
-    def on_load
-    end
+    def before_on_show; end
+    def on_show; end
 
     def view
       @view ||= begin
@@ -47,8 +56,8 @@ module UI
       end
     end
 
-    def proxies
-      @proxies ||= { fragment: FlowFragment.new(self) }
+    def container
+      @container ||= FlowUIFragment.new(self)
     end
   end
 end

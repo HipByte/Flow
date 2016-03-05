@@ -28,4 +28,14 @@ Motion::Project::App.setup do |app|
   app.files.delete_if { |path| path.start_with?('./app/ios') }
   app.files.delete_if { |path| path.start_with?('./app/osx') }
   app.spec_files.delete_if { |path| path.start_with?('./spec/helpers/cocoa') }
+
+  app.manifest.child('application') do |application|
+    application['android:theme'] = '@style/Theme.AppCompat.Light'
+  end
+  vendor_dir = File.join(File.dirname(__FILE__), '../vendor')
+  v7_app_compat_dir = File.join(vendor_dir, 'android/support/v7/appcompat')
+  app.vendor_project(:jar => File.join(v7_app_compat_dir, "/libs/android-support-v4.jar"))
+  app.vendor_project(:jar => File.join(v7_app_compat_dir, "/libs/android-support-v7-appcompat.jar"),
+    :resources => File.join(v7_app_compat_dir, "/res"),
+    :manifest => File.join(v7_app_compat_dir, "/AndroidManifest.xml"))
 end

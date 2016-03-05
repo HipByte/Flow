@@ -1,20 +1,11 @@
-class MainActivity < Android::App::Activity
+class MainActivity < Android::Support::V7::App::AppCompatActivity
   def onCreate(savedInstanceState)
     super
-
-    requestWindowFeature(Android::View::Window::FEATURE_NO_TITLE)
-
-    layout = Android::Widget::FrameLayout.new(self)
-    layout.setId(Android::View::View.generateViewId)
-    setContentView(layout)
-
     UI.context = self
 
-    @main_screen = WelcomeScreen.new
-
-    main_fragment = @main_screen.proxies[:fragment]
-    transaction = getFragmentManager.beginTransaction
-    transaction.replace(layout.getId, main_fragment)
-    transaction.commit
+    main_screen = WelcomeScreen.new
+    navigation = UI::Navigation.new(main_screen)
+    flow_app = UI::Application.new(navigation, self)
+    flow_app.start
   end
 end
