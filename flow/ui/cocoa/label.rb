@@ -20,6 +20,9 @@ module UI
 
     def text=(text)
       container.text = text
+      container.sizeToFit
+      self.width = container.frame.size.width
+      self.height = container.frame.size.height
     end
 
     def text
