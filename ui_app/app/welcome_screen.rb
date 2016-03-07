@@ -18,10 +18,12 @@ class WelcomeScreen < UI::Screen
     label.height = 50
     label.margin = [10, 10, 5, 10]
     label.text = "Hello world"
+    label.font = { :name => 'Starjedi', :size => 18.0 }
     label.background_color = :red
     label.color = :white
     label.text_alignment = :right
     background.add_child(label)
+    $label = label
 
     button = UI::Button.new
     button.height = 50
@@ -49,7 +51,7 @@ class WelcomeScreen < UI::Screen
     logo.source = "rubymotion-logo.png"
     logo.height = 100
     logo.margin = [10, 5]
-    #logo.resize_mode = :aspect_fit
+    logo.resize_mode = :contain
     background.add_child(logo)
 
     # label.height = 200
