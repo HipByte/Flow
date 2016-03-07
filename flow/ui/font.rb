@@ -1,7 +1,7 @@
 module UI
   def self.Font(font)
     case font
-      when UI::Color
+      when UI::Font
         self
       when Hash
         name = (font[:name] or raise ":name expected")
