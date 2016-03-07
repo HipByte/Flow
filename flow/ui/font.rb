@@ -3,6 +3,11 @@ module UI
     case font
       when UI::Color
         self
+      when Hash
+        name = (font[:name] or raise ":name expected")
+        size = (font[:size] or raise ":size expected")
+        trait = (font[:trait] or :normal)
+        UI::Font.new(name, size, trait)
       when Array
         case font.size
           when 2
