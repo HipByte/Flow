@@ -17,7 +17,7 @@ module UI
         end
         UI::Font.new(*font)
       else
-        raise "Expected UI::Font or Array"
+        raise "Expected UI::Font or Hash or Array"
     end
   end
 
