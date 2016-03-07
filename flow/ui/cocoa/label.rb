@@ -29,6 +29,14 @@ module UI
       container.text
     end
 
+    def font
+      UI::Font._wrap(container.font)
+    end
+
+    def font=(font)
+      container.font = UI::Font(font).container
+    end
+
     def container
       @container ||= begin
         ui_label = UILabel.alloc.init
