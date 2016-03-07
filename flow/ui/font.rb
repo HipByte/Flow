@@ -9,12 +9,7 @@ module UI
         trait = (font[:trait] or :normal)
         UI::Font.new(name, size, trait)
       when Array
-        case font.size
-          when 2
-          when 3
-          else
-            raise "Expected Array of 2 or 3 elements"
-        end
+        raise "Expected Array of 2 or 3 elements" if font.size < 2 or font.size > 3
         UI::Font.new(*font)
       else
         raise "Expected UI::Font or Hash or Array"
