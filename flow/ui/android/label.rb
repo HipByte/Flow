@@ -1,11 +1,29 @@
 module UI
   class Label < UI::View
     def text_alignment
-      _gravity
+      case (container.gravity & Android::View::Gravity::HORIZONTAL_GRAVITY_MASK)
+        when Android::View::Gravity::LEFT
+          :left
+        when Android::View::Gravity::RIGHT
+          :right
+        else
+          :center
+      end
     end
 
     def text_alignment=(sym)
-      self._gravity = sym
+      val = Android::View::Gravity::CENTER_VERTICAL
+      val |= case sym
+        when :left
+          Android::View::Gravity::LEFT
+        when :center
+          Android::View::Gravity::CENTER_HORIZONTAL
+        when :right
+          Android::View::Gravity::RIGHT
+        else
+          raise "Incorrect value, should be :left, :center or :right"
+      end
+      container.gravity = val
     end
 
     def color
@@ -35,7 +53,11 @@ module UI
     end
 
     def container
-      @container ||= Android::Widget::TextView.new(UI.context)
+      @container ||= begin
+        view = Android::Widget::TextView.new(UI.context)
+        view.gravity = Android::View::Gravity::LEFT | Android::View::Gravity::CENTER_VERTICAL
+        view
+      end
     end
   end
 end
