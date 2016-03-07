@@ -23,5 +23,13 @@ module UI
 
   class Font
     attr_reader :container
+
+    def italic?
+      trait == :italic or trait == :bold_italic
+    end
+
+    def bold?
+      trait == :bold or trait == :bold_italic
+    end
   end
 end
