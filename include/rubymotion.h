@@ -109,6 +109,8 @@ void *rb_objc_release(void *addr);
 	_obj; \
     })
 
+#define rb_weak(obj) obj
+
 void *rb_vm_current_block(void);
 #define rb_current_block() \
     ({ \
@@ -165,6 +167,16 @@ vm_local(jobject ref)
     return ref;
 }
 
+#define _VM_WEAK(ref) VM_JNI_ENV()->NewWeakGlobalRef(ref)
+static inline jobject
+vm_weak(jobject ref)
+{
+    if (!SPECIAL_CONST_P(ref)) {
+        return _VM_WEAK(ref);
+    }
+    return ref;
+}
+
 #define rb_retain(obj) (VALUE)vm_global((jobject)obj)
 #define rb_release(obj) \
     ({ \
@@ -173,6 +185,7 @@ vm_local(jobject ref)
 	VM_GLOBAL_DELETE(_obj); \
 	_local; \
     })
+#define rb_weak(obj) (VALUE)vm_weak((jobject)obj)
 
 #define IMP void *
 #define SEL const char *

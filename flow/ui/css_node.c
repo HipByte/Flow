@@ -53,7 +53,7 @@ node_alloc(VALUE rcv, SEL sel)
     node->node->measure = NULL;
     node->children = rb_retain(rb_ary_new());
     node->dirty = true;
-    node->obj = rb_class_wrap_new(node, rcv); // weak
+    node->obj = rb_weak(rb_class_wrap_new(node, rcv));
     return node->obj;
 }
 
@@ -190,7 +190,7 @@ node_add_child(VALUE rcv, SEL sel, VALUE child)
     struct ruby_css_node *node = NODE(rcv);
     rb_ary_push(node->children, child);
     node->node->children_count++;
-    NODE(child)->parent = rcv; // weak
+    NODE(child)->parent = rb_weak(rcv);
     return child;
 }
 
