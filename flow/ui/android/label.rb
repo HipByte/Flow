@@ -1,5 +1,15 @@
 module UI
   class Label < UI::View
+    def initialize
+      super
+      calculate_measure(true)
+    end
+
+    def measure(width, height)
+      layout = Android::Text::StaticLayout.new(container.text, container.getPaint, width, Android::Text::Layout::Alignment::ALIGN_NORMAL, 1, 0, true)
+      [width, layout.getHeight]
+    end
+
     def text_alignment
       case (container.gravity & Android::View::Gravity::HORIZONTAL_GRAVITY_MASK)
         when Android::View::Gravity::LEFT
