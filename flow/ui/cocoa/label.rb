@@ -1,5 +1,16 @@
 module UI
   class Label < View
+    def initialize
+      super
+      calculate_measure(true)
+    end
+
+    def measure(width, height)
+      size = [width.nan? ? Float::MAX : width, Float::MAX]
+      rect = container.attributedText.boundingRectWithSize(size, options:NSStringDrawingUsesLineFragmentOrigin, context:nil)
+      [width, rect.size.height]
+    end
+
     def text_alignment
       UI::TEXT_ALIGNMENT.key(container.textAlignment)
     end
@@ -20,9 +31,6 @@ module UI
 
     def text=(text)
       container.text = text
-      container.sizeToFit
-      self.width = container.frame.size.width
-      self.height = container.frame.size.height
     end
 
     def text
@@ -41,6 +49,8 @@ module UI
       @container ||= begin
         ui_label = UILabel.alloc.init
         ui_label.translatesAutoresizingMaskIntoConstraints = false
+        ui_label.lineBreakMode = NSLineBreakByWordWrapping
+        ui_label.numberOfLines = 0
         ui_label
       end
     end

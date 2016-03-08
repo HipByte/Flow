@@ -15,6 +15,7 @@ node_set_scale(VALUE rcv, SEL sel, VALUE obj)
 static VALUE rb_cCSSNode = Qnil;
 
 struct ruby_css_node {
+    VALUE obj;
     VALUE parent;
     css_node_t *node;
     VALUE children;
@@ -49,9 +50,11 @@ node_alloc(VALUE rcv, SEL sel)
     node->node->context = node;
     node->node->get_child = node_get_child;
     node->node->is_dirty = node_is_dirty;
+    node->node->measure = NULL;
     node->children = rb_retain(rb_ary_new());
     node->dirty = true;
-    return rb_class_wrap_new(node, rcv);
+    node->obj = rb_class_wrap_new(node, rcv); // weak
+    return node->obj;
 }
 
 #define define_property_float(name, expr) \
@@ -275,6 +278,41 @@ node_layout(VALUE rcv, SEL sel)
     return ary;
 }
 
+static css_dim_t
+node_measure(void *context, float width, float height)
+{
+    VALUE node = ((struct ruby_css_node *)context)->obj;
+    static SEL measure_sel = 0;
+    if (measure_sel == 0) {
+#if CC_TARGET_OS_IPHONE || CC_TARGET_OS_APPLETV
+        measure_sel = rb_selector("measure:");
+#else
+	measure_sel = rb_selector("measure");
+#endif
+    }
+
+    VALUE args[] = { DBL2NUM(width), DBL2NUM(height) };
+    VALUE ary = rb_send(node, measure_sel, 2, args);
+
+    css_dim_t dim;
+    dim.dimensions[0] = NUM2DBL(RARRAY_AT(ary, 0));
+    dim.dimensions[1] = NUM2DBL(RARRAY_AT(ary, 1));
+    return dim;
+}
+
+static VALUE
+node_calculate_measure(VALUE rcv, SEL sel, VALUE val)
+{
+    css_node_t *node = NODE(rcv)->node;
+    if (RTEST(val)) {
+	node->measure = node_measure;
+    }
+    else {
+	node->measure = NULL;
+    }
+    return val;
+}
+
 #if defined(__cplusplus)
 extern "C"
 #endif
@@ -354,4 +392,6 @@ Init_CSSNode(void)
     rb_define_method(rb_cCSSNode, "dirty!", node_dirty, 0);
     rb_define_method(rb_cCSSNode, "update_layout", node_update_layout, -1);
     rb_define_method(rb_cCSSNode, "layout", node_layout, 0);
+    rb_define_method(rb_cCSSNode, "calculate_measure", node_calculate_measure,
+	    1);
 }
