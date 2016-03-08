@@ -15,13 +15,13 @@ class WelcomeScreen < UI::Screen
     self.view.add_child(background)
 
     label = UI::Label.new
-    label.height = 50
+    #label.height = 50
     label.margin = [10, 10, 5, 10]
-    label.text = "Hello world"
+    label.text = "It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire."
     label.font = { :name => 'Starjedi', :size => 18.0 }
     label.background_color = :red
     label.color = :white
-    label.text_alignment = :right
+    label.text_alignment = :center
     background.add_child(label)
     $label = label
 
