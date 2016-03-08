@@ -1,5 +1,5 @@
 module UI
-  class Button < UI::View
+  class Button < UI::Control
     def color
       UI::Color(container.textColor)
     end

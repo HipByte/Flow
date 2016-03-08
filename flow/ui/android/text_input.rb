@@ -1,5 +1,5 @@
 module UI
-  class TextInput < UI::View
+  class TextInput < UI::Control
     def text_alignment
       _gravity
     end
