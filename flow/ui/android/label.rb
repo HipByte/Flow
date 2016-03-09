@@ -6,8 +6,12 @@ module UI
     end
 
     def measure(width, height)
-      layout = Android::Text::StaticLayout.new(container.text, container.getPaint, width, Android::Text::Layout::Alignment::ALIGN_NORMAL, 1, 0, true)
-      [width, layout.getHeight]
+      dim = [width, height]
+      unless width.nan?
+        layout = Android::Text::StaticLayout.new(container.text, container.getPaint, width, Android::Text::Layout::Alignment::ALIGN_NORMAL, 1, 0, true)
+        dim[1] = layout.getHeight
+      end
+      dim
     end
 
     def text_alignment
