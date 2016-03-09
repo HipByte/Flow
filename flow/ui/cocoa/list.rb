@@ -15,7 +15,7 @@ module UI
     def initialize
       super
       @data_source = []
-      @render_row_block = lambda {|section_index, row_index| ListRow }
+      @render_row_block = lambda { |section_index, row_index| ListRow }
       container.registerClass(CustomListCell, forCellReuseIdentifier: CustomListCell::IDENTIFIER)
       @sizing_cell = CustomListCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier: CustomListCell::IDENTIFIER)
     end
@@ -49,6 +49,8 @@ module UI
       cell
     end
 
+    attr_reader :data_source
+
     def data_source=(data_source)
       @data_source = data_source
       container.reloadData
@@ -59,7 +61,7 @@ module UI
     end
 
     def container
-      @container ||=begin
+      @container ||= begin
         ui_table_view = UITableView.alloc.init
         ui_table_view.delegate = self
         ui_table_view.dataSource = self
