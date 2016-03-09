@@ -19,10 +19,7 @@ class FlowListViewAdapter < Android::Widget::BaseAdapter
     # TODO caching
     view = @list.render_row_block.call(0, pos).new
     view.width = parent_view.width / UI.density
-$rows||=[]
-$rows<<view
     view.update(@list.data_source[pos])
-    #view.height = 40.0
     view.update_layout
     view.container
   end
