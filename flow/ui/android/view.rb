@@ -17,6 +17,14 @@ module UI
       container.visibility = value ? Android::View::View::INVISIBLE : Android::View::View::VISIBLE
     end
 
+    def alpha
+      container.alpha
+    end
+
+    def alpha=(value)
+      container.alpha = value
+    end
+
     def add_child(child)
       super
       container.addView(child.container)

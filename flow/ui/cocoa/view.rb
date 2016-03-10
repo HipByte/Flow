@@ -60,6 +60,14 @@ module UI
       container.hidden = hidden
     end
 
+    def alpha
+      container.alpha
+    end
+
+    def alpha=(value)
+      container.alpha = value
+    end
+
     def add_child(child)
       super
       container.addSubview(child.container)
