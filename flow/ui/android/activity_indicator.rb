@@ -1,22 +1,26 @@
 module UI
   class ActivityIndicator < UI::View
+    def initialize
+      super
+      self.hidden = true
+    end
+
     def start
-      container.setVisibility(Android::View::View::VISIBLE)
+      self.hidden = false
     end
 
     def stop
-      container.setVisibility(Android::View::View::INVISIBLE)
+      self.hidden = true
     end
 
     def animating?
-      container.getVisibility == Android::View::View::VISIBLE
+      !hidden?
     end
 
     def container
       @container ||= begin
         pbar = Android::Widget::ProgressBar.new(UI.context)
         pbar.setIndeterminate(true)
-        pbar.setVisibility(Android::View::View::INVISIBLE)
         pbar
       end
     end

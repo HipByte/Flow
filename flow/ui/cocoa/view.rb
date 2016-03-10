@@ -52,7 +52,7 @@ module UI
       container.backgroundColor = UI::Color(background_color).container
     end
 
-    def hidden
+    def hidden?
       container.hidden
     end
 

@@ -9,6 +9,14 @@ module UI
       container.backgroundColor = UI::Color(background_color).container
     end
 
+    def hidden?
+      container.visibility != Android::View::View::VISIBLE
+    end
+
+    def hidden=(value)
+      container.visibility = value ? Android::View::View::INVISIBLE : Android::View::View::VISIBLE
+    end
+
     def add_child(child)
       super
       container.addView(child.container)
