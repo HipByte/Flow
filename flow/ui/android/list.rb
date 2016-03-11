@@ -38,7 +38,7 @@ module UI
     def data_source=(data_source)
       if @data_source != data_source
         @data_source = data_source
-        container.getAdapter.notifyDataSetChanged
+        container.adapter.notifyDataSetChanged
       end
     end
 
@@ -51,7 +51,9 @@ module UI
     def container
       @container ||= begin
         list = Android::Widget::ListView.new(UI.context)
-        list.setAdapter(FlowListViewAdapter.new(self))
+        list.adapter = FlowListViewAdapter.new(self)
+        list.divider = nil
+        list.dividerHeight = 0
         list
       end
     end
