@@ -1,23 +1,46 @@
 module UI
   class Button < UI::Control
     def color
-      UI::Color(container.textColor)
+      @type == :text ? UI::Color(container.textColor) : nil
     end
 
     def color=(color)
+      _change_type :text
       container.textColor = UI::Color(color).container
     end
 
+    def title
+      @type == :text ? container.text : nil
+    end
+
     def title=(text)
+      _change_type :text
       container.text = text
     end
 
-    def title
-      container.text
+    def image=(image)
+      _change_type :image
+      stream = UI.context.getAssets.open(image)
+      drawable = Android::Graphics::Drawable::Drawable.createFromStream(stream, nil)
+      container.imageDrawable = drawable 
+    end
+
+    def _change_type(type)
+      if @type != type
+        @type = type
+        @container = nil
+      end
     end
 
     def container
-      @container ||= Android::Widget::Button.new(UI.context)
+      @container ||= case @type
+        when :text
+          Android::Widget::Button.new(UI.context)
+        when :image
+          Android::Widget::ImageButton.new(UI.context)
+        else
+          raise "incorrect button type `#{@type}'"
+      end
     end
   end
 end

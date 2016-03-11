@@ -30,6 +30,10 @@ module UI
       container.titleForState(CONTROL_STATES[state])
     end
 
+    def image=(image)
+      container.setImage(UIImage.imageNamed(image), forState: CONTROL_STATES[:normal])
+    end
+
     def container
       @container ||= begin
         ui_button = UIButton.buttonWithType(UIButtonTypeCustom)
