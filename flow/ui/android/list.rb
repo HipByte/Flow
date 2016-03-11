@@ -19,7 +19,7 @@ class FlowListViewAdapter < Android::Widget::BaseAdapter
     # TODO caching
     view = @list.render_row_block.call(0, pos).new
     view.width = parent_view.width / UI.density
-    view.update(@list.data_source[pos])
+    view.update(@list.data_source[pos]) if view.respond_to?(:update)
     view.update_layout
     view.container
   end

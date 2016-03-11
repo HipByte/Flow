@@ -40,7 +40,7 @@ module UI
         cell = CustomListCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier: cell_identifier)
         cell.content_view = row_klass.new
       end
-      cell.content_view.update(@data_source[index_path.row])
+      cell.content_view.update(@data_source[index_path.row]) if cell.content_view.respond_to?(:update)
       cell.content_view.update_layout
       cell
     end
