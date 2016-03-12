@@ -18,6 +18,17 @@ module UI
       container.text = text
     end
 
+    def font
+      @type == :text ? UI::Font._wrap(container.typeface, container.textSize) : nil
+    end
+
+    def font=(font)
+      _change_type :text
+      font = UI::Font(font)
+      container.setTypeface(font.container)
+      container.setTextSize(font.size)
+    end
+
     def image=(image)
       _change_type :image
       stream = UI.context.getAssets.open(image)
