@@ -18,5 +18,13 @@ module UI
     def resign_focus
       container.resignFirstResponder
     end
+
+    def request_focus
+      container.becomeFirstResponder
+    end
+
+    def focus?
+      container.isFirstResponder
+    end
   end
 end
