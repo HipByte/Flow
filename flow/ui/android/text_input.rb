@@ -11,7 +11,11 @@ module UI
     end
 
     def container
-      @container ||= Android::Widget::EditText.new(UI.context)
+      @container ||= begin
+        view = Android::Widget::EditText.new(UI.context)
+        view.setPadding(0, 0, 0, 0)
+        view
+      end
     end
   end
 end
