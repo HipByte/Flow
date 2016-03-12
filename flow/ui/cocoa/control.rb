@@ -14,5 +14,9 @@ module UI
       selected:     UIControlStateSelected,
       focused:      UIControlStateFocused
     }
+
+    def resign_focus
+      container.resignFirstResponder
+    end
   end
 end
