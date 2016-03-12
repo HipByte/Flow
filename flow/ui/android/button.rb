@@ -22,7 +22,10 @@ module UI
       _change_type :image
       stream = UI.context.getAssets.open(image)
       drawable = Android::Graphics::Drawable::Drawable.createFromStream(stream, nil)
-      container.imageDrawable = drawable 
+      container.imageDrawable = drawable
+      container.setPadding(0, 0, 0, 0)
+      container.scaleType = Android::Widget::ImageView::ScaleType::FIT_XY
+      container.backgroundColor = Android::Graphics::Color::TRANSPARENT
     end
 
     def _change_type(type)
