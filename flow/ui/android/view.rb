@@ -1,3 +1,13 @@
+class FlowViewLayoutChangeListener
+  def initialize(view)
+    @view = view
+  end
+
+  def onLayoutChange(view, left, top, right, bottom, old_left, old_top, old_right, old_bottom)
+    @view.update_layout
+  end
+end
+
 module UI
   class View < CSSNode
     def background_color
@@ -53,6 +63,20 @@ module UI
         container.layoutParams = params
       end
       children.each { |x| x._apply_layout }
+    end
+
+    def _autolayout_when_resized=(value)
+      if value
+        unless @layout_listener
+          @layout_listener = FlowViewLayoutChangeListener.new(self)
+          container.addOnLayoutChangeListener(@layout_listener)
+        end
+      else
+        if @layout_listener
+          container.removeOnLayoutChangeListener(@layout_listener)
+          @layout_listener = nil
+        end
+      end
     end
 
     def container

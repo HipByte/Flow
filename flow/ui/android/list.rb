@@ -21,6 +21,7 @@ class FlowListViewAdapter < Android::Widget::BaseAdapter
     view.width = parent_view.width / UI.density
     view.update(@list.data_source[pos]) if view.respond_to?(:update)
     view.update_layout
+    view._autolayout_when_resized = true
     view.container
   end
 end
