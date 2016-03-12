@@ -1,5 +1,17 @@
+class FlowButtonClickListener
+  def initialize(view)
+    @view = view
+  end
+
+  def onClick(button)
+    @view.trigger :tap
+  end
+end
+
 module UI
   class Button < UI::Control
+    include Eventable
+
     def color
       @type == :text ? UI::Color(container.textColor) : nil
     end
@@ -47,13 +59,17 @@ module UI
     end
 
     def container
-      @container ||= case @type
-        when :text
-          Android::Widget::Button.new(UI.context)
-        when :image
-          Android::Widget::ImageButton.new(UI.context)
-        else
-          raise "incorrect button type `#{@type}'"
+      @container ||= begin
+        button = case @type
+          when :text
+            Android::Widget::Button.new(UI.context)
+          when :image
+            Android::Widget::ImageButton.new(UI.context)
+          else
+            raise "incorrect button type `#{@type}'"
+        end
+        button.onClickListener = FlowButtonClickListener.new(self)
+        button
       end
     end
   end

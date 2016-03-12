@@ -1,5 +1,7 @@
 module UI
   class Button < Control
+    include Eventable
+
     def color=(color)
       case color
       when Hash
@@ -42,10 +44,15 @@ module UI
       container.titleLabel.font = UI::Font(font).container
     end
 
+    def on_tap
+      trigger(:tap)
+    end
+
     def container
       @container ||= begin
         ui_button = UIButton.buttonWithType(UIButtonTypeCustom)
         ui_button.translatesAutoresizingMaskIntoConstraints = false
+        ui_button.addTarget(self, action: :on_tap, forControlEvents: UIControlEventTouchUpInside)
         ui_button
       end
     end
