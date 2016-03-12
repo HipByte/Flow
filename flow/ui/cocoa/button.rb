@@ -34,6 +34,14 @@ module UI
       container.setImage(UIImage.imageNamed(image), forState: CONTROL_STATES[:normal])
     end
 
+    def font
+      UI::Font._wrap(container.titleLabel.font)
+    end
+
+    def font=(font)
+      container.titleLabel.font = UI::Font(font).container
+    end
+
     def container
       @container ||= begin
         ui_button = UIButton.buttonWithType(UIButtonTypeCustom)
