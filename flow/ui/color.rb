@@ -60,6 +60,8 @@ module UI
       rgba(r, g, b, 255)
     end
 
+    def self.clear; rgba(0, 0, 0, 0); end
+
     def self.alice_blue; hex("#F0F8FF"); end
     def self.antique_white; hex("#FAEBD7"); end
     def self.aqua; hex("#00FFFF"); end
