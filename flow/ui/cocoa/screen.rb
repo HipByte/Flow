@@ -33,6 +33,7 @@ module UI
 
     def viewDidLoad
       super
+      self.edgesForExtendedLayout = UIRectEdgeNone
       trigger(:view_did_load)
     end
 
