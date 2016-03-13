@@ -48,7 +48,10 @@ module UI
     end
 
     def text=(text)
-      container.text = text
+      if container.text != text
+        container.text = text
+        on_change
+      end
     end
 
     def text
