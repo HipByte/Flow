@@ -60,11 +60,13 @@ module UI
 
     def container
       @container ||= begin
-        button = case @type
+        case @type
           when :text
-            Android::Widget::Button.new(UI.context)
+            button = Android::Widget::Button.new(UI.context)
+            button.setPadding(0, 0, 0, 0)
+            button.allCaps = false
           when :image
-            Android::Widget::ImageButton.new(UI.context)
+            button = Android::Widget::ImageButton.new(UI.context)
           else
             raise "incorrect button type `#{@type}'"
         end
