@@ -62,6 +62,8 @@ module UI
         list.adapter = FlowUIListViewAdapter.new(self)
         list.divider = nil
         list.dividerHeight = 0
+        list.itemsCanFocus = true
+        list.descendantFocusability = Android::View::ViewGroup::FOCUS_AFTER_DESCENDANTS
         list
       end
     end
