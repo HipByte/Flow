@@ -74,6 +74,7 @@ module UI
         ui_table_view = UITableView.alloc.init
         ui_table_view.delegate = self
         ui_table_view.dataSource = self
+        ui_table_view.separatorStyle = UITableViewCellSeparatorStyleNone
         ui_table_view
       end
     end
