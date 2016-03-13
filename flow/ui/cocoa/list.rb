@@ -24,6 +24,8 @@ module UI
       super
       @data_source = []
       @render_row_block = lambda { |section_index, row_index| ListRow }
+      @cached_rows = {}
+      @cached_rows_height = {}
     end
 
     def numberOfSectionsInTableView(table_view)
@@ -36,20 +38,28 @@ module UI
 
     def tableView(table_view, cellForRowAtIndexPath: index_path)
       row_klass = @render_row_block.call(index_path.section, index_path.row)
+      data = @data_source[index_path.row]
       cell_identifier = CustomListCell::IDENTIFIER + row_klass.name
       cell = table_view.dequeueReusableCellWithIdentifier(cell_identifier)
       unless cell
+        row = (@cached_rows[data] ||= row_klass.new)
+        row.list = self if row.respond_to?(:list=)
         cell = CustomListCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier: cell_identifier)
-        cell.content_view = row_klass.new
+        cell.content_view = row
       end
-      cell.content_view.update(@data_source[index_path.row]) if cell.content_view.respond_to?(:update)
+      cell.content_view.update(data) if cell.content_view.respond_to?(:update)
       cell.content_view.update_layout
+      @cached_rows_height[index_path.row] = cell.content_view.layout[3]
       cell
     end
 
     def tableView(table_view, heightForRowAtIndexPath: index_path)
-      cell = tableView(table_view, cellForRowAtIndexPath: index_path)
-      cell.content_view.layout[3]
+      @cached_rows_height[index_path.row] or 0
+    end
+
+    def tableView(table_view, shouldHighlightRowAtIndexPath: index_path)
+      view = container.cellForRowAtIndexPath(index_path).content_view
+      view.respond_to?(:selectable?) ? view.selectable? : true
     end
 
     def tableView(table_view, didSelectRowAtIndexPath: index_path)
