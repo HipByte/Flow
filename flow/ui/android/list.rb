@@ -15,14 +15,21 @@ class FlowUIListViewAdapter < Android::Widget::BaseAdapter
     pos
   end
 
+  def notifyDataSetChanged
+    @views = nil
+    super
+  end
+
   def getView(pos, convert_view, parent_view)
-    # TODO caching
-    view = @list.render_row_block.call(0, pos).new
-    view.width = parent_view.width / UI.density
-    view.update(@list.data_source[pos]) if view.respond_to?(:update)
-    view.update_layout
-    view._autolayout_when_resized = true
-    view.container
+    @views ||= []
+    @views[pos] ||= begin
+      view = @list.render_row_block.call(0, pos).new
+      view.width = parent_view.width / UI.density
+      view.update(@list.data_source[pos]) if view.respond_to?(:update)
+      view.update_layout
+      view._autolayout_when_resized = true
+      view.container
+    end
   end
 end
 
