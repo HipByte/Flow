@@ -22,7 +22,7 @@ module UI
     attr_accessor :navigation
 
     def self._background_color
-      @background_color
+      @background_color or :white
     end
 
     def self.background_color(color)
