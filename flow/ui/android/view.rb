@@ -80,11 +80,7 @@ module UI
     end
 
     def container
-      @container ||= begin
-        view = Android::Widget::FrameLayout.new(UI.context)
-        view.focusableInTouchMode = true
-        view
-      end
+      @container ||= Android::Widget::FrameLayout.new(UI.context)
     end
   end
 end
