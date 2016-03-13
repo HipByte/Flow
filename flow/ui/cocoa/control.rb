@@ -15,11 +15,11 @@ module UI
       focused:      UIControlStateFocused
     }
 
-    def resign_focus
+    def blur
       container.resignFirstResponder
     end
 
-    def request_focus
+    def focus
       container.becomeFirstResponder
     end
 

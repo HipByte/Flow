@@ -1,10 +1,10 @@
 module UI
   class Control < UI::View
-    def resign_focus
+    def blur
       container.clearFocus
     end
 
-    def request_focus
+    def focus
       container.requestFocus
     end
 
