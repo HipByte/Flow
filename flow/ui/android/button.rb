@@ -1,4 +1,4 @@
-class FlowButtonClickListener
+class FlowUIButtonClickListener
   def initialize(view)
     @view = view
   end
@@ -68,10 +68,9 @@ module UI
           else
             raise "incorrect button type `#{@type}'"
         end
-        button.onClickListener = FlowButtonClickListener.new(self)
+        button.onClickListener = FlowUIButtonClickListener.new(self)
         button
       end
     end
   end
 end
-

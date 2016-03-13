@@ -1,4 +1,4 @@
-class FlowAlertClickListener
+class FlowUIAlertClickListener
   def initialize(alert)
     @alert = alert
   end
@@ -33,10 +33,10 @@ module UI
         else
            raise "expected :cancel or :default"
       end
-      @listener ||= FlowAlertClickListener.new(self)
+      @listener ||= FlowUIAlertClickListener.new(self)
       container.setButton(button_type, title, @listener)
     end
- 
+
     def show(&block)
       @complete_block = (block or raise "expected block")
       container.show

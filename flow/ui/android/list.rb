@@ -1,4 +1,4 @@
-class FlowListViewAdapter < Android::Widget::BaseAdapter
+class FlowUIListViewAdapter < Android::Widget::BaseAdapter
   def initialize(list)
     @list = list
   end
@@ -52,7 +52,7 @@ module UI
     def container
       @container ||= begin
         list = Android::Widget::ListView.new(UI.context)
-        list.adapter = FlowListViewAdapter.new(self)
+        list.adapter = FlowUIListViewAdapter.new(self)
         list.divider = nil
         list.dividerHeight = 0
         list
