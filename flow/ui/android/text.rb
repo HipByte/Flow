@@ -39,7 +39,7 @@ module UI
     end
 
     def text
-      container.text
+      container.text.toString
     end
 
     def font
