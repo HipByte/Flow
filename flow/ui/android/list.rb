@@ -33,8 +33,20 @@ class FlowUIListViewAdapter < Android::Widget::BaseAdapter
   end
 end
 
+class FlowUIListItemClickListener
+  def initialize(list)
+    @list = list
+  end
+
+  def onItemClick(parent, view, position, id)
+    @list.trigger :select, @list.data_source[position], position
+  end
+end
+
 module UI
   class List < UI::View
+    include Eventable
+
     def initialize
       super
       @data_source = []
@@ -60,6 +72,7 @@ module UI
       @container ||= begin
         list = Android::Widget::ListView.new(UI.context)
         list.adapter = FlowUIListViewAdapter.new(self)
+        list.onItemClickListener = FlowUIListItemClickListener.new(self)
         list.divider = nil
         list.dividerHeight = 0
         list.itemsCanFocus = true

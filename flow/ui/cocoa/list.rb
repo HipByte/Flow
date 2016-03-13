@@ -1,5 +1,7 @@
 module UI
   class List < View
+    include Eventable
+
     class CustomListCell < UITableViewCell
       IDENTIFIER = "CustomListCell"
 
@@ -48,6 +50,10 @@ module UI
     def tableView(table_view, heightForRowAtIndexPath: index_path)
       cell = tableView(table_view, cellForRowAtIndexPath: index_path)
       cell.content_view.layout[3]
+    end
+
+    def tableView(table_view, didSelectRowAtIndexPath: index_path)
+      trigger :select, @data_source[index_path.row], index_path.row
     end
 
     attr_reader :data_source
