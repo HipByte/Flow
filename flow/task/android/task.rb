@@ -9,12 +9,14 @@ class Task
       if interval <= 0
         raise ArgError, "negative or too small interval"
       end
+      handle = Android::Os::Handler.new
+      runnable = Proc.new { handle.post block }
       @timer = Java::Util::Concurrent::Executors.newSingleThreadScheduledExecutor
       @future =
         if repeats
-          @timer.scheduleAtFixedRate(block, interval, interval, Java::Util::Concurrent::TimeUnit::MILLISECONDS)
+          @timer.scheduleAtFixedRate(runnable, interval, interval, Java::Util::Concurrent::TimeUnit::MILLISECONDS)
         else
-          @timer.schedule(block, interval, Java::Util::Concurrent::TimeUnit::MILLISECONDS)
+          @timer.schedule(runnable, interval, Java::Util::Concurrent::TimeUnit::MILLISECONDS)
         end
     end
 
