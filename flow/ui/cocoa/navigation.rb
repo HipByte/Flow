@@ -19,6 +19,10 @@ module UI
       root_screen.container.title = title
     end
 
+    def bar_color=(color)
+      container.navigationBar.barTintColor = UI::Color(color).container
+    end
+
     def container
       @container ||= UINavigationController.alloc.initWithRootViewController(@root_screen.container)
     end

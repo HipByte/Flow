@@ -43,6 +43,10 @@ class UI::Navigation
     UI.context.supportActionBar.title = title
   end
 
+  def bar_color=(color)
+    UI.context.supportActionBar.backgroundDrawable = Android::Graphics::Drawable::ColorDrawable.new(UI::Color(color).container) 
+  end
+
   def push(screen, animated=true)
     screen.navigation = self
     fragment = screen.container
