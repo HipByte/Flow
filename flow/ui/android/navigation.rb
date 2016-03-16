@@ -29,14 +29,31 @@ class UI::Navigation
     @root_screen = root_screen
     @root_screen.navigation = self
     container.addOnBackStackChangedListener(FlowUIFragmentBackStackListener.new)
+    @current_screens = [@root_screen]
   end
 
   def hide_bar
-    UI.context.supportActionBar.hide
+    bar = UI.context.supportActionBar
+    if bar.isShowing
+      bar.hide
+      Task.after 0.05 do
+        screen = @current_screens.last
+        screen.view.height += (bar.height / UI.density)
+        screen.view.update_layout
+      end
+    end
   end
 
   def show_bar
-    UI.context.supportActionBar.show
+    bar = UI.context.supportActionBar
+    if !bar.isShowing
+      bar.show
+      Task.after 0.05 do
+        screen = @current_screens.last
+        screen.view.height -= (bar.height / UI.density)
+        screen.view.update_layout
+      end
+    end
   end
 
   def title=(title)
@@ -49,6 +66,7 @@ class UI::Navigation
 
   def push(screen, animated=true)
     screen.navigation = self
+    @current_screens << screen
     fragment = screen.container
     transaction = container.beginTransaction
     if animated
@@ -61,8 +79,10 @@ class UI::Navigation
   end
 
   def pop(animated=true)
+    screen = @current_screens.pop
     # TODO implement immediate pop without poping animation
     container.popBackStack
+    screen
   end
 
   def container
