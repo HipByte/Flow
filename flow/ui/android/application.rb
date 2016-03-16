@@ -3,6 +3,7 @@ class UI::Application
     UI.context = context
     @navigation = navigation
     UI.context.contentView = container
+    UI.context.supportActionBar.elevation = UI.density # one bottom border line
   end
 
   def start
