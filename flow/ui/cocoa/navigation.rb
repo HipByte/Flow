@@ -5,6 +5,7 @@ module UI
     def initialize(root_screen)
       root_screen.navigation = self
       @root_screen = root_screen
+      @current_screens = [@root_screen]
     end
 
     def show_bar
@@ -16,7 +17,7 @@ module UI
     end
 
     def title=(title)
-      root_screen.container.title = title
+      @current_screens.last.container.title = title
     end
 
     def bar_color=(color)
@@ -28,12 +29,15 @@ module UI
     end
 
     def push(screen, animated=true)
+      @current_screens << screen
       screen.navigation = self
       self.container.pushViewController(screen.container, animated: animated)
     end
 
     def pop(animated=true)
+      screen = @current_screens.pop
       self.container.popViewControllerAnimated(animated)
+      screen
     end
   end
 end
