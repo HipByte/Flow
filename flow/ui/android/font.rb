@@ -22,7 +22,7 @@ module UI
 
     def initialize(obj, size, trait=nil)
       if obj.is_a?(Android::Graphics::Typeface)
-        @container = obj
+        @proxy = obj
       else
         family_name = BuiltinFonts[obj]
         if family_name
@@ -36,9 +36,9 @@ module UI
             else
               Android::Graphics::Typeface::NORMAL
           end
-          @container = Android::Graphics::Typeface.create(family_name, style)
+          @proxy = Android::Graphics::Typeface.create(family_name, style)
         else
-          @container = Android::Graphics::Typeface.createFromAsset(UI.context.getAssets, obj + '.ttf')
+          @proxy = Android::Graphics::Typeface.createFromAsset(UI.context.getAssets, obj + '.ttf')
         end
       end
       @size = size
@@ -54,7 +54,7 @@ module UI
 
     def trait
       @trait ||= begin
-        case container.getStyle
+        case proxy.getStyle
           when Android::Graphics::Typeface::BOLD
             :bold
           when Android::Graphics::Typeface::ITALIC

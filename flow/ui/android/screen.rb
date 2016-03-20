@@ -3,10 +3,10 @@ class FlowUIFragment < Android::App::Fragment
     @screen = screen
   end
 
-  def onCreateView(inflater, container, savedInstanceState)
+  def onCreateView(inflater, proxy, savedInstanceState)
     @view ||= begin
       @screen.before_on_load
-      @screen.view.container
+      @screen.view.proxy
     end
   end
 
@@ -42,7 +42,7 @@ module UI
     def view
       @view ||= begin
         view = UI::View.new
-        view.container.setLayoutParams(Android::View::ViewGroup::LayoutParams.new(Android::View::ViewGroup::LayoutParams::MATCH_PARENT, Android::View::ViewGroup::LayoutParams::MATCH_PARENT))
+        view.proxy.setLayoutParams(Android::View::ViewGroup::LayoutParams.new(Android::View::ViewGroup::LayoutParams::MATCH_PARENT, Android::View::ViewGroup::LayoutParams::MATCH_PARENT))
         metrics = Android::Util::DisplayMetrics.new
         main_screen_metrics = UI.context.windowManager.defaultDisplay.getMetrics(metrics)
 
@@ -58,8 +58,8 @@ module UI
       end
     end
 
-    def container
-      @container ||= FlowUIFragment.new(self)
+    def proxy
+      @proxy ||= FlowUIFragment.new(self)
     end
   end
 end

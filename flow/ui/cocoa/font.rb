@@ -6,7 +6,7 @@ module UI
 
     def initialize(obj, size, trait=nil)
       if obj.is_a?(UIFont)
-        @container = obj
+        @proxy = obj
       else
         desc = UIFontDescriptor.fontDescriptorWithFontAttributes UIFontDescriptorNameAttribute => obj
         case trait
@@ -17,21 +17,21 @@ module UI
           when :bold_italic
             desc = desc.fontDescriptorWithSymbolicTraits UIFontDescriptorTraitBold | UIFontDescriptorTraitItalic
         end
-        @container = UIFont.fontWithDescriptor(desc, size:size)
+        @proxy = UIFont.fontWithDescriptor(desc, size:size)
       end
     end
 
     def name
-      @container.fontName
+      @proxy.fontName
     end
 
     def size
-      @container.pointSize
+      @proxy.pointSize
     end
 
     def trait
       @trait ||= begin
-        traits =  @container.fontDescriptor.symbolicTraits
+        traits =  @proxy.fontDescriptor.symbolicTraits
         if (traits & UIFontDescriptorTraitItalic) != 0
           if (traits & UIFontDescriptorTraitBold) != 0
             :bold_italic

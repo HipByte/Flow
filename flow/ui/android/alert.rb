@@ -17,11 +17,11 @@ end
 module UI
   class Alert
     def title=(title)
-      container.setTitle(title)
+      proxy.setTitle(title)
     end
 
     def message=(message)
-      container.setMessage(message)
+      proxy.setMessage(message)
     end
 
     def set_button(title, type)
@@ -34,12 +34,12 @@ module UI
            raise "expected :cancel or :default"
       end
       @listener ||= FlowUIAlertClickListener.new(self)
-      container.setButton(button_type, title, @listener)
+      proxy.setButton(button_type, title, @listener)
     end
 
     def show(&block)
       @complete_block = (block or raise "expected block")
-      container.show
+      proxy.show
     end
 
     def _clicked(type)
@@ -47,8 +47,8 @@ module UI
       @listener = nil
     end
 
-    def container
-      @container ||= Android::App::AlertDialog.new(UI.context)
+    def proxy
+      @proxy ||= Android::App::AlertDialog.new(UI.context)
     end
   end
 end

@@ -1,19 +1,19 @@
 module UI
   class ActivityIndicator < UI::View
     def start
-      container.startAnimating
+      proxy.startAnimating
     end
 
     def stop
-      container.stopAnimating
+      proxy.stopAnimating
     end
 
     def animating?
-      container.isAnimating
+      proxy.isAnimating
     end
 
-    def container
-      @container ||= begin
+    def proxy
+      @proxy ||= begin
         view = UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(UIActivityIndicatorViewStyleWhiteLarge)
         view.color = UIColor.grayColor
         view

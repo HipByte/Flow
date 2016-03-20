@@ -28,7 +28,7 @@ class UI::Navigation
   def initialize(root_screen)
     @root_screen = root_screen
     @root_screen.navigation = self
-    container.addOnBackStackChangedListener(FlowUIFragmentBackStackListener.new)
+    proxy.addOnBackStackChangedListener(FlowUIFragmentBackStackListener.new)
     @current_screens = [@root_screen]
   end
 
@@ -61,14 +61,14 @@ class UI::Navigation
   end
 
   def bar_color=(color)
-    UI.context.supportActionBar.backgroundDrawable = Android::Graphics::Drawable::ColorDrawable.new(UI::Color(color).container) 
+    UI.context.supportActionBar.backgroundDrawable = Android::Graphics::Drawable::ColorDrawable.new(UI::Color(color).proxy) 
   end
 
   def push(screen, animated=true)
     screen.navigation = self
     @current_screens << screen
-    fragment = screen.container
-    transaction = container.beginTransaction
+    fragment = screen.proxy
+    transaction = proxy.beginTransaction
     if animated
       transaction.transition = Android::App::FragmentTransaction::TRANSIT_FRAGMENT_OPEN
     end
@@ -81,11 +81,11 @@ class UI::Navigation
   def pop(animated=true)
     screen = @current_screens.pop
     # TODO implement immediate pop without poping animation
-    container.popBackStack
+    proxy.popBackStack
     screen
   end
 
-  def container
-    @container ||= UI.context.fragmentManager
+  def proxy
+    @proxy ||= UI.context.fragmentManager
   end
 end

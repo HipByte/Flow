@@ -1,15 +1,15 @@
 module UI
   class Control < UI::View
     def blur
-      container.clearFocus
+      proxy.clearFocus
     end
 
     def focus
-      container.requestFocus
+      proxy.requestFocus
     end
 
     def focus?
-      container.hasFocus
+      proxy.hasFocus
     end
   end
 end

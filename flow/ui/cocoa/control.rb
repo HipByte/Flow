@@ -16,15 +16,15 @@ module UI
     }
 
     def blur
-      container.resignFirstResponder
+      proxy.resignFirstResponder
     end
 
     def focus
-      container.becomeFirstResponder
+      proxy.becomeFirstResponder
     end
 
     def focus?
-      container.isFirstResponder
+      proxy.isFirstResponder
     end
   end
 end

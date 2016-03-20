@@ -25,7 +25,7 @@ class FlowUIListViewAdapter < Android::Widget::BaseAdapter
       view.update(data) if view.respond_to?(:update)
       view.update_layout
       view._autolayout_when_resized = true
-      view.container
+      view.proxy
     end
   end
 end
@@ -55,7 +55,7 @@ module UI
     def data_source=(data_source)
       if @data_source != data_source
         @data_source = data_source
-        container.adapter.notifyDataSetChanged
+        proxy.adapter.notifyDataSetChanged
       end
     end
 
@@ -65,8 +65,8 @@ module UI
       @render_row_block = block
     end
 
-    def container
-      @container ||= begin
+    def proxy
+      @proxy ||= begin
         list = Android::Widget::ListView.new(UI.context)
         list.adapter = FlowUIListViewAdapter.new(self)
         list.onItemClickListener = FlowUIListItemClickListener.new(self)

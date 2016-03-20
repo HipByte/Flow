@@ -15,7 +15,7 @@ module UI
         blue_ptr = Pointer.new(:double)
         alpha_ptr = Pointer.new(:double)
 
-        if container.getRed(red_ptr, green:green_ptr, blue:blue_ptr, alpha:alpha_ptr)
+        if proxy.getRed(red_ptr, green:green_ptr, blue:blue_ptr, alpha:alpha_ptr)
           [red_ptr[0], green_ptr[0], blue_ptr[0], alpha_ptr[0]]
         else
           [0, 0, 0, 0]

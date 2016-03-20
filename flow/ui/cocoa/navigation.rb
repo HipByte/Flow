@@ -9,34 +9,34 @@ module UI
     end
 
     def show_bar
-      container.setNavigationBarHidden(false)
+      proxy.setNavigationBarHidden(false)
     end
 
     def hide_bar
-      container.setNavigationBarHidden(true)
+      proxy.setNavigationBarHidden(true)
     end
 
     def title=(title)
-      @current_screens.last.container.title = title
+      @current_screens.last.proxy.title = title
     end
 
     def bar_color=(color)
-      container.navigationBar.barTintColor = UI::Color(color).container
+      proxy.navigationBar.barTintColor = UI::Color(color).proxy
     end
 
-    def container
-      @container ||= UINavigationController.alloc.initWithRootViewController(@root_screen.container)
+    def proxy
+      @proxy ||= UINavigationController.alloc.initWithRootViewController(@root_screen.proxy)
     end
 
     def push(screen, animated=true)
       @current_screens << screen
       screen.navigation = self
-      self.container.pushViewController(screen.container, animated: animated)
+      proxy.pushViewController(screen.proxy, animated: animated)
     end
 
     def pop(animated=true)
       screen = @current_screens.pop
-      self.container.popViewControllerAnimated(animated)
+      proxy.popViewControllerAnimated(animated)
       screen
     end
   end

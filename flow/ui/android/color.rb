@@ -9,19 +9,19 @@ module UI
     end
 
     def red
-      Android::Graphics::Color.red(container)
+      Android::Graphics::Color.red(proxy)
     end
 
     def green
-      Android::Graphics::Color.green(container)
+      Android::Graphics::Color.green(proxy)
     end
 
     def blue
-      Android::Graphics::Color.blue(container)
+      Android::Graphics::Color.blue(proxy)
     end
 
     def alpha
-      Android::Graphics::Color.alpha(container)
+      Android::Graphics::Color.alpha(proxy)
     end
 
     def to_a

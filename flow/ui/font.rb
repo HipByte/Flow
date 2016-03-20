@@ -17,7 +17,7 @@ module UI
   end
 
   class Font
-    attr_reader :container
+    attr_reader :proxy
 
     def italic?
       trait == :italic or trait == :bold_italic

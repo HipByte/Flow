@@ -9,7 +9,7 @@ module UI
 
       def content_view=(content_view)
         @content_view = content_view
-        self.contentView.addSubview(@content_view.container)
+        self.contentView.addSubview(@content_view.proxy)
         @content_view.width = contentView.frame.size.width
       end
 
@@ -58,7 +58,7 @@ module UI
     end
 
     def tableView(table_view, shouldHighlightRowAtIndexPath: index_path)
-      view = container.cellForRowAtIndexPath(index_path).content_view
+      view = proxy.cellForRowAtIndexPath(index_path).content_view
       view.respond_to?(:selectable?) ? view.selectable? : true
     end
 
@@ -71,7 +71,7 @@ module UI
     def data_source=(data_source)
       if @data_source != data_source
         @data_source = data_source
-        container.reloadData
+        proxy.reloadData
       end
     end
 
@@ -79,8 +79,8 @@ module UI
       @render_row_block = block.weak!
     end
 
-    def container
-      @container ||= begin
+    def proxy
+      @proxy ||= begin
         ui_table_view = UITableView.alloc.init
         ui_table_view.delegate = self
         ui_table_view.dataSource = self

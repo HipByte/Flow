@@ -6,7 +6,7 @@ class FlowUITextInputTextChangedListener
   def afterTextChanged(s)
     # Do nothing.
   end
-  
+
   def beforeTextChanged(s, start, count, after)
     # Do nothing.
   end
@@ -22,15 +22,15 @@ module UI
     include Eventable
 
     def placeholder=(text)
-      container.hint = text
+      proxy.hint = text
     end
 
     def placeholder
-      container.hint
+      proxy.hint
     end
 
-    def container
-      @container ||= begin
+    def proxy
+      @proxy ||= begin
         view = Android::Widget::EditText.new(UI.context)
         view.setPadding(0, 0, 0, 0)
         view.addTextChangedListener FlowUITextInputTextChangedListener.new(self)
@@ -39,5 +39,3 @@ module UI
     end
   end
 end
-
-

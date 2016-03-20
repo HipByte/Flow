@@ -17,8 +17,8 @@ module UI
       !hidden?
     end
 
-    def container
-      @container ||= begin
+    def proxy
+      @proxy ||= begin
         pbar = Android::Widget::ProgressBar.new(UI.context)
         pbar.setIndeterminate(true)
         pbar
@@ -26,4 +26,3 @@ module UI
     end
   end
 end
-

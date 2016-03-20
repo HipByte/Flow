@@ -1,15 +1,15 @@
 module UI
   class Web < View
     def load_html(str)
-      container.loadHTMLString str, baseURL: NSBundle.mainBundle.bundleURL
+      proxy.loadHTMLString str, baseURL: NSBundle.mainBundle.bundleURL
     end
 
     def webView(webView, shouldStartLoadWithRequest:request, navigationType:navType)
       true
     end
 
-    def container
-      @container ||= begin
+    def proxy
+      @proxy ||= begin
         view = UIWebView.new
         view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = self
@@ -18,4 +18,3 @@ module UI
     end
   end
 end
-

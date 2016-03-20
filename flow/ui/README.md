@@ -78,7 +78,7 @@ view.hidden = true
 ## Accessing the platform component
 
 ```ruby
-view.container
+view.proxy
 ```
 
 # <a name="label"></a>Label

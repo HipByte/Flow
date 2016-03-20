@@ -4,9 +4,9 @@ module UI
 
     def initialize
       # TODO : register listeners only if needed
-      container.addTarget(self, action: :on_change, forControlEvents: UIControlEventEditingChanged)
-      container.addTarget(self, action: :on_focus, forControlEvents: UIControlEventEditingDidBegin)
-      container.addTarget(self, action: :on_blur, forControlEvents: UIControlEventEditingDidEnd)
+      proxy.addTarget(self, action: :on_change, forControlEvents: UIControlEventEditingChanged)
+      proxy.addTarget(self, action: :on_focus, forControlEvents: UIControlEventEditingDidBegin)
+      proxy.addTarget(self, action: :on_blur, forControlEvents: UIControlEventEditingDidEnd)
     end
 
     def on_focus
@@ -22,60 +22,60 @@ module UI
     end
 
     def text_alignment
-      UI::TEXT_ALIGNMENT.key(container.textAlignment)
+      UI::TEXT_ALIGNMENT.key(proxy.textAlignment)
     end
 
     def text_alignment=(text_alignment)
-      container.textAlignment = UI::TEXT_ALIGNMENT.fetch(text_alignment.to_sym) do
+      proxy.textAlignment = UI::TEXT_ALIGNMENT.fetch(text_alignment.to_sym) do
         raise "Incorrect value, expected one of: #{UI::TEXT_ALIGNMENT.keys.join(',')}"
       end
     end
 
     def color
-      UI::Color(container.textColor)
+      UI::Color(proxy.textColor)
     end
 
     def color=(color)
-      container.textColor = UI::Color(color).container
+      proxy.textColor = UI::Color(color).proxy
     end
 
     def secure
-      container.secureTextEntry
+      proxy.secureTextEntry
     end
 
     def secure=(is_secure)
-      container.secureTextEntry = is_secure
+      proxy.secureTextEntry = is_secure
     end
 
     def text=(text)
-      if container.text != text
-        container.text = text
+      if proxy.text != text
+        proxy.text = text
         on_change
       end
     end
 
     def text
-      container.text
+      proxy.text
     end
 
     def placeholder=(text)
-      container.placeholder = text
+      proxy.placeholder = text
     end
 
     def placeholder
-      container.placeholder
+      proxy.placeholder
     end
 
     def font
-      UI::Font._wrap(container.font)
+      UI::Font._wrap(proxy.font)
     end
 
     def font=(font)
-      container.font = UI::Font(font).container
+      proxy.font = UI::Font(font).proxy
     end
 
-    def container
-      @container ||= begin
+    def proxy
+      @proxy ||= begin
         ui_text_field = UITextField.alloc.init
         ui_text_field.translatesAutoresizingMaskIntoConstraints = false
         ui_text_field

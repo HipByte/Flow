@@ -17,8 +17,8 @@ module UI
     def loadView
       @screen.view.width = UIScreen.mainScreen.bounds.size.width
       @screen.view.height = UIScreen.mainScreen.bounds.size.height
-      @screen.view.container.translatesAutoresizingMaskIntoConstraints = true
-      self.view = @screen.view.container
+      @screen.view.proxy.translatesAutoresizingMaskIntoConstraints = true
+      self.view = @screen.view.proxy
     end
 
     def viewDidAppear(animated)
@@ -76,7 +76,7 @@ module UI
 
     def before_on_load
       view.background_color = (self.class.__background_color__ or :white)
-      container.title = self.class.__title__
+      proxy.title = self.class.__title__
 
       on_load
     end
@@ -89,8 +89,8 @@ module UI
       @view ||= UI::View.new
     end
 
-    def container
-      @container ||= Controller.alloc.initWithScreen(self)
+    def proxy
+      @proxy ||= Controller.alloc.initWithScreen(self)
     end
   end
 end

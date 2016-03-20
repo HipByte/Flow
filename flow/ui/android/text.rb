@@ -1,7 +1,7 @@
 module UI
   module Text
     def text_alignment
-      case (container.gravity & Android::View::Gravity::HORIZONTAL_GRAVITY_MASK)
+      case (proxy.gravity & Android::View::Gravity::HORIZONTAL_GRAVITY_MASK)
         when Android::View::Gravity::LEFT
           :left
         when Android::View::Gravity::RIGHT
@@ -23,33 +23,33 @@ module UI
         else
           raise "Incorrect value, should be :left, :center or :right"
       end
-      container.gravity = val
+      proxy.gravity = val
     end
 
     def color
-      UI::Color(container.textColor)
+      UI::Color(proxy.textColor)
     end
 
     def color=(color)
-      container.textColor = UI::Color(color).container
+      proxy.textColor = UI::Color(color).proxy
     end
 
     def text=(text)
-      container.text = text
+      proxy.text = text
     end
 
     def text
-      container.text.toString
+      proxy.text.toString
     end
 
     def font
-      UI::Font._wrap(container.typeface, container.textSize)
+      UI::Font._wrap(proxy.typeface, proxy.textSize)
     end
 
     def font=(font)
       font = UI::Font(font)
-      container.setTypeface(font.container)
-      container.setTextSize(font.size)
+      proxy.setTypeface(font.proxy)
+      proxy.setTextSize(font.size)
     end
   end
 end

@@ -11,38 +11,38 @@ end
 module UI
   class View < CSSNode
     def background_color
-      view = container.getBackground
+      view = proxy.getBackground
       view.is_a?(Android::Graphics::Drawable::ColorDrawable) ? UI::Color(view.getColor) : nil
     end
 
     def background_color=(background_color)
-      container.backgroundColor = UI::Color(background_color).container
+      proxy.backgroundColor = UI::Color(background_color).proxy
     end
 
     def hidden?
-      container.visibility != Android::View::View::VISIBLE
+      proxy.visibility != Android::View::View::VISIBLE
     end
 
     def hidden=(value)
-      container.visibility = value ? Android::View::View::INVISIBLE : Android::View::View::VISIBLE
+      proxy.visibility = value ? Android::View::View::INVISIBLE : Android::View::View::VISIBLE
     end
 
     def alpha
-      container.alpha
+      proxy.alpha
     end
 
     def alpha=(value)
-      container.alpha = value
+      proxy.alpha = value
     end
 
     def add_child(child)
       super
-      container.addView(child.container)
+      proxy.addView(child.proxy)
     end
 
     def delete_child(child)
       if super
-        container.removeView(child.container)
+        proxy.removeView(child.proxy)
       end
     end
 
@@ -52,7 +52,7 @@ module UI
     end
 
     def _apply_layout
-      if params = container.layoutParams
+      if params = proxy.layoutParams
         left, top, width, height = layout
         if params.is_a?(Android::View::ViewGroup::MarginLayoutParams)
           params.leftMargin = left
@@ -60,7 +60,7 @@ module UI
         end
         params.width = width
         params.height = height
-        container.layoutParams = params
+        proxy.layoutParams = params
       end
       children.each { |x| x._apply_layout }
     end
@@ -69,18 +69,18 @@ module UI
       if value
         unless @layout_listener
           @layout_listener = FlowViewLayoutChangeListener.new(self)
-          container.addOnLayoutChangeListener(@layout_listener)
+          proxy.addOnLayoutChangeListener(@layout_listener)
         end
       else
         if @layout_listener
-          container.removeOnLayoutChangeListener(@layout_listener)
+          proxy.removeOnLayoutChangeListener(@layout_listener)
           @layout_listener = nil
         end
       end
     end
 
-    def container
-      @container ||= Android::Widget::FrameLayout.new(UI.context)
+    def proxy
+      @proxy ||= Android::Widget::FrameLayout.new(UI.context)
     end
   end
 end

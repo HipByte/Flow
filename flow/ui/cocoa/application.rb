@@ -2,17 +2,17 @@ module UI
   class Application
     def initialize(navigation, context)
       @navigation = navigation
-      context.window = container
+      context.window = proxy
     end
 
     def start
-      container.rootViewController = @navigation.container
-      container.makeKeyAndVisible
+      proxy.rootViewController = @navigation.proxy
+      proxy.makeKeyAndVisible
       true
     end
 
-    def container
-      @container ||= UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    def proxy
+      @proxy ||= UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
     end
   end
 end

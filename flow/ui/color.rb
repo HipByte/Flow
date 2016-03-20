@@ -26,9 +26,9 @@ module UI
   end
 
   class Color
-    attr_reader :container
-    def initialize(container)
-      @container = container
+    attr_reader :proxy
+    def initialize(proxy)
+      @proxy = proxy
     end
 
     def self.symbol(symbol)
