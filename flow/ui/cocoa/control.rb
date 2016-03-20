@@ -24,7 +24,7 @@ module UI
     end
 
     def focus?
-      proxy.isFirstResponder
+      proxy.firstResponder?
     end
   end
 end

@@ -67,14 +67,14 @@ module UI
 
     def proxy
       @proxy ||= begin
-        list = Android::Widget::ListView.new(UI.context)
-        list.adapter = FlowUIListViewAdapter.new(self)
-        list.onItemClickListener = FlowUIListItemClickListener.new(self)
-        list.divider = nil
-        list.dividerHeight = 0
-        list.itemsCanFocus = true
-        list.descendantFocusability = Android::View::ViewGroup::FOCUS_AFTER_DESCENDANTS
-        list
+        list_view = Android::Widget::ListView.new(UI.context)
+        list_view.adapter = FlowUIListViewAdapter.new(self)
+        list_view.onItemClickListener = FlowUIListItemClickListener.new(self)
+        list_view.divider = nil
+        list_view.dividerHeight = 0
+        list_view.itemsCanFocus = true
+        list_view.descendantFocusability = Android::View::ViewGroup::FOCUS_AFTER_DESCENDANTS
+        list_view
       end
     end
   end

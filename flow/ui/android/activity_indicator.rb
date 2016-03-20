@@ -19,9 +19,9 @@ module UI
 
     def proxy
       @proxy ||= begin
-        pbar = Android::Widget::ProgressBar.new(UI.context)
-        pbar.setIndeterminate(true)
-        pbar
+        progress_bar = Android::Widget::ProgressBar.new(UI.context)
+        progress_bar.setIndeterminate(true)
+        progress_bar
       end
     end
   end

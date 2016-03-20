@@ -42,7 +42,7 @@ module UI
     end
 
     def image=(image)
-      _change_type :image
+      _change_type(:image)
       stream = UI.context.getAssets.open(image)
       drawable = Android::Graphics::Drawable::Drawable.createFromStream(stream, nil)
       proxy.imageDrawable = drawable

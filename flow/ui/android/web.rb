@@ -6,9 +6,9 @@ module UI
 
     def proxy
       @proxy ||= begin
-        view = Android::Webkit::WebView.new(UI.context)
-        view.settings.javaScriptEnabled = true
-        view
+        web_view = Android::Webkit::WebView.new(UI.context)
+        web_view.settings.javaScriptEnabled = true
+        web_view
       end
     end
   end

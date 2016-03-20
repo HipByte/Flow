@@ -61,7 +61,7 @@ class UI::Navigation
   end
 
   def bar_color=(color)
-    UI.context.supportActionBar.backgroundDrawable = Android::Graphics::Drawable::ColorDrawable.new(UI::Color(color).proxy) 
+    UI.context.supportActionBar.backgroundDrawable = Android::Graphics::Drawable::ColorDrawable.new() 
   end
 
   def push(screen, animated=true)

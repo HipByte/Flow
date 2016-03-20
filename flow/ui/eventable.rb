@@ -15,10 +15,10 @@ module UI
       return unless registered_event = __events__.fetch(event, nil)
 
       case registered_event
-      when String, Symbol
-        self.send(registered_event, *args)
-      else
-        registered_event.call(*args)
+        when String, Symbol
+          self.send(registered_event, *args)
+        else
+          registered_event.call(*args)
       end
     end
 

@@ -39,12 +39,12 @@ module UI
       hex_color.gsub!("#", "")
 
       colors =  case hex_color.size
-                when 3
-                  hex_color.scan(%r{[0-9A-Fa-f]}).map!{ |el| (el * 2).to_i(16) }
-                when 6, 8
-                  hex_color.scan(%r<[0-9A-Fa-f]{2}>).map!{ |el| el.to_i(16) }
-                else
-                  raise ArgumentError
+                  when 3
+                    hex_color.scan(%r{[0-9A-Fa-f]}).map!{ |el| (el * 2).to_i(16) }
+                  when 6, 8
+                    hex_color.scan(%r<[0-9A-Fa-f]{2}>).map!{ |el| el.to_i(16) }
+                  else
+                    raise ArgumentError
                 end
 
       if colors.size == 3

@@ -9,7 +9,7 @@ module UI
     end
 
     def animating?
-      proxy.isAnimating
+      proxy.animating?
     end
 
     def proxy

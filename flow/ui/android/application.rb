@@ -16,9 +16,9 @@ class UI::Application
 
   def proxy
     @proxy ||= begin
-      proxy = Android::Widget::FrameLayout.new(UI.context)
-      proxy.id = Android::View::View.generateViewId
-      proxy
+      frame_layout = Android::Widget::FrameLayout.new(UI.context)
+      frame_layout.id = Android::View::View.generateViewId
+      frame_layout
     end
   end
 end

@@ -1,4 +1,4 @@
-class FlowViewLayoutChangeListener
+class FlowUIViewLayoutChangeListener
   def initialize(view)
     @view = view
   end
@@ -62,13 +62,13 @@ module UI
         params.height = height
         proxy.layoutParams = params
       end
-      children.each { |x| x._apply_layout }
+      children.each { |child| child._apply_layout }
     end
 
     def _autolayout_when_resized=(value)
       if value
         unless @layout_listener
-          @layout_listener = FlowViewLayoutChangeListener.new(self)
+          @layout_listener = FlowUIViewLayoutChangeListener.new(self)
           proxy.addOnLayoutChangeListener(@layout_listener)
         end
       else

@@ -9,12 +9,12 @@ module UI
     end
 
     def measure(width, height)
-      dim = [width, height]
+      dimension = [width, height]
       unless width.nan?
         layout = Android::Text::StaticLayout.new(proxy.text, proxy.getPaint, width, Android::Text::Layout::Alignment::ALIGN_NORMAL, 1, 0, true)
-        dim[1] = layout.getHeight
+        dimension[1] = layout.getHeight
       end
-      dim
+      dimension
     end
 
     def proxy

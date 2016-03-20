@@ -8,14 +8,14 @@ module UI
       if obj.is_a?(UIFont)
         @proxy = obj
       else
-        desc = UIFontDescriptor.fontDescriptorWithFontAttributes UIFontDescriptorNameAttribute => obj
+        desc = UIFontDescriptor.fontDescriptorWithFontAttributes(UIFontDescriptorNameAttribute => obj)
         case trait
           when :bold
-            desc = desc.fontDescriptorWithSymbolicTraits UIFontDescriptorTraitBold
+            desc = desc.fontDescriptorWithSymbolicTraits(UIFontDescriptorTraitBold)
           when :italic
-            desc = desc.fontDescriptorWithSymbolicTraits UIFontDescriptorTraitItalic
+            desc = desc.fontDescriptorWithSymbolicTraits(UIFontDescriptorTraitItalic)
           when :bold_italic
-            desc = desc.fontDescriptorWithSymbolicTraits UIFontDescriptorTraitBold | UIFontDescriptorTraitItalic
+            desc = desc.fontDescriptorWithSymbolicTraits(UIFontDescriptorTraitBold | UIFontDescriptorTraitItalic)
         end
         @proxy = UIFont.fontWithDescriptor(desc, size:size)
       end

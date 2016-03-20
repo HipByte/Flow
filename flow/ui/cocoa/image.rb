@@ -11,7 +11,6 @@ module UI
       end
     end
 
-
     RESIZE_MODES = {
       cover: UIViewContentModeScaleToFill,
       contain: UIViewContentModeScaleAspectFit,

@@ -31,10 +31,10 @@ module UI
 
     def proxy
       @proxy ||= begin
-        view = Android::Widget::EditText.new(UI.context)
-        view.setPadding(0, 0, 0, 0)
-        view.addTextChangedListener FlowUITextInputTextChangedListener.new(self)
-        view
+        edit_text = Android::Widget::EditText.new(UI.context)
+        edit_text.setPadding(0, 0, 0, 0)
+        edit_text.addTextChangedListener FlowUITextInputTextChangedListener.new(self)
+        edit_text
       end
     end
   end
