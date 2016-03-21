@@ -13,7 +13,7 @@
 
 ## Constructor
 
-This method is designed to be the super class of all the elements, you shouldn't instanciate it.
+This method is designed to be the super class of all the elements, you shouldn't instantiate it.
 
 ## Managing layout
 
