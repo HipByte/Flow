@@ -14,13 +14,13 @@ Each library implements the following requirements:
 * Covered by tests
 * Documented
 
-**WARNING**: Flow is currently a work in progress. Some specs might be broken and APIs might change (especially Net and UI). If you want to help please get in touch.
+**WARNING**: Flow is currently a work in progress. Some specs might be broken, APIs might change, and documentation might be missing. We are working toward a stable release. If you want to help please get in touch.
 
 ## Libraries
 
 Flow is currently composed of the following libraries:
 
-* [**UI**](https://github.com/Hipbyte/Flow/tree/master/flow/ui) - Cross platform UI Framework
+* [**UI**](https://github.com/Hipbyte/Flow/tree/master/flow/ui) - User interface framework
 * [**Net**](https://github.com/Hipbyte/Flow/tree/master/flow/net) - HTTP networking and host reachability
 * [**JSON**](https://github.com/Hipbyte/Flow/tree/master/flow/json) - JSON serialization
 * [**Digest**](https://github.com/Hipbyte/Flow/tree/master/flow/digest) - Digest cryptography
@@ -57,7 +57,7 @@ Flow can be added as a dependency of an existing iOS, Android or OS X RubyMotion
 
 ## License
 
-Copyright (c) 2015, HipByte (info@hipbyte.com) and contributors. All rights reserved.
+Copyright (c) 2015-2016, HipByte (info@hipbyte.com) and contributors. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
