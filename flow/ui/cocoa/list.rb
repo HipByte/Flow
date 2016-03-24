@@ -54,7 +54,7 @@ module UI
     end
 
     def tableView(table_view, heightForRowAtIndexPath: index_path)
-      @cached_rows_height[index_path.row] or 0
+      @cached_rows_height[index_path.row] or UITableViewAutomaticDimension
     end
 
     def tableView(table_view, shouldHighlightRowAtIndexPath: index_path)
