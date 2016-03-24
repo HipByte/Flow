@@ -21,7 +21,9 @@ module UI
     end
 
     def bar_color=(color)
-      proxy.navigationBar.barTintColor = UI::Color(color).proxy
+      bar = proxy.navigationBar
+      bar.barTintColor = UI::Color(color).proxy
+      bar.translucent = false
     end
 
     def proxy
