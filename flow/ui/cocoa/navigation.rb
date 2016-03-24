@@ -26,10 +26,6 @@ module UI
       bar.translucent = false
     end
 
-    def proxy
-      @proxy ||= UINavigationController.alloc.initWithRootViewController(@root_screen.proxy)
-    end
-
     def push(screen, animated=true)
       @current_screens << screen
       screen.navigation = self
@@ -37,9 +33,17 @@ module UI
     end
 
     def pop(animated=true)
-      screen = @current_screens.pop
-      proxy.popViewControllerAnimated(animated)
-      screen
+      if @current_screens.size > 1
+        screen = @current_screens.pop
+        proxy.popViewControllerAnimated(animated)
+        screen
+      else
+        nil
+      end
+    end
+
+    def proxy
+      @proxy ||= UINavigationController.alloc.initWithRootViewController(@root_screen.proxy)
     end
   end
 end

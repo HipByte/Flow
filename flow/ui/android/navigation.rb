@@ -80,10 +80,14 @@ class UI::Navigation
   end
 
   def pop(animated=true)
-    screen = @current_screens.pop
-    # TODO implement immediate pop without poping animation
-    proxy.popBackStack
-    screen
+    if @current_screens.size > 1
+      screen = @current_screens.pop
+      # TODO implement immediate pop without poping animation
+      proxy.popBackStack
+      screen
+    else
+      nil
+    end
   end
 
   def proxy
