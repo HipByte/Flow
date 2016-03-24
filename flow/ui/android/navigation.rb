@@ -66,16 +66,17 @@ class UI::Navigation
 
   def push(screen, animated=true)
     screen.navigation = self
-    @current_screens << screen
     fragment = screen.proxy
     transaction = proxy.beginTransaction
     if animated
       transaction.transition = Android::App::FragmentTransaction::TRANSIT_FRAGMENT_OPEN
     end
+    transaction.hide(@current_screens.last.proxy)
     content_view = UI.context.findViewById(Android::R::Id::Content)
     transaction.add(content_view.id, fragment, "screen-#{fragment.object_id}")
     transaction.addToBackStack("screen-#{fragment.object_id}")
     transaction.commit
+    @current_screens << screen
   end
 
   def pop(animated=true)
