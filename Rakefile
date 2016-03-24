@@ -51,7 +51,7 @@ task 'build' do
     end
     if extension[:android]
       # Android
-      cc = File.join(ANDROID_NDK_PATH, 'toolchains/llvm-3.5/prebuilt/darwin-x86_64/bin/clang++')
+      cc = File.join(ANDROID_NDK_PATH, 'toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++')
       toolchain_bin = "#{ANDROID_NDK_PATH}/toolchains/x86-4.9/prebuilt/darwin-x86_64/i686-linux-android/bin"
       ar = toolchain_bin + "/ar"
       ranlib = toolchain_bin + "/ranlib"
