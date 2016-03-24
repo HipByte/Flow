@@ -227,4 +227,17 @@ else
       invoke_rake 'osx', 'clean'
     end
   end
+  desc "Start a combined iOS/Android REPL"
+  task "super_repl" do
+    require "readline"
+
+    ios_io = IO.popen('/usr/bin/rake ios:simulator skip_build=1', 'w')
+    android_io = IO.popen('/usr/bin/rake android:emulator:start skip_build=1', 'w')
+
+    while expr = Readline.readline("> ", true)
+      ios_io.puts expr
+      android_io.puts expr
+      sleep 0.2
+    end
+  end
 end
