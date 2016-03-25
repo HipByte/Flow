@@ -52,7 +52,7 @@ class UI::Navigation
     transaction.hide(current_fragment)
     transaction.add(UI.context.findViewById(Android::R::Id::Content).id, fragment, nil)
     transaction.addToBackStack(nil)
-    transaction.commit
+    transaction.commitAllowingStateLoss
 
     @current_screens << screen
   end
