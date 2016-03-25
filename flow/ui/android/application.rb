@@ -9,8 +9,8 @@ class UI::Application
   def start
     fragment = @navigation.root_screen.proxy
     transaction = UI.context.fragmentManager.beginTransaction
-    transaction.add(proxy.id, fragment, "screen-#{fragment.hashCode}")
-    transaction.addToBackStack("screen-#{fragment.hashCode}")
+    transaction.add(proxy.id, fragment, nil)
+    transaction.addToBackStack(nil)
     transaction.commit
   end
 

@@ -73,8 +73,8 @@ class UI::Navigation
     end
     transaction.hide(@current_screens.last.proxy)
     content_view = UI.context.findViewById(Android::R::Id::Content)
-    transaction.add(content_view.id, fragment, "screen-#{fragment.object_id}")
-    transaction.addToBackStack("screen-#{fragment.object_id}")
+    transaction.add(content_view.id, fragment, nil)
+    transaction.addToBackStack(nil)
     transaction.commit
     @current_screens << screen
   end
