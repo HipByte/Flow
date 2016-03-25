@@ -4,7 +4,9 @@ class FlowUIViewLayoutChangeListener
   end
 
   def onLayoutChange(view, left, top, right, bottom, old_left, old_top, old_right, old_bottom)
-    @view.update_layout
+    if (right - left) != (old_right - old_left) or (top - bottom) != (old_top - old_bottom)
+      @view.update_layout
+    end
   end
 end
 
