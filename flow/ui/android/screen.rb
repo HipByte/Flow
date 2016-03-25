@@ -15,6 +15,32 @@ class FlowUIFragment < Android::App::Fragment
     @screen.before_on_show
     @screen.on_show
   end
+
+  attr_accessor :_animate
+
+  def onCreateAnimator(transit, enter, next_anim)
+    if _animate
+      animator = Android::Animation::ObjectAnimator.new
+      animator.target = self
+      animator.duration = 500
+      case _animate
+        when :fade
+          animator.propertyName = "alpha"
+          animator.setFloatValues(enter ? [0, 1] : [1, 0])
+        when :slide
+          display = UI.context.windowManager.defaultDisplay
+          size = Android::Graphics::Point.new
+          display.getSize(size)
+          animator.propertyName = "translationX"
+          animator.setFloatValues(enter ? [size.x, 0] : [0, size.x])
+        else 
+          raise "incorrect _animate value `#{_animate}'"
+      end
+      animator
+    else
+      nil
+    end
+  end
 end
 
 module UI

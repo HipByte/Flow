@@ -41,26 +41,33 @@ class UI::Navigation
 
   def push(screen, animated=true)
     screen.navigation = self
+
     fragment = screen.proxy
+    fragment._animate = animated ? :slide : false
+
+    current_fragment = @current_screens.last.proxy
+    current_fragment._animate = animated ? :fade : false
+
     transaction = proxy.beginTransaction
-    if animated
-      transaction.transition = Android::App::FragmentTransaction::TRANSIT_FRAGMENT_OPEN
-    end
-    transaction.hide(@current_screens.last.proxy)
-    content_view = UI.context.findViewById(Android::R::Id::Content)
-    transaction.add(content_view.id, fragment, nil)
+    transaction.hide(current_fragment)
+    transaction.add(UI.context.findViewById(Android::R::Id::Content).id, fragment, nil)
     transaction.addToBackStack(nil)
     transaction.commit
+
     @current_screens << screen
   end
 
   def pop(animated=true)
     if @current_screens.size > 1
       current_screen = @current_screens.pop
-      next_screen = @current_screens.last
-      next_screen.before_on_show
-      proxy.popBackStack # TODO implement immediate pop without poping animation
-      next_screen.on_show
+      current_screen.proxy._animate = animated ? :slide : false
+      previous_screen = @current_screens.last
+      previous_screen.proxy._animate = animated ? :fade : false
+
+      previous_screen.before_on_show
+      proxy.popBackStack
+      previous_screen.on_show
+
       current_screen
     else
       nil
