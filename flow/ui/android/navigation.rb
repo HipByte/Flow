@@ -1,34 +1,9 @@
-class FlowUIFragmentBackStackListener
-  # Android doesn't call onResume when doing popBackStack
-  # so we listhen to this event to call it ourselves
-  def onBackStackChanged
-    @previous_stack_entry_count ||= 0
-    fragment_manager = UI.context.fragmentManager
-    fragments_count = fragment_manager.backStackEntryCount
-
-    # This is used to prevent to call onResume two times when pushing
-    if @previous_stack_entry_count < fragment_manager.backStackEntryCount
-      @previous_stack_entry_count = fragment_manager.backStackEntryCount
-      return
-    end
-
-    if fragments_count > 0
-      back_stack_entry = fragment_manager.getBackStackEntryAt(fragments_count - 1)
-      fragment_tag = back_stack_entry.getName
-      fragment = fragment_manager.findFragmentByTag(fragment_tag)
-      fragment.onResume
-      @previous_stack_entry_count = fragment_manager.backStackEntryCount
-    end
-  end
-end
-
 class UI::Navigation
   attr_reader :root_screen
 
   def initialize(root_screen)
     @root_screen = root_screen
     @root_screen.navigation = self
-    proxy.addOnBackStackChangedListener(FlowUIFragmentBackStackListener.new)
     @current_screens = [@root_screen]
   end
 
@@ -81,10 +56,12 @@ class UI::Navigation
 
   def pop(animated=true)
     if @current_screens.size > 1
-      screen = @current_screens.pop
-      # TODO implement immediate pop without poping animation
-      proxy.popBackStack
-      screen
+      current_screen = @current_screens.pop
+      next_screen = @current_screens.last
+      next_screen.before_on_show
+      proxy.popBackStack # TODO implement immediate pop without poping animation
+      next_screen.on_show
+      current_screen
     else
       nil
     end
