@@ -39,6 +39,15 @@ class UI::Navigation
     UI.context.supportActionBar.backgroundDrawable = Android::Graphics::Drawable::ColorDrawable.new(UI::Color(color).proxy)
   end
 
+  def items=(items)
+    fragment = @current_screens.last.proxy
+
+    has_menu = false
+    has_menu |= (fragment._options_menu_items = items[:options_menu_items])
+    has_menu |= (UI.context.supportActionBar.displayHomeAsUpEnabled = (items[:home_button_enabled] or false))
+    fragment.hasOptionsMenu = has_menu
+  end
+
   def push(screen, animated=true)
     screen.navigation = self
 

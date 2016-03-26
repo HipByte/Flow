@@ -41,6 +41,28 @@ class FlowUIFragment < Android::App::Fragment
       nil
     end
   end
+
+  attr_accessor :_options_menu_items
+
+  def onCreateOptionsMenu(menu, inflater)
+    menu.clear
+    if _options_menu_items
+      @options_menu_items_ids = {}
+      _options_menu_items.each_with_index do |opt, i|
+        menu.add(Android::View::Menu::NONE, i, Android::View::Menu::NONE, opt[:title])
+        @options_menu_items_ids[i] = opt[:action] 
+      end
+    end
+  end
+
+  def onOptionsItemSelected(menu_item)
+    id = menu_item.itemId
+    if id == Android::R::Id::Home
+      @screen.navigation.pop
+    elsif action = @options_menu_items_ids[id]
+      @screen.send(action)
+    end  
+  end
 end
 
 module UI
