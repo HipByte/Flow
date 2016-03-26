@@ -5,12 +5,13 @@ module UI
     attr_accessor :navigation
 
     def initWithScreen(screen)
-      @screen = screen
-      init
-      on(:view_did_load) { @screen.before_on_load}
-      on(:view_did_load) { @screen.before_on_load}
-      on(:view_will_appear) { @screen.before_on_show}
-      on(:view_did_appear) { @screen.on_show}
+      if init
+        @screen = screen
+        on(:view_did_load) { @screen.before_on_load}
+        on(:view_did_load) { @screen.before_on_load}
+        on(:view_will_appear) { @screen.before_on_show}
+        on(:view_did_appear) { @screen.on_show}
+      end
       self
     end
 
