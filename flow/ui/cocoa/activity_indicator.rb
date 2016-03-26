@@ -12,6 +12,10 @@ module UI
       proxy.animating?
     end
 
+    def color=(color)
+      proxy.color = UI::Color(color).proxy
+    end
+
     def proxy
       @proxy ||= begin
         view = UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(UIActivityIndicatorViewStyleWhiteLarge)

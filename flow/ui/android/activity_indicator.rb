@@ -17,6 +17,10 @@ module UI
       !hidden?
     end
 
+    def color=(color)
+      proxy.indeterminateDrawable.tint = UI::Color(color).proxy
+    end
+
     def proxy
       @proxy ||= begin
         progress_bar = Android::Widget::ProgressBar.new(UI.context)
