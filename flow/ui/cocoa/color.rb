@@ -19,7 +19,7 @@ module UI
           [red_ptr[0], green_ptr[0], blue_ptr[0], alpha_ptr[0]]
         else
           [0, 0, 0, 0]
-        end.map { |x| (x * 255).to_i }
+        end.map { |x| (x * 255.0).round}
       end
     end
 

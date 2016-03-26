@@ -9,11 +9,11 @@ describe UI::Color do
     end
 
     it "should convert a String without 6 digits" do
-      UI::Color("FF8A19").to_a.should == [255, 137, 24, 255]
+      UI::Color("FF8A19").to_a.should == [255, 138, 25, 255]
     end
 
     it "should convert a String without 8 digits (alpha component)" do
-      UI::Color("88FF8A19").to_a.should == [255, 137, 24, 135]
+      UI::Color("88FF8A19").to_a.should == [255, 138, 25, 136]
     end
 
     it "should convert a 3 values Array to rgba with default alpha = 255" do
