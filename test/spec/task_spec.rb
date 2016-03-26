@@ -1,8 +1,10 @@
+class ProxyTestClass
+  attr_accessor :proof
+end
+
 describe Task do
   before do
-    @proxy = Class.new do
-      attr_accessor :proof
-    end.new
+    @proxy = ProxyTestClass.new
   end
 
   describe '.after' do
@@ -11,7 +13,7 @@ describe Task do
       Task.after 0.5 do
         @proxy.proof = true
       end
-      wait_for_change @proxy, 'proof' do
+      wait 1 do
         @proxy.proof.should == true
       end
     end
@@ -57,7 +59,7 @@ describe Task do
         @proxy.proof = Task.main?
       end
 
-      wait_for_change @proxy, 'proof' do
+      wait 1 do
         @proxy.proof.should == true
       end
     end
@@ -85,7 +87,7 @@ describe Task do
         @proxy.proof = Task.main?
       end
 
-      wait_for_change @proxy, 'proof' do
+      wait 1 do
         @proxy.proof.should == false
       end
     end
