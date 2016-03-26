@@ -31,12 +31,18 @@ Flow is currently composed of the following libraries:
 
 ## Usage
 
-### Installing
+Currently, Flow is still under development. It will be released as a gem once we reach a stable version. In the meantime, it has to be used locally.
 
-Flow comes as a gem.
+Make sure to build the extensions before requiring it.
 
 ```
-$ sudo gem install motion-flow
+$ rake build
+```
+
+You can then build a `.gem` file that you can manually install.
+
+```
+$ rake gem
 ```
 
 ### Projects
