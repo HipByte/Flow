@@ -47,17 +47,9 @@ module UI
   class Screen
     attr_accessor :navigation
 
-    def self._background_color
-      @background_color or :white
-    end
-
-    def self.background_color(color)
-      @background_color = color
-    end
-
     def before_on_load
       CSSNode.set_scale(UI.density)
-      view.background_color = self.class._background_color
+      view.background_color = :white
       on_load
     end
     def on_load; end

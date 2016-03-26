@@ -40,44 +40,24 @@ module UI
     def viewWillTransitionToSize(size, withTransitionCoordinator:coordinator)
       super
 
-      did_rotate = lambda {|context|
+      did_rotate = lambda do |context|
         @screen.view.width = size.width
         @screen.view.height = size.height
         @screen.view.update_layout
-      }
+      end
       coordinator.animateAlongsideTransition(nil, completion:did_rotate)
     end
   end
 
   class Screen
-    attr_accessor :view
     attr_accessor :navigation
-    attr_accessor :left_button_title
-    attr_accessor :right_button_title
-    attr_accessor :on_left_button_pressed
-    attr_accessor :on_right_button_pressed
-
-    class << self
-      attr_accessor :__background_color__
-      attr_accessor :__title__
-
-      def title(title)
-        self.__title__ = title
-      end
-
-      def background_color(color)
-        self.__background_color__ = color
-      end
-    end
 
     def initialize
       @navigation = nil
     end
 
     def before_on_load
-      view.background_color = (self.class.__background_color__ or :white)
-      proxy.title = self.class.__title__
-
+      view.background_color = :white
       on_load
     end
     def on_load; end
