@@ -12,8 +12,8 @@ module Net
     def response
       Response.new({
         status_code: status_code,
-        status_message: nil, # FIXME
-        headers: [], # FIXME
+        status_message: status_message,
+        headers: headers,
         body: build_body
       })
     end
@@ -28,16 +28,31 @@ module Net
       @connection.getResponseCode
     end
 
+    def status_message
+      @connection.getResponseMessage
+    end
+
+    def headers
+      hash = Hash.new
+      hash.putAll(@connection.getHeaderFields)
+      hash.each do |k,v|
+        array = []
+        array.addAll(v)
+        hash[k] = array.join(',')
+      end
+      hash
+    end
+
     def json?
       mime_type.match /application\/json/
     end
 
     def build_body
-      if json?
+      string = @response.toString
+      if json? && !string.empty?
         return JSON.load(@response.toString)
       end
-
-      @response.toString
+      string
     end
   end
 end

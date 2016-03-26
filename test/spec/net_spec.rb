@@ -11,7 +11,7 @@ describe Net do
     it "tracks network reachability state" do
       Net.reachable?("www.google.com") do |reachable|
         @reachable = reachable
-        Concurrency::Queue.main.async { resume }
+        resume
       end
 
       wait do
@@ -42,7 +42,7 @@ describe Net do
       end
       session.get('/token_auth_protected') do |response|
         @response = response
-        Concurrency::Queue.main.async { resume }
+        resume
       end
 
       wait do
@@ -56,7 +56,7 @@ describe Net do
       end
       session.get('/basic_auth_protected') do |response|
         @response = response
-        Concurrency::Queue.main.async { resume }
+        resume
       end
 
       wait do
@@ -67,13 +67,13 @@ describe Net do
     it "has a correct TXT response" do
       Net.get("#{HTTP_SERVER}/txt?user=1") do |response|
         @response = response
-        Concurrency::Queue.main.async { resume }
+        resume
       end
 
       wait do
         @response.body.should.match /User: 1/
         @response.status.should == 200
-        @response.status_message.should == "no error"
+        @response.status_message.should == "OK"
       end
     end
   end
@@ -88,7 +88,7 @@ describe Net do
       }
       Net.post("#{HTTP_SERVER}?test=1", options) do |response|
         @response = response
-        Concurrency::Queue.main.async { resume }
+        resume
       end
 
       wait do
@@ -96,7 +96,7 @@ describe Net do
         @response.body['json']['user'].should == 1
         @response.status.should == 200
         @response.headers['X-Request-Method'].should == "POST"
-        @response.status_message.should == "no error"
+        @response.status_message.should == "OK"
       end
     end
 
@@ -106,7 +106,7 @@ describe Net do
       }
       Net.post("#{HTTP_SERVER}/form", options) do |response|
         @response = response
-        Concurrency::Queue.main.async { resume }
+        resume
       end
 
       wait do
@@ -125,7 +125,7 @@ describe Net do
       }
       Net.put("#{HTTP_SERVER}?test=1", options) do |response|
         @response = response
-        Concurrency::Queue.main.async { resume }
+        resume
       end
 
       wait do
@@ -133,7 +133,7 @@ describe Net do
         @response.body['json']['user'].should == 1
         @response.status.should == 200
         @response.headers['X-Request-Method'].should == "PUT"
-        @response.status_message.should == "no error"
+        @response.status_message.should == "OK"
       end
     end
   end
@@ -148,7 +148,7 @@ describe Net do
       }
       Net.patch("#{HTTP_SERVER}?test=1", options) do |response|
         @response = response
-        Concurrency::Queue.main.async { resume }
+        resume
       end
 
       wait do
@@ -156,7 +156,7 @@ describe Net do
         @response.body['json']['user'].should == 1
         @response.status.should == 200
         @response.headers['X-Request-Method'].should == "PATCH"
-        @response.status_message.should == "no error"
+        @response.status_message.should == "OK"
       end
     end
   end
@@ -171,7 +171,7 @@ describe Net do
       }
       Net.delete("#{HTTP_SERVER}?test=1", options) do |response|
         @response = response
-        Concurrency::Queue.main.async { resume }
+        resume
       end
 
       wait do
@@ -179,7 +179,7 @@ describe Net do
         @response.body['json']['user'].should == 1
         @response.status.should == 200
         @response.headers['X-Request-Method'].should == "DELETE"
-        @response.status_message.should == "no error"
+        @response.status_message.should == "OK"
       end
     end
   end
@@ -188,7 +188,7 @@ describe Net do
     it "has a correct response" do
       Net.head(HTTP_SERVER) do |response|
         @response = response
-        Concurrency::Queue.main.async { resume }
+        resume
       end
 
       wait do
@@ -201,7 +201,7 @@ describe Net do
     it "has a correct response" do
       Net.options(HTTP_SERVER) do |response|
         @response = response
-        Concurrency::Queue.main.async { resume }
+        resume
       end
 
       wait do

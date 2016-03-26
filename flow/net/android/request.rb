@@ -24,9 +24,10 @@ module Net
           url_connection.setRequestProperty(key, value)
         end
 
-        if configuration[:method] == :post && configuration[:body]
+        if [:post, :put, :patch, :delete].include?(configuration[:method]) && configuration[:body]
           stream = url_connection.getOutputStream
-          stream.write(Java::Lang::String.new(configuration[:body]).getBytes("UTF-8"))
+          body = json? ? configuration[:body].to_json : configuration[:body]
+          stream.write(Java::Lang::String.new(body).getBytes("UTF-8"))
         end
 
         input_reader = Java::Io::InputStreamReader.new(url_connection.getInputStream)
@@ -46,6 +47,10 @@ module Net
 
     private
 
+    def json?
+      configuration[:headers].fetch('Content-Type', nil) == "application/json"
+    end
+
     def url_connection
       @url_connection ||= build_url_connection
     end
@@ -53,7 +58,7 @@ module Net
     def build_url_connection
       connection = @url.openConnection
       connection.setRequestMethod(configuration[:method].to_s.upcase)
-      connection.setDoOutput(true) if configuration[:method] == :post
+      connection.setDoOutput(true) if [:post, :put, :patch, :delete].include?(configuration[:method])
       connection
     end
 

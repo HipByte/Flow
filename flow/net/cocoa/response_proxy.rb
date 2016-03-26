@@ -21,7 +21,9 @@ module Net
     private
 
     def status_message
-      NSHTTPURLResponse.localizedStringForStatusCode(status_code)
+      message = CFHTTPMessageCreateResponse(KCFAllocatorDefault,
+        @response.statusCode, nil, KCFHTTPVersion1_1)
+      CFHTTPMessageCopyResponseStatusLine(message)
     end
 
     def headers
