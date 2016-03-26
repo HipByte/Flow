@@ -8,12 +8,31 @@ module UI
       @current_screens = [@root_screen]
     end
 
+    def _height_of_navigation_bar
+      rect = proxy.navigationBar.frame
+      rect.origin.y + rect.size.height
+    end
+
     def show_bar
-      proxy.setNavigationBarHidden(false)
+      if proxy.isNavigationBarHidden
+        proxy.navigationBarHidden = false
+        screen = @current_screens.last
+        screen.view.height -= _height_of_navigation_bar
+        screen.view.update_layout
+      end
     end
 
     def hide_bar
-      proxy.setNavigationBarHidden(true)
+      if !proxy.isNavigationBarHidden
+        screen = @current_screens.last
+        screen.view.height += _height_of_navigation_bar
+        screen.view.update_layout
+        proxy.navigationBarHidden = true
+      end
+    end
+
+    def bar_hidden?
+      proxy.isNavigationBarHidden
     end
 
     def title=(title)
