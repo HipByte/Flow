@@ -22,7 +22,7 @@ class FlowUIFragment < Android::App::Fragment
     if _animate
       animator = Android::Animation::ObjectAnimator.new
       animator.target = self
-      animator.duration = 500
+      animator.duration = 300
       case _animate
         when :fade
           animator.propertyName = "alpha"
