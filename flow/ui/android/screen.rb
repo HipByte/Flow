@@ -42,15 +42,28 @@ class FlowUIFragment < Android::App::Fragment
     end
   end
 
-  attr_accessor :_options_menu_items
+  attr_accessor :_buttons, :_options_menu_items
 
   def onCreateOptionsMenu(menu, inflater)
     menu.clear
+    @menu_actions = {}
+    n = 0
+    if _buttons
+      _buttons.each do |opt|
+        item = menu.add(Android::View::Menu::NONE, n, Android::View::Menu::NONE, nil)
+        item.showAsAction = Android::View::MenuItem::SHOW_AS_ACTION_ALWAYS
+        drawable = UI::Image._drawable_from_source(opt[:image])
+        drawable.targetDensity = UI.context.resources.displayMetrics.densityDpi # XXX needed so that the image properly scales, to investigate why
+        item.icon = drawable
+        @menu_actions[n] = opt[:action]
+        n += 1
+      end
+    end
     if _options_menu_items
-      @options_menu_items_ids = {}
-      _options_menu_items.each_with_index do |opt, i|
-        menu.add(Android::View::Menu::NONE, i, Android::View::Menu::NONE, opt[:title])
-        @options_menu_items_ids[i] = opt[:action] 
+      _options_menu_items.each do |opt|
+        menu.add(Android::View::Menu::NONE, n, Android::View::Menu::NONE, opt[:title])
+        @menu_actions[n] = opt[:action]
+        n += 1
       end
     end
   end
@@ -59,7 +72,7 @@ class FlowUIFragment < Android::App::Fragment
     id = menu_item.itemId
     if id == Android::R::Id::Home
       @screen.navigation.pop
-    elsif action = @options_menu_items_ids[id]
+    elsif action = @menu_actions[id]
       @screen.send(action)
     end  
   end

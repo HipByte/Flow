@@ -50,7 +50,13 @@ module UI
       navigation_item = current_screen.proxy.navigationItem
       buttons = [:back_button, :left_button, :right_button].map do |key|
         if opt = items[key]
-          UIBarButtonItem.alloc.initWithTitle(opt[:title], style:UIBarButtonItemStylePlain, target:current_screen, action:opt[:action])
+          if title = opt[:title]
+            UIBarButtonItem.alloc.initWithTitle(title, style:UIBarButtonItemStylePlain, target:current_screen, action:opt[:action])
+          elsif image = opt[:image]
+            UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed(image), style:UIBarButtonItemStylePlain, target:current_screen, action:opt[:action])
+          else
+            nil
+          end
         else
           nil
         end

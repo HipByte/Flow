@@ -43,6 +43,7 @@ class UI::Navigation
     fragment = @current_screens.last.proxy
 
     has_menu = false
+    has_menu |= (fragment._buttons = items[:buttons])
     has_menu |= (fragment._options_menu_items = items[:options_menu_items])
     has_menu |= (UI.context.supportActionBar.displayHomeAsUpEnabled = (items[:home_button_enabled] or false))
     fragment.hasOptionsMenu = has_menu

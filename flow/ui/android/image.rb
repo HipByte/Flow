@@ -2,34 +2,34 @@ module UI
   class Image < UI::View
     attr_reader :source
 
-    def self._asset_files
+    def self._drawable_and_density_from_source(source)
+      candidates = [source]
+      if UI.density > 0
+        base = source.sub(/\.png$/, '')
+        (1...UI.density.to_i).each do |i|
+          candidates.unshift base + "@#{i + 1}x.png"
+        end
+      end
+
       @asset_files ||= UI.context.assets.list('')
+      image_density = candidates.index { |x| @asset_files.include?(x) }
+      raise "Couldn't find an asset file named `#{source}'" unless image_density
+
+      stream = UI.context.assets.open(candidates[image_density])
+      drawable = Android::Graphics::Drawable::Drawable.createFromStream(stream, nil)
+      [drawable, image_density + 1]
+    end
+
+    def self._drawable_from_source(source)
+      _drawable_and_density_from_source(source)[0]
     end
 
     def source=(source)
       if @source != source
-        candidates = [source]
-        if UI.density > 0
-          base = source.sub(/\.png$/, '')
-          (1...UI.density.to_i).each do |i|
-            candidates.unshift base + "@#{i + 1}x.png"
-          end
-        end
-        path = candidates.find { |x| self.class._asset_files.include?(x) }
-        raise "Couldn't find an asset file named `#{source}'" unless path
-
         @source = source
-        stream = UI.context.getAssets.open(path)
-        drawable = Android::Graphics::Drawable::Drawable.createFromStream(stream, nil)
+        drawable, image_density = self.class._drawable_and_density_from_source(source)
         proxy.imageDrawable = drawable
-
         if width.nan? and height.nan?
-          image_density =
-            if md = path.match(/(\d)x\.png$/)
-              md[1].to_i
-            else
-              1
-            end
           self.width = drawable.intrinsicWidth * (UI.density / image_density)
           self.height = drawable.intrinsicHeight * (UI.density / image_density)
         end
