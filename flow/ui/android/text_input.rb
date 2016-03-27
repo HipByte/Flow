@@ -33,6 +33,7 @@ module UI
       @proxy ||= begin
         edit_text = Android::Widget::EditText.new(UI.context)
         edit_text.setPadding(0, 0, 0, 0)
+        edit_text.backgroundColor = Android::Graphics::Color::TRANSPARENT
         edit_text.addTextChangedListener FlowUITextInputTextChangedListener.new(self)
         edit_text
       end
