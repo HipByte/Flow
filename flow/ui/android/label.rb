@@ -8,6 +8,11 @@ module UI
       self.text_alignment = :left
     end
 
+    def height=(val)
+      super
+      calculate_measure(false)
+    end
+
     def measure(width, height)
       dimension = [width, height]
       unless width.nan?
