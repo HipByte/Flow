@@ -81,20 +81,20 @@ module UI
 
     def update_layout
       super
-      _apply_layout([0, 0])
+      _apply_layout([0, 0], proxy.frame.origin)
     end
 
-    def _apply_layout(absolute_point)
+    def _apply_layout(absolute_point, origin_point)
       left, top, width, height = layout
 
       top_left = [absolute_point[0] + left, absolute_point[1] + top]
       bottom_right = [absolute_point[0] + left + width, absolute_point[1] + top + height]
-      proxy.frame = [[left, top], [bottom_right[0] - top_left[0], bottom_right[1] - top_left[1]]]
+      proxy.frame = [[left + origin_point[0], top + origin_point[1]], [bottom_right[0] - top_left[0], bottom_right[1] - top_left[1]]]
 
       absolute_point[0] += left
       absolute_point[1] += top
 
-      children.each { |x| x._apply_layout(absolute_point) }
+      children.each { |x| x._apply_layout(absolute_point, [0, 0]) }
     end
 
     def proxy
