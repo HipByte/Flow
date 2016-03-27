@@ -50,11 +50,16 @@ class FlowUIFragment < Android::App::Fragment
     n = 0
     if _buttons
       _buttons.each do |opt|
-        item = menu.add(Android::View::Menu::NONE, n, Android::View::Menu::NONE, nil)
-        item.showAsAction = Android::View::MenuItem::SHOW_AS_ACTION_ALWAYS
-        drawable = UI::Image._drawable_from_source(opt[:image])
-        drawable.targetDensity = UI.context.resources.displayMetrics.densityDpi # XXX needed so that the image properly scales, to investigate why
-        item.icon = drawable
+        title = opt[:title]
+        item = menu.add(Android::View::Menu::NONE, n, Android::View::Menu::NONE, title)
+        mode = Android::View::MenuItem::SHOW_AS_ACTION_ALWAYS
+        mode |= Android::View::MenuItem::SHOW_AS_ACTION_WITH_TEXT if title
+        item.showAsAction = mode
+        unless title
+          drawable = UI::Image._drawable_from_source(opt[:image])
+          drawable.targetDensity = UI.context.resources.displayMetrics.densityDpi # XXX needed so that the image properly scales, to investigate why
+          item.icon = drawable
+        end
         @menu_actions[n] = opt[:action]
         n += 1
       end
