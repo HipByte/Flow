@@ -57,8 +57,12 @@ module UI
       @cached_rows_height[index_path.row] or UITableViewAutomaticDimension
     end
 
+    def _row_at_index_path(index_path)
+      proxy.cellForRowAtIndexPath(index_path).content_view
+    end
+
     def tableView(table_view, shouldHighlightRowAtIndexPath: index_path)
-      view = proxy.cellForRowAtIndexPath(index_path).content_view
+      view = _row_at_index_path(index_path)
       view.respond_to?(:selectable?) ? view.selectable? : true
     end
 
@@ -77,6 +81,10 @@ module UI
 
     def render_row(&block)
       @render_row_block = block.weak!
+    end
+
+    def row_at_index(pos)
+      _row_at_index_path(NSIndexPath.indexPathForItem(pos, inSection:0))
     end
 
     def proxy

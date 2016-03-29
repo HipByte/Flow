@@ -18,15 +18,20 @@ class FlowUIListViewAdapter < Android::Widget::BaseAdapter
 
   def getView(pos, convert_view, parent_view)
     data = @list.data_source[pos]
-    @cached_rows[data] ||= begin
+    (@cached_rows[data] ||= begin
       view = @list.render_row_block.call(0, pos).new
       view.list = @list if view.respond_to?(:list=)
       view.width = parent_view.width / UI.density
       view.update(data) if view.respond_to?(:update)
       view.update_layout
       view._autolayout_when_resized = true
-      view.proxy
-    end
+      view
+    end).proxy
+  end
+
+  def row_at_index(pos)
+    # TODO this should be optimized
+    @cached_rows[@list.data_source[pos]]
   end
 end
 
@@ -63,6 +68,10 @@ module UI
 
     def render_row(&block)
       @render_row_block = block
+    end
+
+    def row_at_index(pos)
+      proxy.adapter.row_at_index(pos)
     end
 
     def proxy
