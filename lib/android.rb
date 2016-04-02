@@ -4,7 +4,7 @@ $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project/template/android'
 
 Motion::Project::App.setup do |app|
-  app.api_version = '21' unless Motion::Project::Config.starter?
+  app.api_version = '23' unless Motion::Project::Config.starter?
   app.build_dir = 'build/android'
   app.assets_dirs = ['resources']
   app.resources_dirs = []
