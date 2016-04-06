@@ -8,6 +8,10 @@ module UI
       @current_screens = [@root_screen]
     end
 
+    def screen
+      @current_screens.last
+    end
+
     def _height_of_navigation_bar
       rect = proxy.navigationBar.frame
       rect.origin.y + rect.size.height

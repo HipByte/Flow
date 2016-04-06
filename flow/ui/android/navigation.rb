@@ -7,6 +7,10 @@ class UI::Navigation
     @current_screens = [@root_screen]
   end
 
+  def screen
+    @current_screens.last
+  end
+
   def hide_bar
     bar = UI.context.supportActionBar
     if bar.isShowing
