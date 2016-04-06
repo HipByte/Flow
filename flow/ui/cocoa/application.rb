@@ -1,8 +1,16 @@
 module UI
   class Application
+    attr_reader :navigation
+
+    @@instance = nil
     def initialize(navigation, context)
       @navigation = navigation
       context.window = proxy
+      @@instance = self
+    end
+
+    def self.instance
+      @@instance
     end
 
     def start

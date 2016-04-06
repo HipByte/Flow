@@ -1,9 +1,17 @@
 class UI::Application
+  attr_reader :navigation
+
+  @@instance = nil
   def initialize(navigation, context)
     UI.context = context
     @navigation = navigation
     UI.context.contentView = proxy
     UI.context.supportActionBar.elevation = UI.density # one bottom border line
+    @@instance = self
+  end
+
+  def self.instance
+    @@instance
   end
 
   def start
