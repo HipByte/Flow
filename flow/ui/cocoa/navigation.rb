@@ -64,6 +64,9 @@ module UI
       navigation_item.backBarButtonItem = buttons[0]
       navigation_item.leftBarButtonItem = buttons[1]
       navigation_item.rightBarButtonItem = buttons[2]
+      if items[:hide_back_button]
+        navigation_item.hidesBackButton = true
+      end
     end
 
     def push(screen, animated=true)
