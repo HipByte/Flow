@@ -98,6 +98,6 @@ task 'clean' do
 end
 
 desc 'Create motion-flow.gem file'
-task 'gem' do
+task 'gem' => [:build] do
   sh "gem build motion-flow.gemspec"
 end
