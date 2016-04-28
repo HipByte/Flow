@@ -4,7 +4,7 @@ class Post
   end
 
   def title
-    @post.fetch('title', nil)
+    @post.fetch('title', "No title")
   end
 
   def thumbnail

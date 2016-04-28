@@ -5,9 +5,20 @@ module UI
     def source=(source)
       if @source != source
         @source = source
-        proxy.image = UIImage.imageNamed(source)
-        self.width = proxy.image.size.width
-        self.height = proxy.image.size.height
+
+        case source
+          when String
+            proxy.image = UIImage.imageNamed(source)
+          when NSData
+            proxy.image = UIImage.imageWithData(source)
+          else
+            raise "Expected `String` or `NSdata` object, got `#{source.class}`"
+          end
+
+        if width.nan? and height.nan?
+          self.width = proxy.image.size.width
+          self.height = proxy.image.size.height
+        end
       end
     end
 
