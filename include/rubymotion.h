@@ -131,12 +131,30 @@ const char *rb_sym2name(VALUE sym);
 
 #include <jni.h>
 
+#define VM_FIXNUM_ENABLED	0
+#define VM_FIXNUM_MASK	((unsigned long)0xdead0000)
+#define VM_FIXNUM_MAX	0xffff
+
+#if VM_FIXNUM_ENABLED
+#  define VM_FIXNUM_P(val) \
+    ({ \
+	VALUE _val = (VALUE)val; \
+	((_val & VM_FIXNUM_MASK) == VM_FIXNUM_MASK) && (_val ^ VM_FIXNUM_MASK) >= 0 && (_val ^ VM_FIXNUM_MASK) <= VM_FIXNUM_MAX; \
+    })
+#else
+#  define VM_FIXNUM_P(val) false
+#endif
+
 JNIEnv *rb_vm_current_jni_env(void);
 #define VM_JNI_ENV() rb_vm_current_jni_env()
 JavaVM *rb_vm_java_vm(void);
 #define VM_JAVA_VM() rb_vm_java_vm()
 
-#define SPECIAL_CONST_P(ref)    ((VALUE)ref <= 6)
+#define SPECIAL_CONST_P(ref) \
+    ({ \
+	VALUE _ref = (VALUE)ref; \
+	_ref <= 6 || VM_FIXNUM_P(_ref); \
+    })
 
 #define _VM_GLOBAL(ref) VM_JNI_ENV()->NewGlobalRef(ref)
 static inline jobject
@@ -195,6 +213,11 @@ ID rb_intern(const char *name);
 extern jobject vm_jobject_true;
 extern jobject vm_jobject_false;
 
+jdouble rb_vm_jobject_to_jdouble(jobject obj);
+jobject rb_vm_jdouble_to_jobject(jdouble value);
+jint rb_vm_jobject_to_jint(jobject obj);
+jobject rb_vm_jint_to_jobject(jint value);
+
 static inline jobject
 vm_rb2jv(VALUE obj)
 {
@@ -207,17 +230,21 @@ vm_rb2jv(VALUE obj)
     if (obj == Qnil) {
         return NULL;
     }
+#if VM_FIXNUM_ENABLED
+    if ((obj & VM_FIXNUM_MASK) == VM_FIXNUM_MASK) {
+	long value = obj ^ VM_FIXNUM_MASK;
+	if (value >= 0 && value <= VM_FIXNUM_MAX) {
+	    return rb_vm_jint_to_jobject(value);
+	}
+    }
+#endif
     return (jobject)obj;
 }
 #define RB2JV(obj) vm_rb2jv((VALUE)obj)
 
-jdouble rb_vm_jobject_to_jdouble(jobject obj);
-jobject rb_vm_jdouble_to_jobject(jdouble value);
 #define NUM2DBL(x) rb_vm_jobject_to_jdouble(RB2JV(x))
 #define DBL2NUM(x) (VALUE)(rb_vm_jdouble_to_jobject(x))
 
-jint rb_vm_jobject_to_jint(jobject obj);
-jobject rb_vm_jint_to_jobject(jint value);
 #define NUM2INT(x) rb_vm_jobject_to_jint(RB2JV(x))
 #define NUM2LONG(x) (long)(rb_vm_jobject_to_jint(RB2JV(x)))
 #define LONG2NUM(x) (VALUE)(rb_vm_jint_to_jobject(x))
