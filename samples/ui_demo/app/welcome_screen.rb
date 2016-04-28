@@ -1,5 +1,4 @@
 class WelcomeScreen < UI::Screen
-  background_color "#F0C419"
 
   def on_show
     self.navigation.hide_bar
