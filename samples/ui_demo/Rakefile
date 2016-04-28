@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require '../lib/motion-flow.rb'
+require '../../lib/motion-flow.rb'
 
 # This file is empty on purpose, you can edit it to add your own tasks.
 # Use `rake -T' to see the list of all tasks.
