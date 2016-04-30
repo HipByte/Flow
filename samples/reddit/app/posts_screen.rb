@@ -1,5 +1,7 @@
 class PostsScreen < UI::Screen
   def on_load
+    self.navigation.title = "Reddit"
+
     self.input.on(:change) { |text| fetch_posts(text) }
     self.view.add_child(self.input)
     self.view.add_child(self.list)
