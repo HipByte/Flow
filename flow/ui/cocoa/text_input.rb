@@ -2,11 +2,19 @@ module UI
   class TextInput < Control
     include Eventable
 
-    def initialize
-      # TODO : register listeners only if needed
-      proxy.addTarget(self, action: :on_change, forControlEvents: UIControlEventEditingChanged)
-      proxy.addTarget(self, action: :on_focus, forControlEvents: UIControlEventEditingDidBegin)
-      proxy.addTarget(self, action: :on_blur, forControlEvents: UIControlEventEditingDidEnd)
+    def on(event, &block)
+      case event
+        when :change
+          proxy.addTarget(self, action: :on_change, forControlEvents: UIControlEventEditingChanged)
+        when :focus
+          proxy.addTarget(self, action: :on_focus, forControlEvents: UIControlEventEditingDidBegin)
+        when :blur
+          proxy.addTarget(self, action: :on_blur, forControlEvents: UIControlEventEditingDidEnd)
+        else
+          raise "Expected event to be in : `:change, :focus, :blur`"
+      end
+
+      super
     end
 
     def on_focus
