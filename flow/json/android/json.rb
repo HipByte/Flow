@@ -17,7 +17,8 @@ class JSON
       when Org::JSON::JSONObject
         iter = obj.keys
         hash = Hash.new
-        while iter.hasNext
+        loop do
+          break unless iter.hasNext
           key = iter.next
           value = obj.get(key)
           hash[convert_java(key)] = convert_java(value)
