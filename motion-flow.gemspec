@@ -11,6 +11,7 @@ Gem::Specification.new do |spec|
   spec.files       = Dir.glob('lib/**/*.rb') +
                      Dir.glob('flow/**/*.rb') +
                      Dir.glob('flow/**/*.a') +
-                     Dir.glob('template/**/*')
+                     Dir.glob('template/**/*') +
+                     Dir.glob('vendor/**/*')
   spec.metadata    = { "rubymotion_template_dir" => "template" }
 end
