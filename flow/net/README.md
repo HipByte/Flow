@@ -21,9 +21,9 @@ end
 ```ruby
 options = {
   headers: {
-    content_type: :json, # 'Content-Type' => 'application/json' would also be valid
-    body: {user_id: 1}
-  }
+    content_type: :json # 'Content-Type' => 'application/json' would also be valid
+  },
+  body: {user_id: 1}
 }
 Net.post("https://httpbin.org/post", options) do |response|
   if response.status == 200
