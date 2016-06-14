@@ -73,7 +73,7 @@ describe Net do
       wait do
         @response.body.should.match /User: 1/
         @response.status.should == 200
-        @response.status_message.should == "OK"
+        @response.status_message.should == "HTTP/1.1 200 OK"
       end
     end
   end
@@ -96,7 +96,7 @@ describe Net do
         @response.body['json']['user'].should == 1
         @response.status.should == 200
         @response.headers['X-Request-Method'].should == "POST"
-        @response.status_message.should == "OK"
+        @response.status_message.should == "HTTP/1.1 200 OK"
       end
     end
 
@@ -133,7 +133,7 @@ describe Net do
         @response.body['json']['user'].should == 1
         @response.status.should == 200
         @response.headers['X-Request-Method'].should == "PUT"
-        @response.status_message.should == "OK"
+        @response.status_message.should == "HTTP/1.1 200 OK"
       end
     end
   end
@@ -156,7 +156,7 @@ describe Net do
         @response.body['json']['user'].should == 1
         @response.status.should == 200
         @response.headers['X-Request-Method'].should == "PATCH"
-        @response.status_message.should == "OK"
+        @response.status_message.should == "HTTP/1.1 200 OK"
       end
     end
   end
@@ -179,7 +179,7 @@ describe Net do
         @response.body['json']['user'].should == 1
         @response.status.should == 200
         @response.headers['X-Request-Method'].should == "DELETE"
-        @response.status_message.should == "OK"
+        @response.status_message.should == "HTTP/1.1 200 OK"
       end
     end
   end
