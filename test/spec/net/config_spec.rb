@@ -16,7 +16,7 @@ describe Net::Config do
 
   it "has a default read_timeout" do
     Net::Config.read_timeout = nil
-    Net::Config.read_timeout.should == 60
+    Net::Config.read_timeout.should == 604800
   end
 
   it "can set user_agent" do
