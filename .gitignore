@@ -7,3 +7,5 @@ flow/digest/build-*
 *.swp
 build
 flow/**/*.a
+doc
+.yardoc

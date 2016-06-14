@@ -1,4 +1,9 @@
 module UI
+  # @param [Hash] font
+  # @option font [String] name
+  # @option font [Fixnum] size
+  # @option font [Symbol] trait :normal, :bold, :italic, :bold_italic
+  # @return [Font]
   def self.Font(font)
     case font
       when UI::Font
@@ -19,10 +24,19 @@ module UI
   class Font
     attr_reader :proxy
 
+    # @!method initialize(obj, size, trait=nil)
+    # @param [String] name
+    # @param [Fixnum] size
+    # @param [Symbol] trait :normal, :bold, :italic, :bold_italic
+
+    # Returns wether the font is italic
+    # @return [Boolean]
     def italic?
       trait == :italic or trait == :bold_italic
     end
 
+    # Returns wether the font is bold
+    # @return [Boolean]
     def bold?
       trait == :bold or trait == :bold_italic
     end

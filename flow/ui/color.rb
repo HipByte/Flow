@@ -1,4 +1,5 @@
 module UI
+  # @return [Color]
   def self.Color(color)
     if UI::Color._native?(color)
       UI::Color.new(color)
@@ -25,6 +26,13 @@ module UI
     end
   end
 
+
+  # Represents a color. Can be initialized in several ways:
+  #   - With a hex number:
+  #     UI::Color.hex("#d2603c")
+  #   - With RGB values:
+  #     UI::Color.rgb(123, 200, 78)
+  #   - Using one of the preset colors
   class Color
     attr_reader :proxy
     def initialize(proxy)

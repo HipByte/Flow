@@ -1,4 +1,5 @@
 module UI
+  # @!visibility hidden
   class ListRow < UI::View
     def initialize
       super

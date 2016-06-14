@@ -1,4 +1,5 @@
 module Net
+  # @!visibility private
   class Authorization
     def initialize(options = {})
       @options = options
