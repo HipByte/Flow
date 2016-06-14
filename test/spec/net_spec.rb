@@ -10,6 +10,7 @@ describe Net do
 
     it "tracks network reachability state" do
       Net.reachable?("www.google.com") do |reachable|
+        sleep 0.1
         @reachable = reachable
         resume
       end
