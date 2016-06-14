@@ -26,6 +26,6 @@ describe Net::Config do
 
   it "has a default user_agent" do
     Net::Config.user_agent = nil
-    Net::Config.user_agent.should == Net::USER_AGENT
+    Net::Config.user_agent.should == Net::Config::USER_AGENT
   end
 end
