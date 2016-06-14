@@ -37,7 +37,7 @@
 # @attr align_self
 # @attr flex
 # @attr flex_wrap
-# @attr position
+# @attr position_type
 class CSSNode
   # @!method self.set_scale(scale)
 
