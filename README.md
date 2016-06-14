@@ -12,7 +12,7 @@ Each library implements the following requirements:
 * 100% cross-platform (iOS, Android and OS X)
 * No external dependencies
 * Covered by tests
-* Documented
+* [Extensive documentation](http://www.rubymotion.com/developers/motion-flow/)
 
 **WARNING**: Flow is currently a work in progress. Some specs might be broken, APIs might change, and documentation might be missing. We are working toward a stable release. If you want to help please get in touch.
 
