@@ -29,20 +29,10 @@ Flow is currently composed of the following libraries:
 * [**Location**](https://github.com/Hipbyte/Flow/tree/master/flow/location) - Location management and (reverse) geocoding
 * [**Task**](https://github.com/Hipbyte/Flow/tree/master/flow/task) - Lightweight tasks scheduler
 
-## Usage
-
-Currently, Flow is still under development. It will be released as a gem once we reach a stable version. In the meantime, it has to be used locally.
-
-Make sure to build the extensions before requiring it.
+### Installation
 
 ```
-$ rake build
-```
-
-You can then build a `.gem` file that you can manually install.
-
-```
-$ rake gem
+$ gem install motion-flow
 ```
 
 ### Projects
