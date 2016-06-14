@@ -50,7 +50,7 @@ module Net
     # @return [Hash]
     # @example
     #   response.headers
-    #   #=> { 'Content-Type' => 'application/josn' }
+    #   #=> { 'Content-Type' => 'application/json' }
     def headers
       @headers
     end
