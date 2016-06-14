@@ -1,1 +1,1 @@
-HTTP_SERVER = "http://127.0.0.1:4567"
+HTTP_SERVER = "http://localhost:4567"
