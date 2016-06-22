@@ -131,7 +131,7 @@ const char *rb_sym2name(VALUE sym);
 
 #include <jni.h>
 
-#define VM_FIXNUM_ENABLED	0
+#define VM_FIXNUM_ENABLED	1
 #define VM_FIXNUM_MASK	((unsigned long)0xdead0000)
 #define VM_FIXNUM_MAX	0xffff
 
