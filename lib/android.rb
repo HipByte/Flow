@@ -14,7 +14,7 @@ Motion::Project::App.setup do |app|
     app.files.concat(Dir.glob(File.join(libdir, '*.rb')))
     app.files.concat(Dir.glob(File.join(libdir, 'android/*.rb')))
 
-    abis = %w{armeabi x86}
+    abis = %w{armeabi-v7a x86}
     if abis.all? { |x| File.exist?(File.join(libdir, 'android', x)) }
       abis.each do |abi|
         app.libs[abi] += Dir.glob(File.join(libdir, 'android', abi, "*.a"))

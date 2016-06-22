@@ -1,7 +1,7 @@
 EXTENSIONS = [
   { :files => ['flow/ui/css_node.c'],
     :ios => { :lib => 'flow/ui/cocoa/libcss_node.a' },
-    :android => { :lib_armeabi => 'flow/ui/android/armeabi/libcss_node.a',
+    :android => { :lib_armeabi => 'flow/ui/android/armeabi-v7a/libcss_node.a',
                   :lib_x86 => 'flow/ui/android/x86/libcss_node.a' } },
   { :files => ['flow/digest/cocoa/digest.m'],
     :ios => { :lib => 'flow/digest/cocoa/libdigest.a' } }
