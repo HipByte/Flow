@@ -4,16 +4,6 @@ JSON serialization/deserialization library.
 
 ## Documentation
 
-### Public API
+- http://www.rubymotion.com/developers/motion-flow/JSON.html
 
-#### Deserialize a JSON string to a ruby object
-
-```ruby
-JSON.load('{"foo":"bar"}')
-```
-
-#### Serialize an object to a JSON string
-
-```ruby
-{"foo" => "bar"}.to_json
-```
+- http://www.rubymotion.com/developers/motion-flow/Object.html

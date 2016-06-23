@@ -21,31 +21,16 @@ module Net
       end
     end
 
-    # Sets a key/value pair header to be used in all requests in this session
-    # @param [String] field
-    # @param [String] value
-    # @example
-    #   session.header("Content-Type", "application/json")
     def header(field, value)
       @headers << Header.new(field, value)
     end
 
-    # Returns a hash containing key/value pairs of headers
-    # @return [Hash]
-    # @example
-    #   response.headers
-    #   #=> { 'Content-Type' => 'application/json' }
     def headers
       hash = {}
       @headers.map {|header| hash[header.field] = header.value}
       hash
     end
 
-    # Sets the Basic authentication data to be used in all requests
-    # @param [Hash] options
-    # @option options [String] user
-    # @option options [String] password
-    # @option options [String] token
     def authorize(options)
       @authorization = Authorization.new(options)
     end

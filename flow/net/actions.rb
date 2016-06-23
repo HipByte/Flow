@@ -1,6 +1,5 @@
 module Net
   class Request
-    # @!visibility private
     module Actions
       [:get, :post, :put, :delete, :patch, :options, :head].each do |http_method|
         define_method(http_method) do |base_url, *options, callback|

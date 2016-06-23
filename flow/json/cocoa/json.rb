@@ -1,7 +1,7 @@
 class JSON
-  def self.load(str)
+  def self.load(string)
     error_ptr = Pointer.new(:id)
-    obj = NSJSONSerialization.JSONObjectWithData(str.to_data, options:0, error:error_ptr)
+    obj = NSJSONSerialization.JSONObjectWithData(string.to_data, options:0, error:error_ptr)
     if obj == nil
       raise error_ptr[0].description
     end

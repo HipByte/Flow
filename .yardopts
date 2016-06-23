@@ -1,1 +1,1 @@
-flow --exclude ".+/(android|cocoa)/.+\.rb"
+doc.rb

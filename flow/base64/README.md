@@ -4,16 +4,4 @@ Base64 encoding/decoding library.
 
 ## Documentation
 
-### Public API
-
-#### Encode a string
-
-```ruby
-Base64.encode('xx') #=> eHg=
-```
-
-#### Decode a string
-
-```ruby
-Base64.decode('eHg=') #=> xx
-```
+- http://www.rubymotion.com/developers/motion-flow/Base64.html

@@ -1,5 +1,4 @@
 module Net
-  # @!visibility private
   class Header
     SHORTHANDS = {
       content_type: 'Content-Type',

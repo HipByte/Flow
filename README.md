@@ -2,7 +2,7 @@
 
 # Flow
 
-<img src="flow-logo.png" alt="flow logo" width="300">
+<img src="https://github.com/HipByte/Flow/blob/master/flow-logo.png" alt="flow logo" width="300">
 
 Flow is a set of cross-platform libraries for RubyMotion. It can be seen as RubyMotion's missing standard library.
 
@@ -54,5 +54,16 @@ Flow can be added as a dependency of an existing iOS, Android or OS X RubyMotion
 ### Code organization
 
 Each Flow library is contained in subdirectories inside the `flow` directory.
-Platform-specific code is contained inside subdirectories of each library 
+Platform-specific code is contained inside subdirectories of each library
 (E.g.  `cocoa` and `android`).
+
+### Documentation
+
+The documentation is written separately in the `doc.rb` file. If you work on a PR,
+please modify this file accordingly.
+
+#### Generate documentation
+
+```
+yard
+```

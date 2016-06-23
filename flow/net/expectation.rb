@@ -1,5 +1,4 @@
 module Net
-  # @!visibility private
   class Expectation
     attr_reader :response
     attr_reader :url

@@ -1,10 +1,4 @@
 module UI
-  # @param [Hash] options
-  # @option options [String] title The title of the alert
-  # @option options [String] message The message of the alert
-  # @option options [String] cancel The title for the Cancel button
-  # @option options [String] default The title of the 'default' button, usually
-  #   the 'ok' button.
   def self.alert(opt={}, &block)
     alert = UI::Alert.new
     alert.title = (opt[:title] or raise ":title needed")
