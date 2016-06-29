@@ -329,7 +329,6 @@ module Net
     #   end
     def stub(base_url); end
 
-    # @!method self.get(base_url, options)
     # @param [String] base_url The url to request
     # @param [Hash] options
     # @option options [Hash] headers
@@ -338,8 +337,8 @@ module Net
     # @option options [Fixnum] read_timeout
     # @yield [response]
     # @yieldparam [Response] response
+    def self.get(base_url, options); end
 
-    # @!method self.post(base_url, options)
     # @param [String] base_url The url to request
     # @param [Hash] options
     # @option options [Hash] headers
@@ -348,8 +347,8 @@ module Net
     # @option options [Fixnum] read_timeout
     # @yield [response]
     # @yieldparam [Response] response
+    def self.post(base_url, options); end
 
-    # @!method self.put(base_url, options)
     # @param [String] base_url The url to request
     # @param [Hash] options
     # @option options [Hash] headers
@@ -358,8 +357,8 @@ module Net
     # @option options [Fixnum] read_timeout
     # @yield [response]
     # @yieldparam [Response] response
+    def self.put(base_url, options); end
 
-    # @!method self.delete(base_url, options)
     # @param [String] base_url The url to request
     # @param [Hash] options
     # @option options [Hash] headers
@@ -368,8 +367,8 @@ module Net
     # @option options [Fixnum] read_timeout
     # @yield [response]
     # @yieldparam [Response] response
+    def self.delete(base_url, options); end
 
-    # @!method self.patch(base_url, options)
     # @param [String] base_url The url to request
     # @param [Hash] options
     # @option options [Hash] headers
@@ -378,8 +377,8 @@ module Net
     # @option options [Fixnum] read_timeout
     # @yield [response]
     # @yieldparam [Response] response
+    def self.patch(base_url, options); end
 
-    # @!method self.options(base_url, options)
     # @param [String] base_url The url to request
     # @param [Hash] options
     # @option options [Hash] headers
@@ -388,8 +387,8 @@ module Net
     # @option options [Fixnum] read_timeout
     # @yield [response]
     # @yieldparam [Response] response
+    def self.options(base_url, options); end
 
-    # @!method self.head(base_url, options)
     # @param [String] base_url The url to request
     # @param [Hash] options
     # @option options [Hash] headers
@@ -398,6 +397,7 @@ module Net
     # @option options [Fixnum] read_timeout
     # @yield [response]
     # @yieldparam [Response] response
+    def self.head(base_url, options); end
   end
 
   module Config
@@ -515,10 +515,10 @@ module UI
   class Font
     attr_reader :proxy
 
-    # @!method initialize(obj, size, trait=nil)
     # @param [String] name
     # @param [Fixnum] size
     # @param [Symbol] trait :normal, :bold, :italic, :bold_italic
+    def initialize(name, size, trait=nil); end
 
     # Returns wether the font is italic
     # @return [Boolean]
@@ -626,7 +626,7 @@ module UI
 
     # Execute a block when a certain event happens. Possible event values:
     #   :on_change, :on_focus, :on_blur
-    # @!method on(event, &block)
+    def on(event, &block); end
   end
 
   # @attr border_width
@@ -636,34 +636,34 @@ module UI
   # @attr [Float] alpha
   class View < CSSNode
     # Returns wether the view is hidden
-    # @!method hidden?
     # @return [Boolean]
+    def hidden?; end
 
     # Sets the hidden state of the view
-    # @!method hidden=(hidden)
     # @param [Boolean] hidden
+    def hidden=(hidden); end
 
     # Update the position of the view and all its children
-    # @!method update_layout
+    def update_layout; end
 
     # Returns the platform-spegific object
-    # @!method proxy
+    def proxy; end
   end
 
   class ActivityIndicator < View
     # Start animating the view
-    # @!method start
+    def start; end
 
     # Stop animating the view
-    # @!method stop
+    def stop; end
 
     # Returns wether the indicator is currently animating
-    # @!method animating?
     # @return [Boolean]
+    def animating?; end
 
     # Set the color of the activity indicator
-    # @!method color=(color)
     # @param [Color] color
+    def color=(color); end
   end
 
   class ListRow < View
