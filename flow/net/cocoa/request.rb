@@ -72,7 +72,6 @@ module Net
 
     def build_ns_url_session_configuration
       config = NSURLSessionConfiguration.defaultSessionConfiguration
-      config.allowsCellularAccess = false
       config.setHTTPAdditionalHeaders(configuration[:headers])
       config.timeoutIntervalForRequest = configuration[:connect_timeout]
       config.timeoutIntervalForResource = configuration[:read_timeout]
