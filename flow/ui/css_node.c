@@ -110,8 +110,8 @@ define_property_float_6(border)
 		    break; \
 		case 3: \
 		    top = NUM2DBL(RARRAY_AT(obj, 0)); \
-		    right = bottom = NUM2DBL(RARRAY_AT(obj, 1)); \
-		    left = NUM2DBL(RARRAY_AT(obj, 2)); \
+		    right = left = NUM2DBL(RARRAY_AT(obj, 1)); \
+		    bottom = NUM2DBL(RARRAY_AT(obj, 2)); \
 		    break; \
 		case 2: \
 		    top = bottom = NUM2DBL(RARRAY_AT(obj, 0)); \
