@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name        = 'motion-flow'
-  spec.version     = '0.1.2'
+  spec.version     = '0.1.3'
   spec.summary     = 'Cross-platform app framework for RubyMotion'
   spec.description = "motion-flow allows you to write cross-platform
                       native mobile apps in Ruby."
