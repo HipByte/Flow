@@ -31,6 +31,8 @@ Flow is currently composed of the following libraries:
 
 ### Installation
 
+`motion-flow` requires RubyMotion >= 4.12. Make sure [iOS](http://www.rubymotion.com/developers/guides/manuals/cocoa/getting-started/) and [Android](http://www.rubymotion.com/developers/guides/manuals/android/getting-started/) are correctly setup.
+
 ```
 $ gem install motion-flow
 ```
