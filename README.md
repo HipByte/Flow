@@ -31,6 +31,8 @@ Flow is currently composed of the following libraries:
 
 ### Installation
 
+Flow requires RubyMotion >= 4.12. To use the Android emulator, make sure to run `motion android-setup`. Next, install the gem:
+
 ```
 $ gem install motion-flow
 ```
