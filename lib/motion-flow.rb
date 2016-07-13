@@ -231,8 +231,17 @@ else
   task "super_repl" do
     require "readline"
 
-    ios_io = IO.popen('/usr/bin/rake ios:simulator skip_build=1', 'w')
-    android_io = IO.popen('/usr/bin/rake android:emulator:start skip_build=1', 'w')
+    cmd = %w{ /usr/bin/rake }
+    ios_cmd = cmd + ['ios:simulator']
+    android_cmd = cmd + ['android:emulator:start']
+
+    if ENV.fetch("skip_build", nil)
+      ios_cmd << 'skip_build=1'
+      android_cmd << 'skip_build=1'
+    end
+
+    ios_io = IO.popen(ios_cmd.join(' '), 'w')
+    android_io = IO.popen(android_cmd.join(' '), 'w')
 
     while expr = Readline.readline("> ", true)
       ios_io.puts expr
