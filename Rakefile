@@ -101,3 +101,5 @@ desc 'Create motion-flow.gem file'
 task 'gem' => [:build] do
   sh "gem build motion-flow.gemspec"
 end
+
+task :default => :build
