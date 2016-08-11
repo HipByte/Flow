@@ -5,7 +5,6 @@ before_install:
   - sudo chown -R travis ~/Library/RubyMotion
   - sudo mkdir -p ~/Library/RubyMotion/build
   - sudo chown -R travis ~/Library/RubyMotion/build
-  - sudo motion update
 script:
   - cd test
   - gem install eventmachine -- --with-cppflags=-I/usr/local/opt/openssl/include --no-rdoc --no-ri
