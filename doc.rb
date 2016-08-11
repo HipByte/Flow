@@ -518,7 +518,8 @@ module UI
     # @param [String] name
     # @param [Fixnum] size
     # @param [Symbol] trait :normal, :bold, :italic, :bold_italic
-    def initialize(name, size, trait=nil); end
+    # @param [Symbol] extension: :ttf, :otf
+    def initialize(name, size, trait=nil, extension=:ttf); end
 
     # Returns wether the font is italic
     # @return [Boolean]

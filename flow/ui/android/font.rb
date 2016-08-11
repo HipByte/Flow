@@ -20,7 +20,7 @@ module UI
       'CutiveMono' => 'serif-monospace'
     }
 
-    def initialize(obj, size, trait=nil)
+    def initialize(obj, size, trait=nil, extension=:ttf)
       if obj.is_a?(Android::Graphics::Typeface)
         @proxy = obj
       else
@@ -38,7 +38,7 @@ module UI
           end
           @proxy = Android::Graphics::Typeface.create(family_name, style)
         else
-          @proxy = Android::Graphics::Typeface.createFromAsset(UI.context.getAssets, obj + '.ttf')
+          @proxy = Android::Graphics::Typeface.createFromAsset(UI.context.getAssets, obj + "." + extension.to_s)
         end
       end
       @size = size
