@@ -17,9 +17,9 @@ module Net
       expectation
     end
 
-    [:get, :post, :put, :delete, :patch, :options, :head].each do |http_medhod|
-      define_method(http_medhod) do |base_url, *options, &callback|
-        Request.send(http_medhod, base_url, options.shift || {}, callback)
+    [:get, :post, :put, :delete, :patch, :options, :head].each do |http_method|
+      define_method(http_method) do |base_url, *options, &callback|
+        Request.send(http_method, base_url, options.shift || {}, callback)
       end
     end
   end
