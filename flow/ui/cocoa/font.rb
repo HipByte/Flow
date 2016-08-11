@@ -4,7 +4,7 @@ module UI
       new(font, nil, nil)
     end
 
-    def initialize(obj, size, trait=nil)
+    def initialize(obj, size, trait=nil, extension=nil)
       if obj.is_a?(UIFont)
         @proxy = obj
       else
