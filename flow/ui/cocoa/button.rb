@@ -2,6 +2,20 @@ module UI
   class Button < Control
     include Eventable
 
+    def initialize
+      super
+      calculate_measure(true)
+    end
+
+    def measure(width, height)
+      self.proxy.sizeToFit
+
+      [
+        width.nan? ? self.proxy.frame.size.width : width,
+        height.nan? ? self.proxy.frame.size.height : height
+      ]
+    end
+
     def color=(color)
       case color
       when Hash
