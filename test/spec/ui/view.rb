@@ -18,5 +18,15 @@ describe UI::View do
       view.width.should == 100
       view.height.should == 100
     end
+
+    it "restores the size of a view never shown" do
+      view = UI::View.new
+      view.hidden = true
+      view.width = 100
+      view.height = 100
+      view.hidden = false
+      view.width.should == 100
+      view.height.should == 100
+    end
   end
 end
