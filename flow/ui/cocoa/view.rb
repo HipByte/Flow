@@ -60,13 +60,18 @@ module UI
 
     def hidden=(hidden)
       if hidden
-        self._previous_width = self.width
-        self._previous_height = self.height
-        self.width = 0
-        self.height = 0
+        if !self.width.nan?
+          self._previous_width = self.width
+          self.width = 0
+        end
+
+        if !self.height.nan?
+          self._previous_height = self.height
+          self.height = 0
+        end
       else
-        self.width = self._previous_width
-        self.height = self._previous_height
+        self.width = self._previous_width if self._previous_width
+        self.height = self._previous_height if self._previous_height
       end
 
       proxy.hidden = hidden
