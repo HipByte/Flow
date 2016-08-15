@@ -6,6 +6,8 @@ module UI
       linear:   UIViewAnimationOptionCurveLinear
     }
 
+    attr_accessor :_previous_width, :_previous_height
+
     def animate(options = {}, &block)
       animation_options = options.fetch(:options, :linear)
 
@@ -57,7 +59,19 @@ module UI
     end
 
     def hidden=(hidden)
+      if hidden
+        self._previous_width = self.width
+        self._previous_height = self.height
+        self.width = 0
+        self.height = 0
+      else
+        self.width = self._previous_width
+        self.height = self._previous_height
+      end
+
       proxy.hidden = hidden
+
+      self.root.update_layout
     end
 
     def alpha
@@ -84,6 +98,14 @@ module UI
       _apply_layout([0, 0], proxy.frame.origin)
     end
 
+    def proxy
+      @proxy ||= begin
+        ui_view = UIView.alloc.init
+        ui_view.translatesAutoresizingMaskIntoConstraints = false
+        ui_view
+      end
+    end
+
     def _apply_layout(absolute_point, origin_point)
       left, top, width, height = layout
 
@@ -95,14 +117,6 @@ module UI
       absolute_point[1] += top
 
       children.each { |x| x._apply_layout(absolute_point, [0, 0]) }
-    end
-
-    def proxy
-      @proxy ||= begin
-        ui_view = UIView.alloc.init
-        ui_view.translatesAutoresizingMaskIntoConstraints = false
-        ui_view
-      end
     end
   end
 end

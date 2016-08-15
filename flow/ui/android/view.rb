@@ -12,6 +12,8 @@ end
 
 module UI
   class View < CSSNode
+    attr_accessor :_previous_width, :_previous_height
+
     def background_color
       view = proxy.getBackground
       view.is_a?(Android::Graphics::Drawable::ColorDrawable) ? UI::Color(view.getColor) : nil
@@ -26,7 +28,19 @@ module UI
     end
 
     def hidden=(value)
+      if hidden
+        self._previous_width = self.width
+        self._previous_height = self.height
+        self.width = 0
+        self.height = 0
+      else
+        self.width = self._previous_width
+        self.height = self._previous_height
+      end
+
       proxy.visibility = value ? Android::View::View::INVISIBLE : Android::View::View::VISIBLE
+
+      self.root.update_layout
     end
 
     def alpha
@@ -51,6 +65,10 @@ module UI
     def update_layout
       super
       _apply_layout
+    end
+
+    def proxy
+      @proxy ||= Android::Widget::FrameLayout.new(UI.context)
     end
 
     def _apply_layout
@@ -79,10 +97,6 @@ module UI
           @layout_listener = nil
         end
       end
-    end
-
-    def proxy
-      @proxy ||= Android::Widget::FrameLayout.new(UI.context)
     end
   end
 end
