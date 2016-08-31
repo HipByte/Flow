@@ -17,7 +17,7 @@ Motion::Project::App.setup do |app|
     abis = %w{armeabi-v7a x86}
     if abis.all? { |x| File.exist?(File.join(libdir, 'android', x)) }
       abis.each do |abi|
-        app.libs[abi] += Dir.glob(File.join(libdir, 'android', abi, "*.a"))
+        app.libs[abi] += Dir.glob(File.join(libdir, 'android', abi, "*.a")).map { |x| "\"#{x}\""}
       end
     end
     if comp == 'ui'
