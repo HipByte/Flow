@@ -55,7 +55,7 @@ module UI
     end
 
     def hidden?
-      proxy.hidden
+      proxy.hidden?
     end
 
     def hidden=(hidden)
