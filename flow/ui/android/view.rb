@@ -27,7 +27,7 @@ module UI
       proxy.visibility != Android::View::View::VISIBLE
     end
 
-    def hidden=(value)
+    def hidden=(hidden)
       if hidden
         if !self.width.nan?
           self._previous_width = self.width
@@ -43,7 +43,7 @@ module UI
         self.height = self._previous_height if self._previous_height
       end
 
-      proxy.visibility = value ? Android::View::View::INVISIBLE : Android::View::View::VISIBLE
+      proxy.visibility = hidden ? Android::View::View::INVISIBLE : Android::View::View::VISIBLE
 
       self.root.update_layout
     end
