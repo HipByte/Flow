@@ -9,10 +9,7 @@ before_install:
   - sudo chown -R travis ~/Library/RubyMotion/build
 script:
   - rake build:ios
-  - cd test
-  - gem install eventmachine -- --with-cppflags=-I/usr/local/opt/openssl/include --no-rdoc --no-ri
-  - gem install thin --no-rdoc --no-ri
-  - gem install sinatra --no-rdoc --no-ri
+  - cd test && bundle install
   - ruby server.rb &
   - bundle exec rake ios:clean:all
   - bundle exec rake ios:spec
