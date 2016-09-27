@@ -14,7 +14,10 @@ ANDROID_NDK_PATH = File.expand_path(ENV['RUBYMOTION_ANDROID_NDK'] || '~/.rubymot
 ANDROID_API = '16'
 
 desc 'Build the extensions'
-task 'build' do
+task 'build' => [:"build:ios", :"build:android"]
+
+desc 'Build the extensions for iOS'
+task 'build:ios' do
   EXTENSIONS.each do |extension|
     src_paths = extension[:files]
     if extension[:ios]
@@ -49,6 +52,13 @@ task 'build' do
         sh "/usr/bin/ranlib #{lib_path}"
       end
     end
+  end
+end
+
+desc 'Build the extensions for Android'
+task 'build:android' do
+  EXTENSIONS.each do |extension|
+    src_paths = extension[:files]
     if extension[:android]
       # Android
       cc = File.join(ANDROID_NDK_PATH, 'toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++')
