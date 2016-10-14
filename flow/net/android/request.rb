@@ -30,7 +30,14 @@ module Net
           stream.write(Java::Lang::String.new(body).getBytes("UTF-8"))
         end
 
-        input_reader = Java::Io::InputStreamReader.new(url_connection.getInputStream)
+        response_code = url_connection.getResponseCode
+        
+        if response_code >= 400
+          input_reader = Java::Io::InputStreamReader.new(url_connection.getErrorStream)
+        else
+          input_reader = Java::Io::InputStreamReader.new(url_connection.getInputStream)
+        end
+        
   		  input = Java::Io::BufferedReader.new(input_reader)
   		  inputLine = ""
   		  response = Java::Lang::StringBuffer.new
