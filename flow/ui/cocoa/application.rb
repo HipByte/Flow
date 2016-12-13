@@ -22,5 +22,13 @@ module UI
     def proxy
       @proxy ||= UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
     end
+
+    def version_number
+      NSBundle.mainBundle.objectForInfoDictionaryKey('CFBundleShortVersionString')
+    end
+
+    def build_number
+      NSBundle.mainBundle.objectForInfoDictionaryKey('CFBundleVersion')
+    end
   end
 end
