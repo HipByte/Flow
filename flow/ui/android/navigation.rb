@@ -105,8 +105,10 @@ class UI::Navigation
     else
       @current_screens.pop
       previous_screen = @current_screens.last
-      previous_screen.before_on_show
-      previous_screen.on_show
+      if previous_screen
+        previous_screen.before_on_show
+        previous_screen.on_show
+      end
     end
     @stack_change_reason = nil
   end
