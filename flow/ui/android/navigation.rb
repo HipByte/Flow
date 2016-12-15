@@ -54,6 +54,7 @@ class UI::Navigation
   end
 
   def push(screen, animated=true)
+    @stack_change_reason = :push
     screen.navigation = self
 
     fragment = screen.proxy
@@ -73,6 +74,7 @@ class UI::Navigation
 
   def pop(animated=true)
     if @current_screens.size > 1
+      @stack_change_reason = :pop
       current_screen = @current_screens.pop
       current_screen.proxy._animate = animated ? :slide : false
       previous_screen = @current_screens.last
@@ -89,6 +91,35 @@ class UI::Navigation
   end
 
   def proxy
-    @proxy ||= UI.context.fragmentManager
+    @proxy ||= begin
+      manager = UI.context.fragmentManager
+      manager.addOnBackStackChangedListener(FlowFragmentManagerStackChangedListener.new(self))
+      manager
+    end
+  end
+
+  def stack_changed
+    case @stack_change_reason
+    when :push
+    when :pop
+    else
+      @current_screens.pop
+      previous_screen = @current_screens.last
+      if previous_screen
+        previous_screen.before_on_show
+        previous_screen.on_show
+      end
+    end
+    @stack_change_reason = nil
+  end
+end
+
+class FlowFragmentManagerStackChangedListener
+  def initialize(navigation)
+    @navigation = navigation
+  end
+
+  def onBackStackChanged
+    @navigation.stack_changed
   end
 end
