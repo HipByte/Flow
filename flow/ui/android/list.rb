@@ -41,7 +41,8 @@ class FlowUIListItemClickListener
   end
 
   def onItemClick(parent, view, position, id)
-    @list.trigger :select, @list.data_source[position], position
+    row = @list.row_at_index(position)
+    @list.trigger :select, @list.data_source[position], position, row
   end
 end
 

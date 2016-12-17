@@ -67,7 +67,9 @@ module UI
     end
 
     def tableView(table_view, didSelectRowAtIndexPath: index_path)
-      trigger :select, @data_source[index_path.row], index_path.row
+      data = @data_source[index_path.row]
+      row = @cached_rows[data]
+      trigger :select, data, index_path.row, row
     end
 
     attr_reader :data_source
