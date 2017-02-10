@@ -50,8 +50,25 @@ module UI
       UI::Color(proxy.backgroundColor)
     end
 
-    def background_color=(background_color)
-      proxy.backgroundColor = UI::Color(background_color).proxy
+    def _reset_background_layer(layer=nil)
+      @_background_layer.removeFromSuperlayer if @_background_layer
+      @_background_layer = layer
+    end
+
+    def _layout_background_layer
+      @_background_layer.frame = proxy.bounds if @_background_layer
+    end
+
+    def background_color=(color)
+      proxy.backgroundColor = UI::Color(color).proxy
+      _reset_background_layer
+    end
+
+    def background_gradient=(gradient)
+      layer = gradient.proxy
+      proxy.layer.insertSublayer(layer, atIndex:0)
+      _reset_background_layer(layer)
+      _layout_background_layer
     end
 
     def hidden?
@@ -101,6 +118,7 @@ module UI
     def update_layout
       super
       _apply_layout([0, 0], proxy.frame.origin)
+      _layout_background_layer
     end
 
     def proxy

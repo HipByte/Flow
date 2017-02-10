@@ -19,8 +19,12 @@ module UI
       view.is_a?(Android::Graphics::Drawable::ColorDrawable) ? UI::Color(view.getColor) : nil
     end
 
-    def background_color=(background_color)
-      proxy.backgroundColor = UI::Color(background_color).proxy
+    def background_color=(color)
+      proxy.backgroundColor = UI::Color(color).proxy
+    end
+
+    def background_gradient=(gradient)
+      proxy.background = gradient.proxy
     end
 
     def hidden?
