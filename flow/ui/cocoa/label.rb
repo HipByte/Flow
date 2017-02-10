@@ -6,10 +6,11 @@ module UI
     end
 
     def measure(width, height)
-      return [0,0] if proxy.attributedText.nil? || proxy.attributedText.length == 0
+      at = proxy.attributedText
+      return [0, 0] if at == nil or at.length == 0
       size = [width.nan? ? Float::MAX : width, Float::MAX]
-      rect = proxy.attributedText.boundingRectWithSize(size, options:NSStringDrawingUsesLineFragmentOrigin, context:nil)
-      [width, rect.size.height]
+      rect = at.boundingRectWithSize(size, options:NSStringDrawingUsesLineFragmentOrigin, context:nil)
+      [width, rect.size.height.ceil]
     end
 
     def text_alignment
