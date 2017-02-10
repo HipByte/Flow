@@ -12,12 +12,12 @@ module UI
       end
 
       @asset_files ||= UI.context.assets.list('')
-      image_density = candidates.index { |x| @asset_files.include?(x) }
-      raise "Couldn't find an asset file named `#{source}'" unless image_density
+      idx = candidates.index { |x| @asset_files.include?(x) }
+      raise "Couldn't find an asset file named `#{source}'" unless idx
 
-      stream = UI.context.assets.open(candidates[image_density])
+      stream = UI.context.assets.open(candidates[idx])
       drawable = Android::Graphics::Drawable::Drawable.createFromStream(stream, nil)
-      [drawable, image_density + 1]
+      [drawable, UI.density - idx]
     end
 
     def self._drawable_from_source(source)
