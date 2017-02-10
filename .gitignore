@@ -9,3 +9,4 @@ build
 flow/**/*.a
 doc
 .yardoc
+.DS_Store
