@@ -15,16 +15,30 @@ module UI
     attr_accessor :_previous_width, :_previous_height
 
     def background_color
-      view = proxy.getBackground
-      view.is_a?(Android::Graphics::Drawable::ColorDrawable) ? UI::Color(view.getColor) : nil
+      @_background_color
     end
 
     def background_color=(color)
-      proxy.backgroundColor = UI::Color(color).proxy
+      if @_background_color != color
+        proxy.backgroundColor = @_background_color = UI::Color(color).proxy
+      end
     end
 
     def background_gradient=(gradient)
       proxy.background = gradient.proxy
+      @_background_color = nil
+    end
+
+    def border_radius=(radius)
+      view = proxy.background
+      unless view.respond_to?(:setCornerRadius)
+        raise "can't apply border radius without a background color or gradient" unless @_background_color
+        view = Android::Graphics::Drawable::GradientDrawable.new
+        view.color = @_background_color
+        proxy.background = view
+      end
+      view.setCornerRadius(radius)
+      proxy.stateListAnimator = nil # remove shadow around borders
     end
 
     def hidden?
