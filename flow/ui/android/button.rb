@@ -41,10 +41,9 @@ module UI
       proxy.setTextSize(font.size)
     end
 
-    def image=(image)
-      _change_type(:image)
-      stream = UI.context.getAssets.open(image)
-      drawable = Android::Graphics::Drawable::Drawable.createFromStream(stream, nil)
+    def image=(source)
+      _change_type :image
+      drawable = UI::Image._drawable_from_source(source)
       proxy.imageDrawable = drawable
       proxy.setPadding(0, 0, 0, 0)
       proxy.scaleType = Android::Widget::ImageView::ScaleType::FIT_XY
