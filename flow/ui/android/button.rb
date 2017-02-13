@@ -46,7 +46,7 @@ module UI
       drawable = UI::Image._drawable_from_source(source)
       proxy.imageDrawable = drawable
       proxy.setPadding(0, 0, 0, 0)
-      proxy.scaleType = Android::Widget::ImageView::ScaleType::FIT_XY
+      proxy.scaleType = Android::Widget::ImageView::ScaleType::FIT_CENTER
       proxy.backgroundColor = Android::Graphics::Color::TRANSPARENT
     end
 
