@@ -53,7 +53,7 @@ module Net
     end
 
     def build_body(body)
-      return body.to_json.to_data if json?
+      return body.to_json.to_data if json? and body != ''
       body.to_data
     end
 
