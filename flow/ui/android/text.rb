@@ -48,8 +48,8 @@ module UI
 
     def font=(font)
       font = UI::Font(font)
-      proxy.setTypeface(font.proxy)
-      proxy.setTextSize(font.size)
+      proxy.typeface = font.proxy
+      proxy.textSize = font.size
     end
   end
 end
