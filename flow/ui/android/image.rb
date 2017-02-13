@@ -2,7 +2,7 @@ module UI
   class Image < UI::View
     attr_reader :source
 
-    def self._drawable_and_density_from_source(source)
+    def self._drawable_from_source(source)
       candidates = [source]
       if UI.density > 0
         base = source.sub(/\.png$/, '')
@@ -17,21 +17,28 @@ module UI
 
       stream = UI.context.assets.open(candidates[idx])
       drawable = Android::Graphics::Drawable::Drawable.createFromStream(stream, nil)
-      [drawable, UI.density - idx]
-    end
 
-    def self._drawable_from_source(source)
-      _drawable_and_density_from_source(source)[0]
+      image_density = UI.density - idx
+      if image_density != UI.density
+        bitmap = drawable.bitmap
+        scale = (UI.density / image_density)
+        size_x = drawable.intrinsicWidth * scale
+        size_y = drawable.intrinsicHeight * scale
+        bitmap_resized = Android::Graphics::Bitmap.createScaledBitmap(bitmap, size_x, size_y, false)
+        drawable = Android::Graphics::Drawable::BitmapDrawable.new(UI.context.resources, bitmap_resized)
+      end
+
+      drawable
     end
 
     def source=(source)
       if @source != source
         @source = source
-        drawable, image_density = self.class._drawable_and_density_from_source(source)
+        drawable = self.class._drawable_from_source(source)
         proxy.imageDrawable = drawable
         if width.nan? and height.nan?
-          self.width = drawable.intrinsicWidth * (UI.density / image_density)
-          self.height = drawable.intrinsicHeight * (UI.density / image_density)
+          self.width = drawable.intrinsicWidth
+          self.height = drawable.intrinsicHeight
         end
       end
     end
