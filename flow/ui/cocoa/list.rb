@@ -45,6 +45,7 @@ module UI
         row = (@cached_rows[data] ||= row_klass.new)
         row.list = self if row.respond_to?(:list=)
         cell = CustomListCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier: cell_identifier)
+        cell.selectionStyle = UITableViewCellSelectionStyleNone
         cell.content_view = row
       end
       cell.content_view.update(data) if cell.content_view.respond_to?(:update)
