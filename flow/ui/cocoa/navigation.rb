@@ -89,14 +89,14 @@ module UI
       end
     end
 
-    def replace(screen)
+    def replace(screen, animated=true)
       ary = proxy.viewControllers
       raise "inconsistent view controllers chain" unless ary[-1] == @current_screens[-1].proxy
       screen.navigation = self
       @current_screens[-1] = screen
       ary = ary.dup
       ary[-1] = screen.proxy
-      proxy.setViewControllers(ary, animated:false)
+      proxy.setViewControllers(ary, animated:animated)
     end
 
     def proxy
