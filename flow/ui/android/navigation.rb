@@ -90,6 +90,23 @@ class UI::Navigation
     end
   end
 
+  def replace(screen, animated=true)
+    screen.navigation = self
+
+    fragment = screen.proxy
+    fragment._animate = animated ? :fade : false
+
+    current_fragment = @current_screens.last.proxy
+    current_fragment._animate = animated ? :fade : false
+
+    transaction = proxy.beginTransaction
+    transaction.hide(current_fragment)
+    transaction.replace(UI.context.findViewById(Android::R::Id::Content).id, fragment, nil)
+    transaction.commitAllowingStateLoss
+
+    @current_screens[-1] = screen
+  end
+
   def proxy
     @proxy ||= begin
       manager = UI.context.fragmentManager
