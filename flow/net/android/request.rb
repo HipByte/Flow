@@ -31,17 +31,13 @@ module Net
         end
 
         response_code = url_connection.getResponseCode
-        
-        if response_code >= 400
-          input_reader = Java::Io::InputStreamReader.new(url_connection.getErrorStream)
-        else
-          input_reader = Java::Io::InputStreamReader.new(url_connection.getInputStream)
-        end
-        
-  		  input = Java::Io::BufferedReader.new(input_reader)
-  		  inputLine = ""
-  		  response = Java::Lang::StringBuffer.new
-  		  while (inputLine = input.readLine) != nil do
+        stream = response_code >= 400 ? url_connection.getErrorStream : url_connection.getInputStream
+        input_reader = Java::Io::InputStreamReader.new(stream)
+
+        input = Java::Io::BufferedReader.new(input_reader)
+        inputLine = ""
+        response = Java::Lang::StringBuffer.new
+        while (inputLine = input.readLine) != nil do
           response.append(inputLine)
         end
         input.close
