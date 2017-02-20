@@ -48,11 +48,7 @@ module Net
     end
 
     def build_body
-      string = @response.toString
-      if json? && !string.empty?
-        return JSON.load(@response.toString)
-      end
-      string
+      json? ? JSON.load(@response.toString) : @response
     end
   end
 end

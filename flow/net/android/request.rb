@@ -32,15 +32,22 @@ module Net
 
         response_code = url_connection.getResponseCode
         stream = response_code >= 400 ? url_connection.getErrorStream : url_connection.getInputStream
-        input_reader = Java::Io::InputStreamReader.new(stream)
 
-        input = Java::Io::BufferedReader.new(input_reader)
-        inputLine = ""
-        response = Java::Lang::StringBuffer.new
-        while (inputLine = input.readLine) != nil do
-          response.append(inputLine)
+        response = nil
+        if url_connection.getContentType.match(/^image\//)
+          # Response as bitmap.
+          response = Android::Graphics::BitmapFactory.decodeStream(stream)
+        else
+          # Response as text.
+          input_reader = Java::Io::InputStreamReader.new(stream)
+          input = Java::Io::BufferedReader.new(input_reader)
+          inputLine = ""
+          response = Java::Lang::StringBuffer.new
+          while (inputLine = input.readLine) != nil do
+            response.append(inputLine)
+          end
+          input.close
         end
-        input.close
 
         Task.main do
           callback.call(ResponseProxy.build_response(url_connection, response))
