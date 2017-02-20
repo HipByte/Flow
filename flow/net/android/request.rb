@@ -24,9 +24,9 @@ module Net
           url_connection.setRequestProperty(key, value)
         end
 
-        if [:post, :put, :patch, :delete].include?(configuration[:method]) && configuration[:body]
+        if do_method? and body = configuration[:body]
           stream = url_connection.getOutputStream
-          body = json? ? configuration[:body].to_json : configuration[:body]
+          body = body.to_json if json?
           stream.write(Java::Lang::String.new(body).getBytes("UTF-8"))
         end
 
@@ -50,19 +50,24 @@ module Net
 
     private
 
+    def do_method?
+      case configuration[:method]
+        when :post, :put, :patch, :delete
+          true
+      end
+    end
+
     def json?
       configuration[:headers].fetch('Content-Type', nil) == "application/json"
     end
 
     def url_connection
-      @url_connection ||= build_url_connection
-    end
-
-    def build_url_connection
-      connection = @url.openConnection
-      connection.setRequestMethod(configuration[:method].to_s.upcase)
-      connection.setDoOutput(true) if [:post, :put, :patch, :delete].include?(configuration[:method])
-      connection
+      @url_connection ||= begin
+        connection = @url.openConnection
+        connection.setRequestMethod(configuration[:method].to_s.upcase)
+        connection.setDoOutput(true) if do_method?
+        connection
+      end
     end
 
     def set_defaults
