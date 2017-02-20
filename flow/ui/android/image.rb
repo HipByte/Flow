@@ -46,6 +46,10 @@ module UI
       end
     end
 
+    def filter=(color)
+      proxy.setColorFilter(UI::Color(color).proxy, Android::Graphics::PorterDuff::Mode::MULTIPLY)
+    end
+
     RESIZE_MODES = {
       cover: Android::Widget::ImageView::ScaleType::CENTER_CROP,
       contain: Android::Widget::ImageView::ScaleType::CENTER_INSIDE,

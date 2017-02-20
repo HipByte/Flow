@@ -6,19 +6,53 @@ module UI
       if @source != source
         @source = source
 
-        case source
+        image = case source
           when String
-            proxy.image = UIImage.imageNamed(source)
+            UIImage.imageNamed(source)
           when NSData
-            proxy.image = UIImage.imageWithData(source)
+            UIImage.imageWithData(source)
           else
-            raise "Expected `String` or `NSdata` object, got `#{source.class}`"
-          end
+            raise "Expected `String' or `NSData' object, got `#{source.class}'"
+        end
+        @original_image = proxy.image = image
 
         if width.nan? and height.nan?
           self.width = proxy.image.size.width
           self.height = proxy.image.size.height
         end
+      end
+    end
+
+    def filter=(color)
+      image = @original_image
+      raise "source= must be set" unless image
+
+      begin
+        size = image.size
+        UIGraphicsBeginImageContextWithOptions(size, false, image.scale)
+    
+        context = UIGraphicsGetCurrentContext()
+        area = CGRectMake(0, 0, size.width, size.height)
+    
+        CGContextScaleCTM(context, 1, -1)
+        CGContextTranslateCTM(context, 0, -area.size.height)
+    
+        CGContextSaveGState(context)
+        CGContextClipToMask(context, area, image.CGImage)
+    
+        UI::Color(color).proxy.set
+        CGContextFillRect(context, area)
+    
+        CGContextRestoreGState(context)
+    
+        CGContextSetBlendMode(context, KCGBlendModeMultiply)
+    
+        CGContextDrawImage(context, area, image.CGImage)
+    
+        filter_image = UIGraphicsGetImageFromCurrentImageContext()
+        proxy.image = filter_image
+      ensure 
+        UIGraphicsEndImageContext()
       end
     end
 
