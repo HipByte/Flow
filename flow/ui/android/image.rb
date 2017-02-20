@@ -3,31 +3,34 @@ module UI
     attr_reader :source
 
     def self._drawable_from_source(source)
-      candidates = [source]
-      if UI.density > 0
-        base = source.sub(/\.png$/, '')
-        (1...UI.density.to_i).each do |i|
-          candidates.unshift base + "@#{i + 1}x.png"
+      if source.is_a?(Android::Graphics::Bitmap)
+        drawable = Android::Graphics::Drawable::BitmapDrawable.new(UI.context.resources, source)
+      else
+        candidates = [source]
+        if UI.density > 0
+          base = source.sub(/\.png$/, '')
+          (1...UI.density.to_i).each do |i|
+            candidates.unshift base + "@#{i + 1}x.png"
+          end
+        end
+  
+        @asset_files ||= UI.context.assets.list('')
+        idx = candidates.index { |x| @asset_files.include?(x) }
+        raise "Couldn't find an asset file named `#{source}'" unless idx
+  
+        stream = UI.context.assets.open(candidates[idx])
+        drawable = Android::Graphics::Drawable::Drawable.createFromStream(stream, nil)
+  
+        image_density = UI.density - idx
+        if image_density != UI.density
+          bitmap = drawable.bitmap
+          scale = (UI.density / image_density)
+          size_x = drawable.intrinsicWidth * scale
+          size_y = drawable.intrinsicHeight * scale
+          bitmap_resized = Android::Graphics::Bitmap.createScaledBitmap(bitmap, size_x, size_y, false)
+          drawable = Android::Graphics::Drawable::BitmapDrawable.new(UI.context.resources, bitmap_resized)
         end
       end
-
-      @asset_files ||= UI.context.assets.list('')
-      idx = candidates.index { |x| @asset_files.include?(x) }
-      raise "Couldn't find an asset file named `#{source}'" unless idx
-
-      stream = UI.context.assets.open(candidates[idx])
-      drawable = Android::Graphics::Drawable::Drawable.createFromStream(stream, nil)
-
-      image_density = UI.density - idx
-      if image_density != UI.density
-        bitmap = drawable.bitmap
-        scale = (UI.density / image_density)
-        size_x = drawable.intrinsicWidth * scale
-        size_y = drawable.intrinsicHeight * scale
-        bitmap_resized = Android::Graphics::Bitmap.createScaledBitmap(bitmap, size_x, size_y, false)
-        drawable = Android::Graphics::Drawable::BitmapDrawable.new(UI.context.resources, bitmap_resized)
-      end
-
       drawable
     end
 
