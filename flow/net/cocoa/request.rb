@@ -37,15 +37,27 @@ module Net
     private
 
     def ns_url_session
-      @ns_url_session ||= build_ns_url_session
+      @ns_url_session ||= NSURLSession.sessionWithConfiguration(ns_url_session_configuration, delegate:self, delegateQueue:nil)
     end
 
     def ns_mutable_request
-      @ns_mutable_request ||= build_ns_mutable_request
+      @ns_mutable_request ||= begin
+        request = NSMutableURLRequest.requestWithURL(@url)
+        request.setHTTPMethod(configuration[:method].to_s.upcase)
+        request.setHTTPBody(build_body(configuration[:body]), dataUsingEncoding:NSUTF8StringEncoding)
+        request
+      end
     end
 
     def ns_url_session_configuration
-      @ns_url_session_configuration ||= build_ns_url_session_configuration
+      @ns_url_session_configuration ||= begin
+        config = NSURLSessionConfiguration.defaultSessionConfiguration
+        config.setHTTPAdditionalHeaders(configuration[:headers])
+        config.timeoutIntervalForRequest = configuration[:connect_timeout]
+        config.timeoutIntervalForResource = configuration[:read_timeout]
+        config.HTTPMaximumConnectionsPerHost = 1
+        config
+      end
     end
 
     def json?
@@ -53,30 +65,7 @@ module Net
     end
 
     def build_body(body)
-      return body.to_json.to_data if json? and body != ''
-      body.to_data
-    end
-
-    def build_ns_url_session
-      NSURLSession.sessionWithConfiguration(ns_url_session_configuration,
-                                            delegate:self,
-                                            delegateQueue:nil)
-    end
-
-    def build_ns_mutable_request
-      request = NSMutableURLRequest.requestWithURL(@url)
-      request.setHTTPMethod(configuration[:method].to_s.upcase)
-      request.setHTTPBody(build_body(configuration[:body]), dataUsingEncoding:NSUTF8StringEncoding)
-      request
-    end
-
-    def build_ns_url_session_configuration
-      config = NSURLSessionConfiguration.defaultSessionConfiguration
-      config.setHTTPAdditionalHeaders(configuration[:headers])
-      config.timeoutIntervalForRequest = configuration[:connect_timeout]
-      config.timeoutIntervalForResource = configuration[:read_timeout]
-      config.HTTPMaximumConnectionsPerHost = 1
-      config
+      (json? and body != '') ? body.to_json.to_data : body.to_data
     end
 
     def set_defaults
