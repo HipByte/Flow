@@ -36,8 +36,21 @@ module UI
       proxy.textColor = UI::Color(color).proxy
     end
 
+    def _text=(text)
+      if text
+        proxy.text = text
+        if @line_height
+          at = proxy.attributedText.mutableCopy
+          ps = NSMutableParagraphStyle.new
+          ps.minimumLineHeight = @line_height
+          at.addAttribute(NSParagraphStyleAttributeName, value:ps, range:[0, at.length])
+          proxy.attributedText = at
+        end
+      end
+    end
+
     def text=(text)
-      proxy.text = text
+      self._text = text
     end
 
     def text
@@ -53,20 +66,14 @@ module UI
     end
 
     def line_height=(spacing)
-      at = proxy.attributedText
-
-      ps = at.attribute(NSParagraphStyleAttributeName, atIndex:0, effectiveRange:nil)
-      ps = ps ? ps.mutableCopy : NSMutableParagraphStyle.new
-      ps.minimumLineHeight = spacing
-
-      at = at.mutableCopy
-      at.addAttribute(NSParagraphStyleAttributeName, value:ps, range:[0, at.length])
-      proxy.attributedText = at
+      if @line_height != spacing
+        @line_height = spacing
+        self._text = proxy.text
+      end
     end
 
     def line_height
-      ps = proxy.attributedText.attribute(NSParagraphStyleAttributeName, atIndex:0, effectiveRange:nil)
-      ps ? ps.minimumLineHeight : 0
+      @line_height
     end
 
     def proxy
