@@ -122,11 +122,7 @@ module UI
     end
 
     def proxy
-      @proxy ||= begin
-        ui_view = UIView.alloc.init
-        ui_view.translatesAutoresizingMaskIntoConstraints = false
-        ui_view
-      end
+      @proxy ||= UIView.alloc.init
     end
 
     def _apply_layout(absolute_point, origin_point)
@@ -134,7 +130,11 @@ module UI
 
       top_left = [absolute_point[0] + left, absolute_point[1] + top]
       bottom_right = [absolute_point[0] + left + width, absolute_point[1] + top + height]
-      proxy.frame = [[left + origin_point[0], top + origin_point[1]], [bottom_right[0] - top_left[0], bottom_right[1] - top_left[1]]]
+      new_frame = [[left + origin_point[0], top + origin_point[1]], [bottom_right[0] - top_left[0], bottom_right[1] - top_left[1]]]
+
+      proxy.autoresizingMask = UIViewAutoresizingNone
+      proxy.translatesAutoresizingMaskIntoConstraints = true
+      proxy.frame = new_frame 
 
       absolute_point[0] += left
       absolute_point[1] += top
