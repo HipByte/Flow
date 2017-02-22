@@ -107,6 +107,11 @@ class UI::Navigation
     @current_screens[-1] = screen
   end
 
+  def share_panel(text, animated=true)
+    # TODO: honor `animated'
+    Android::Support::V4::App::ShareCompat::IntentBuilder.from(UI.context).setText(text).setType("text/plain").startChooser
+  end
+
   def proxy
     @proxy ||= begin
       manager = UI.context.fragmentManager

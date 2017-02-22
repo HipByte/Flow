@@ -99,6 +99,11 @@ module UI
       proxy.setViewControllers(ary, animated:animated)
     end
 
+    def share_panel(text, animated=true)
+      controller = UIActivityViewController.alloc.initWithActivityItems([text], applicationActivities:nil)
+      proxy.presentViewController(controller, animated:animated, completion:nil)
+    end
+
     def proxy
       @proxy ||= UINavigationController.alloc.initWithRootViewController(@root_screen.proxy)
     end
