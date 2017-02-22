@@ -52,6 +52,10 @@ module UI
       end
       coordinator.animateAlongsideTransition(nil, completion:did_rotate)
     end
+
+    def viewDidLayoutSubviews
+      @screen.view.update_layout
+    end
   end
 
   class Screen
