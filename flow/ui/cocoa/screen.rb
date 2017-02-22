@@ -15,14 +15,15 @@ module UI
     end
 
     def loadView
+      nav = @screen.navigation
       screen_size = UIScreen.mainScreen.bounds.size
-      @screen.view.width = screen_size.width
-      @screen.view.height = screen_size.height
-      unless @screen.navigation.bar_hidden?
-        @screen.view.height -= @screen.navigation._height_of_navigation_bar
+      screen_view = @screen.view
+      screen_view.width = screen_size.width
+      screen_view.height = screen_size.height
+      unless nav.bar_hidden?
+        screen_view.height -= nav._height_of_navigation_bar
       end
-      @screen.view.proxy.translatesAutoresizingMaskIntoConstraints = true
-      self.view = @screen.view.proxy
+      self.view = screen_view.proxy
     end
 
     def viewDidAppear(animated)
