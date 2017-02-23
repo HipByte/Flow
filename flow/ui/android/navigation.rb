@@ -112,6 +112,11 @@ class UI::Navigation
     Android::Support::V4::App::ShareCompat::IntentBuilder.from(UI.context).setText(text).setType("text/plain").startChooser
   end
 
+  def start_phone_call(number)
+    intent = Android::Content::Intent.new(Android::Content::Intent::ACTION_CALL, Android::Net::Uri.parse("tel:" + number))
+    UI.context.startActivity(intent)
+  end
+
   def proxy
     @proxy ||= begin
       manager = UI.context.fragmentManager

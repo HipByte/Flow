@@ -104,6 +104,11 @@ module UI
       proxy.presentViewController(controller, animated:animated, completion:nil)
     end
 
+    def start_phone_call(number)
+      url = NSURL.URLWithString("tel://#{number}")
+      UIApplication.sharedApplication.openURL(url)
+    end
+
     def proxy
       @proxy ||= UINavigationController.alloc.initWithRootViewController(@root_screen.proxy)
     end
