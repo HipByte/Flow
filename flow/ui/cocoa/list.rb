@@ -8,15 +8,24 @@ module UI
       attr_reader :content_view
 
       def content_view=(content_view)
-        @content_view = content_view
-        self.contentView.addSubview(@content_view.proxy)
-        @content_view.width = contentView.frame.size.width
+        if @content_view != content_view
+          @content_view = content_view
+          self.contentView.addSubview(@content_view.proxy)
+          @content_view.width = contentView.frame.size.width
+        end
+      end
+
+      def list=(list)
+        @list = WeakRef.new(list)
       end
 
       def layoutSubviews
         @content_view.width = contentView.frame.size.width
         @content_view.update_layout
         super
+        if path = @list.proxy.indexPathForCell(self)
+          @list._set_row_height(path, @content_view)
+        end
       end
     end
 
@@ -47,11 +56,30 @@ module UI
         cell = CustomListCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier: cell_identifier)
         cell.selectionStyle = UITableViewCellSelectionStyleNone
         cell.content_view = row
+        cell.list = self
       end
       cell.content_view.update(data) if cell.content_view.respond_to?(:update)
       cell.content_view.update_layout
-      @cached_rows_height[index_path.row] = cell.content_view.layout[3]
+      _set_row_height(index_path, cell.content_view, false)
       cell
+    end
+
+    def _set_row_height(index_path, cell, reload=true)
+      row = index_path.row
+      height = cell.layout[3]
+      previous_height = @cached_rows_height[row]
+      @cached_rows_height[row] = height
+      if height != previous_height and reload
+        # Calling beginUpdates and endUpdates seem to be the only way to tell the table view to recalculate the row heights. We also have to disable animations when this happens.
+        state = UIView.areAnimationsEnabled
+        begin
+          UIView.animationsEnabled = false
+          proxy.beginUpdates
+          proxy.endUpdates
+        ensure
+          UIView.animationsEnabled = state
+        end
+      end
     end
 
     def tableView(table_view, heightForRowAtIndexPath: index_path)
