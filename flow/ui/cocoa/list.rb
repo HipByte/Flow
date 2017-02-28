@@ -25,7 +25,7 @@ module UI
       @data_source = []
       @render_row_block = lambda { |section_index, row_index| ListRow }
       @cached_rows = {}
-      @cached_rows_height = {}
+      @cached_rows_height = []
     end
 
     def numberOfSectionsInTableView(table_view)
