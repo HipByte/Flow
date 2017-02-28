@@ -27,7 +27,9 @@ module UI
     end
 
     def border_radius=(radius)
-      proxy.layer.cornerRadius = radius
+      layer = proxy.layer
+      layer.masksToBounds = !!radius
+      layer.cornerRadius = (radius or 0)
     end
 
     def border_width=(width)
