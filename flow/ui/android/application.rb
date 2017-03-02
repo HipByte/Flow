@@ -22,8 +22,16 @@ class UI::Application
     transaction.commit
   end
 
+  def open_url(url)
+    _open_url(Android::Content::Intent::ACTION_VIEW, url)
+  end
+
   def open_phone_call(number)
-    intent = Android::Content::Intent.new(Android::Content::Intent::ACTION_CALL, Android::Net::Uri.parse("tel:" + number))
+    _open_url(Android::Content::Intent::ACTION_CALL, "tel:" + number)
+  end
+
+  def _open_url(action, url)
+    intent = Android::Content::Intent.new(action, Android::Net::Uri.parse(url)
     UI.context.startActivity(intent)
   end
 

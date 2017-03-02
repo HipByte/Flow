@@ -19,9 +19,12 @@ module UI
       true
     end
 
+    def open_url(url)
+      UIApplication.sharedApplication.openURL(NSURL.URLWithString(url))
+    end
+
     def open_phone_call(number)
-      url = NSURL.URLWithString("tel://#{number}")
-      UIApplication.sharedApplication.openURL(url)
+      open_url("tel://#{number}")
     end
 
     def proxy
