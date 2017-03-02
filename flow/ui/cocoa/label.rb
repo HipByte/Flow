@@ -39,9 +39,13 @@ module UI
     def _text=(text)
       if text
         proxy.text = text
-        if @line_height
+        if text.size > 0 and @line_height
           at = proxy.attributedText.mutableCopy
-          ps = NSMutableParagraphStyle.new
+          if ps = at.attribute(NSParagraphStyleAttributeName, atIndex:0, effectiveRange:nil)
+            ps = ps.mutableCopy
+          else
+            ps = NSMutableParagraphStyle.new
+          end
           ps.minimumLineHeight = @line_height
           at.addAttribute(NSParagraphStyleAttributeName, value:ps, range:[0, at.length])
           proxy.attributedText = at
