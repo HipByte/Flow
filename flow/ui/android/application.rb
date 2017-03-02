@@ -22,6 +22,11 @@ class UI::Application
     transaction.commit
   end
 
+  def open_phone_call(number)
+    intent = Android::Content::Intent.new(Android::Content::Intent::ACTION_CALL, Android::Net::Uri.parse("tel:" + number))
+    UI.context.startActivity(intent)
+  end
+
   def proxy
     @proxy ||= begin
       frame_layout = Android::Widget::FrameLayout.new(UI.context)
