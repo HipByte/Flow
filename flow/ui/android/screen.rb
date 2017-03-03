@@ -109,6 +109,7 @@ module UI
         if resource_id > 0
           view_height -= UI.context.resources.getDimensionPixelSize(resource_id)
         end
+        view_height -= UI::Navigation.bar_height
 
         view.width = main_screen_metrics.width / UI.density
         view.height = view_height / UI.density

@@ -1,6 +1,23 @@
 class UI::Navigation
   attr_reader :root_screen
 
+  #In pixels
+  def self.bar_height
+    @bar_height ||= begin
+      value = Android::Util::TypedValue.new
+      if UI.context.theme.resolveAttribute(Android::R::Attr::ActionBarSize, value, true)
+        Android::Util::TypedValue.complexToDimensionPixelSize(value.data, UI::context.resources.displayMetrics)
+      else
+        resource_id = UI.context.resources.getIdentifier('action_bar_default_height', 'dimen', 'android')
+        if resource_id
+          UI.context.resources.getDimensionPixelSize(resource_id)
+        else
+          0
+        end
+      end
+    end
+  end
+
   def initialize(root_screen)
     @root_screen = root_screen
     @root_screen.navigation = self
@@ -16,9 +33,11 @@ class UI::Navigation
     if bar.isShowing
       bar.hide
       Task.after 0.05 do
-        screen = @current_screens.last
-        screen.view.height += (bar.height / UI.density)
-        screen.view.update_layout
+        bar_height = bar.height>0 ? bar.height : self.class.bar_height
+        @current_screens.each do |e|
+          e.view.height += (bar_height / UI.density)
+          e.view.update_layout
+        end
       end
     end
   end
@@ -28,9 +47,11 @@ class UI::Navigation
     if !bar.isShowing
       bar.show
       Task.after 0.05 do
-        screen = @current_screens.last
-        screen.view.height -= (bar.height / UI.density)
-        screen.view.update_layout
+        bar_height = bar.height>0 ? bar.height : self.class.bar_height
+        @current_screens.each do |e|
+          e.view.height -= (bar_height / UI.density)
+          e.view.update_layout
+        end
       end
     end
   end
