@@ -31,7 +31,7 @@ class UI::Application
   end
 
   def _open_url(action, url)
-    intent = Android::Content::Intent.new(action, Android::Net::Uri.parse(url)
+    intent = Android::Content::Intent.new(action, Android::Net::Uri.parse(url))
     UI.context.startActivity(intent)
   end
 
