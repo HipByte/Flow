@@ -8,10 +8,11 @@ Motion::Project::App.setup do |app|
   app.build_dir = "build/#{template}"
   app.deployment_target = '7.0' if template == :ios && !Motion::Project::Config.starter?
 
+  files = []
   FLOW_COMPONENTS.each do |comp|
     libdir = File.join(File.dirname(__FILE__), '../flow/' + comp)
-    app.files.concat(Dir.glob(File.join(libdir, '*.rb')))
-    app.files.concat(Dir.glob(File.join(libdir, 'cocoa/*.rb')))
+    files.concat(Dir.glob(File.join(libdir, '*.rb')))
+    files.concat(Dir.glob(File.join(libdir, 'cocoa/*.rb')))
 
     exts = Dir.glob(File.join(libdir, "cocoa/*.a"))
     unless exts.empty?
@@ -21,6 +22,7 @@ Motion::Project::App.setup do |app|
       end
     end
   end
+  app.files.unshift(*files)
 
   samples = %w(android ios osx).delete_if {|t| t == template}
   samples.each do |sample|

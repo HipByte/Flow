@@ -9,10 +9,11 @@ Motion::Project::App.setup do |app|
   app.assets_dirs << 'resources'
   app.resources_dirs = []
 
+  files = []
   FLOW_COMPONENTS.each do |comp|
     libdir = File.join(File.dirname(__FILE__), '../flow/' + comp)
-    app.files.concat(Dir.glob(File.join(libdir, '*.rb')))
-    app.files.concat(Dir.glob(File.join(libdir, 'android/*.rb')))
+    files.concat(Dir.glob(File.join(libdir, '*.rb')))
+    files.concat(Dir.glob(File.join(libdir, 'android/*.rb')))
 
     abis = %w{armeabi-v7a x86}
     if abis.all? { |x| File.exist?(File.join(libdir, 'android', x)) }
@@ -24,9 +25,9 @@ Motion::Project::App.setup do |app|
       app.custom_init_funcs << 'Init_CSSNode'
     end
   end
+  app.files.unshift(*files)
 
-  app.files.delete_if { |path| path.start_with?('./app/ios') }
-  app.files.delete_if { |path| path.start_with?('./app/osx') }
+  app.files.delete_if { |path| path.start_with?('./app/ios') or path.start_with?('./app/osx') }
   app.spec_files.delete_if { |path| path.start_with?('./spec/helpers/cocoa') }
 
   app.manifest.child('application') do |application|
