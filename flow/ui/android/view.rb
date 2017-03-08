@@ -14,32 +14,8 @@ module UI
   class View < CSSNode
     attr_accessor :_previous_width, :_previous_height
 
-    def background_color
-      @_background_color
-    end
-
-    def background_color=(color)
-      if @_background_color != color
-        proxy.backgroundColor = @_background_color = UI::Color(color).proxy
-      end
-    end
-
-    def background_gradient=(gradient)
-      proxy.background = gradient.proxy
-      @_background_color = nil
-    end
-
-    def border_radius=(radius)
-      view = proxy.background
-      unless view.respond_to?(:setCornerRadius)
-        raise "can't apply border radius without a background color or gradient" unless @_background_color
-        view = Android::Graphics::Drawable::GradientDrawable.new
-        view.color = @_background_color
-        proxy.background = view
-      end
-      view.setCornerRadius(radius)
-      proxy.stateListAnimator = nil # remove shadow around borders
-    end
+    # These properties are used when generating the background drawable right after layout.
+    attr_accessor :background_color, :background_gradient, :border_radius, :shadow_offset, :shadow_color, :shadow_radius
 
     def hidden?
       proxy.visibility != Android::View::View::VISIBLE
@@ -101,11 +77,51 @@ module UI
           params.leftMargin = left
           params.topMargin = top
         end
+        resized = params.width != width or params.height != height
         params.width = width
         params.height = height
         proxy.layoutParams = params
+        _regenerate_background if resized
       end
       children.each { |child| child._apply_layout }
+    end
+
+    def _regenerate_background
+      return unless @background_gradient or @background_color or @shadow_radius
+
+      width, height = layout[2], layout[3]
+      return unless width and height
+
+      bitmap = Android::Graphics::Bitmap.createBitmap(width, height, Android::Graphics::Bitmap::Config::ARGB_8888)
+      canvas = Android::Graphics::Canvas.new(bitmap)
+
+      paint = Android::Graphics::Paint.new
+      if @background_gradient
+        colors = @background_gradient.colors
+        positions = case colors.size
+          when 2 then [0, 1]
+          when 3 then [0, 0.5, 1]
+          else raise "invalid number of colors"
+        end
+        paint.shader = Android::Graphics::LinearGradient.new(0, 0, 0, height, colors, positions, Android::Graphics::Shader::TileMode::MIRROR)
+      elsif @background_color
+        paint.color = UI::Color(@background_color).proxy
+      end
+
+      if @shadow_radius
+        x = y = 0
+        if @shadow_offset
+          x, y = @shadow_offset
+        end
+        color = UI::Color(@shadow_color || :black).proxy
+        paint.setShadowLayer(@shadow_radius, x, y, color)
+        proxy.setLayerType(Android::View::View::LAYER_TYPE_SOFTWARE, paint) # disable hardware acceleration when drawing shadows, seems required on some devices
+      end
+
+      corner_radius = @border_radius || 0
+      shadow_radius = @shadow_radius || 0
+      canvas.drawRoundRect(shadow_radius, shadow_radius, width - shadow_radius, height - shadow_radius, corner_radius, corner_radius, paint)
+      proxy.background = Android::Graphics::Drawable::BitmapDrawable.new(UI.context.resources, bitmap)
     end
 
     def _autolayout_when_resized=(value)

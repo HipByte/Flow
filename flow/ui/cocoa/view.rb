@@ -32,6 +32,30 @@ module UI
       layer.cornerRadius = (radius or 0)
     end
 
+    # Shadow attributes are applied on the layer of a separate super view that we create on demand, because it's not possible to have both shadow attributes and other attributes (ex. corner radius) at the same time in UIKit.
+    def _shadow_layer
+      @_shadow_layer ||= begin
+        @_shadow_view = UIView.new
+        @_shadow_view.addSubview(proxy)
+        layer = @_shadow_view.layer
+        layer.shadowOpacity = 1.0
+        layer.masksToBounds = false
+        layer
+      end
+    end
+
+    def shadow_offset=(offset)
+      _shadow_layer.shadowOffset = offset
+    end
+
+    def shadow_color=(color)
+      _shadow_layer.shadowColor = UI::Color(color).proxy.CGColor
+    end
+
+    def shadow_radius=(radius)
+      _shadow_layer.shadowRadius = radius
+    end
+
     def border_width=(width)
       proxy.layer.borderWidth = width
     end
@@ -106,20 +130,24 @@ module UI
       proxy.alpha = value
     end
 
+    def _proxy_or_shadow_view
+      @_shadow_view or proxy
+    end
+
     def add_child(child)
       super
-      proxy.addSubview(child.proxy)
+      proxy.addSubview(child._proxy_or_shadow_view)
     end
 
     def delete_child(child)
       if super
-        child.proxy.removeFromSuperview
+        child._proxy_or_shadow_view.removeFromSuperview
       end
     end
 
     def update_layout
       super
-      _apply_layout([0, 0], proxy.frame.origin)
+      _apply_layout([0, 0], _proxy_or_shadow_view.frame.origin)
       _layout_background_layer
     end
 
@@ -133,6 +161,11 @@ module UI
       top_left = [absolute_point[0] + left, absolute_point[1] + top]
       bottom_right = [absolute_point[0] + left + width, absolute_point[1] + top + height]
       new_frame = [[left + origin_point[0], top + origin_point[1]], [bottom_right[0] - top_left[0], bottom_right[1] - top_left[1]]]
+
+      if @_shadow_view
+        @_shadow_view.frame = new_frame
+        new_frame[0] = [0, 0]
+      end
 
       proxy.autoresizingMask = UIViewAutoresizingNone
       proxy.translatesAutoresizingMaskIntoConstraints = true
