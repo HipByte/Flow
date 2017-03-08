@@ -11,6 +11,13 @@ module UI
     @density ||= UI.context.resources.displayMetrics.density
   end
 
+  def self.status_bar_height
+    @status_bar_height ||= begin
+      resource_id = UI.context.resources.getIdentifier("status_bar_height", "dimen", "android")
+      resource_id > 0 ? UI.context.resources.getDimensionPixelSize(resource_id) : 0
+    end
+  end
+
   def self.resource_str(name)
     if stream = UI.context.assets.open(name)
       input_reader = Java::Io::InputStreamReader.new(stream)

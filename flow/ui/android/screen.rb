@@ -105,14 +105,28 @@ module UI
         main_screen_metrics = UI.context.windowManager.defaultDisplay.getMetrics(metrics)
 
         view_height = main_screen_metrics.height
-        resource_id = UI.context.resources.getIdentifier("status_bar_height", "dimen", "android")
-        if resource_id > 0
-          view_height -= UI.context.resources.getDimensionPixelSize(resource_id)
-        end
+        view_height -= UI.status_bar_height # assume solid status bar by default
 
         view.width = main_screen_metrics.width / UI.density
         view.height = view_height / UI.density
         view
+      end
+    end
+
+    def status_bar_style=(style)
+      window = UI.context.window
+      case o = style[:background]
+        when :transparent
+          window.addFlags(Android::View::WindowManager::LayoutParams::FLAG_TRANSLUCENT_STATUS)
+          unless @status_bar_transparent
+            view.height += (UI.status_bar_height / UI.density)
+            view.update_layout
+            @status_bar_transparent = true
+          end
+        else
+          # A color.
+          window.addFlags(Android::View::WindowManager::LayoutParams::FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+          window.statusBarColor = UI.color(o).proxy
       end
     end
 

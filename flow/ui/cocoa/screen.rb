@@ -56,6 +56,10 @@ module UI
     def viewDidLayoutSubviews
       @screen.view.update_layout
     end
+
+    def preferredStatusBarStyle
+      @screen.status_bar_style or UIStatusBarStyleDefault
+    end
   end
 
   class Screen
@@ -76,6 +80,20 @@ module UI
 
     def view
       @view ||= UI::View.new
+    end
+
+    attr_reader :status_bar_style
+
+    def status_bar_style=(style)
+      @status_bar_style = case style[:content]
+        when :light
+          UIStatusBarStyleLightContent
+        when :dark, :default
+          UIStatusBarStyleDefault
+        else
+          raise "invalid style"
+      end
+      proxy.setNeedsStatusBarAppearanceUpdate
     end
 
     def proxy
