@@ -281,6 +281,8 @@ node_layout(VALUE rcv, SEL sel)
 static css_dim_t
 node_measure(void *context, float width, float height)
 {
+    RubyFrame frame;
+
     VALUE node = ((struct ruby_css_node *)context)->obj;
     static SEL measure_sel = 0;
     if (measure_sel == 0) {
