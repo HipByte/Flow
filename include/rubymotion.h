@@ -127,6 +127,10 @@ VALUE rb_define_class_under(VALUE, const char*, VALUE);
 
 const char *rb_sym2name(VALUE sym);
 
+// Empty `RubyFrame' on purpose. Only does stuff on Android.
+typedef struct RubyFrame {
+} RubyFrame;
+
 #elif CC_TARGET_OS_ANDROID
 
 #include <jni.h>
@@ -322,10 +326,10 @@ void rb_vm_raise(VALUE) __attribute__ ((noreturn));
     } \
     while (0)
 
-class Frame {
+class RubyFrame {
     public:
         bool cleaned;
-        Frame(void) {
+        RubyFrame(void) {
             if (VM_JNI_ENV()->PushLocalFrame(32) < 0) {
                 // An error happened (probably java.lang.OutOfMemoryError).
                 cleaned = true;
@@ -335,7 +339,7 @@ class Frame {
                 cleaned = false;
             }
         }
-        ~Frame() {
+        ~RubyFrame() {
             if (!cleaned) {
                 VM_JNI_ENV()->PopLocalFrame(NULL);
             }
