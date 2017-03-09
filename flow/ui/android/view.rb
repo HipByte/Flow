@@ -90,7 +90,7 @@ module UI
       return unless @background_gradient or @background_color or @shadow_radius
 
       width, height = layout[2], layout[3]
-      return unless width and height
+      return unless width > 0 and height > 0
 
       bitmap = Android::Graphics::Bitmap.createBitmap(width, height, Android::Graphics::Bitmap::Config::ARGB_8888)
       canvas = Android::Graphics::Canvas.new(bitmap)
