@@ -108,18 +108,19 @@ module UI
         paint.color = UI::Color(@background_color).proxy
       end
 
-      if @shadow_radius
+      shadow_radius = @shadow_radius || 0
+      if shadow_radius > 0
         x = y = 0
         if @shadow_offset
           x, y = @shadow_offset
         end
         color = UI::Color(@shadow_color || :black).proxy
-        paint.setShadowLayer(@shadow_radius, x, y, color)
+        paint.setShadowLayer(shadow_radius, x, y, color)
         proxy.setLayerType(Android::View::View::LAYER_TYPE_SOFTWARE, paint) # disable hardware acceleration when drawing shadows, seems required on some devices
+        proxy.setPadding(shadow_radius, shadow_radius, shadow_radius, shadow_radius)
       end
 
       corner_radius = @border_radius || 0
-      shadow_radius = @shadow_radius || 0
       canvas.drawRoundRect(shadow_radius, shadow_radius, width - shadow_radius, height - shadow_radius, corner_radius, corner_radius, paint)
       proxy.background = Android::Graphics::Drawable::BitmapDrawable.new(UI.context.resources, bitmap)
     end
