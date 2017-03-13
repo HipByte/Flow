@@ -89,14 +89,10 @@ module UI
       end
     end
 
-    def replace(screen, animated=true)
-      ary = proxy.viewControllers
-      raise "inconsistent view controllers chain" unless ary[-1] == @current_screens[-1].proxy
-      screen.navigation = self
-      @current_screens[-1] = screen
-      ary = ary.dup
-      ary[-1] = screen.proxy
-      proxy.setViewControllers(ary, animated:animated)
+    def replace(new_screen, animated=true)
+      new_screen.navigation = self
+      @current_screens = [new_screen]
+      proxy.setViewControllers([new_screen.proxy], animated:animated)
     end
 
     def share_panel(text, animated=true)

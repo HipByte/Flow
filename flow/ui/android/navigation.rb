@@ -4,7 +4,7 @@ class UI::Navigation
   def initialize(root_screen)
     @root_screen = root_screen
     @root_screen.navigation = self
-    @current_screens = [@root_screen]
+    @current_screens = []
   end
 
   def screen
@@ -16,7 +16,6 @@ class UI::Navigation
     if bar.isShowing
       bar.hide
       Task.after 0.05 do
-        screen = @current_screens.last
         screen.view.height += (bar.height / UI.density)
         screen.view.update_layout
       end
@@ -28,7 +27,6 @@ class UI::Navigation
     if !bar.isShowing
       bar.show
       Task.after 0.05 do
-        screen = @current_screens.last
         screen.view.height -= (bar.height / UI.density)
         screen.view.update_layout
       end
@@ -53,8 +51,17 @@ class UI::Navigation
     fragment.hasOptionsMenu = has_menu
   end
 
+  BACK_STACK_ROOT_TAG = 'FlowBackStackRootTag'
+
+  def _fragment_tag(fragment)
+    "fragment-#{fragment.hashCode}"
+  end
+
+  def start
+    replace @root_screen, false
+  end
+
   def push(screen, animated=true)
-    @stack_change_reason = :push
     screen.navigation = self
 
     fragment = screen.proxy
@@ -65,16 +72,15 @@ class UI::Navigation
 
     transaction = proxy.beginTransaction
     transaction.hide(current_fragment)
-    transaction.add(UI.context.findViewById(Android::R::Id::Content).id, fragment, nil)
-    transaction.addToBackStack(nil)
-    transaction.commitAllowingStateLoss
+    transaction.add(UI::Application.instance.proxy.id, fragment, _fragment_tag(fragment))
+    transaction.addToBackStack(BACK_STACK_ROOT_TAG)
+    transaction.commit
 
     @current_screens << screen
   end
 
   def pop(animated=true)
     if @current_screens.size > 1
-      @stack_change_reason = :pop
       current_screen = @current_screens.pop
       current_screen.proxy._animate = animated ? :slide : false
       previous_screen = @current_screens.last
@@ -90,21 +96,24 @@ class UI::Navigation
     end
   end
 
-  def replace(screen, animated=true)
-    screen.navigation = self
+  def replace(new_screen, animated=true)
+    # TODO: honor `animated'
+    proxy.popBackStack(BACK_STACK_ROOT_TAG, Android::App::FragmentManager::POP_BACK_STACK_INCLUSIVE)
 
-    fragment = screen.proxy
-    fragment._animate = animated ? :fade : false
-
-    current_fragment = @current_screens.last.proxy
-    current_fragment._animate = animated ? :fade : false
-
+    new_screen.navigation = self
+    fragment = new_screen.proxy
     transaction = proxy.beginTransaction
-    transaction.hide(current_fragment)
-    transaction.replace(UI.context.findViewById(Android::R::Id::Content).id, fragment, nil)
-    transaction.commitAllowingStateLoss
+    if fragment.isAdded
+      if first_screen = @current_screens.first 
+        transaction.hide(first_screen.proxy)
+      end
+      transaction.show(fragment)
+    else
+      transaction.add(UI::Application.instance.proxy.id, fragment, _fragment_tag(fragment))
+    end
+    transaction.commit
 
-    @current_screens[-1] = screen
+    @current_screens = [new_screen]
   end
 
   def share_panel(text, animated=true)
@@ -120,10 +129,11 @@ class UI::Navigation
     end
   end
 
-  def stack_changed
+  def _stack_changed
+    # XXX disabled for now, we need to do this better (perhaps in onBackPressed)
+=begin
     case @stack_change_reason
-    when :push
-    when :pop
+    when :push, :pop
     else
       @current_screens.pop
       previous_screen = @current_screens.last
@@ -132,7 +142,8 @@ class UI::Navigation
         previous_screen.on_show
       end
     end
-    @stack_change_reason = nil
+    @stack_change_reason = nil 
+=end
   end
 end
 
@@ -142,6 +153,6 @@ class FlowFragmentManagerStackChangedListener
   end
 
   def onBackStackChanged
-    @navigation.stack_changed
+    @navigation._stack_changed
   end
 end

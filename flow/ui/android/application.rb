@@ -15,11 +15,7 @@ class UI::Application
   end
 
   def start
-    fragment = @navigation.root_screen.proxy
-    transaction = UI.context.fragmentManager.beginTransaction
-    transaction.add(proxy.id, fragment, nil)
-    transaction.addToBackStack(nil)
-    transaction.commit
+    @navigation.start
   end
 
   def open_url(url)
