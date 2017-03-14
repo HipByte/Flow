@@ -122,37 +122,6 @@ class UI::Navigation
   end
 
   def proxy
-    @proxy ||= begin
-      manager = UI.context.fragmentManager
-      manager.addOnBackStackChangedListener(FlowFragmentManagerStackChangedListener.new(self))
-      manager
-    end
-  end
-
-  def _stack_changed
-    # XXX disabled for now, we need to do this better (perhaps in onBackPressed)
-=begin
-    case @stack_change_reason
-    when :push, :pop
-    else
-      @current_screens.pop
-      previous_screen = @current_screens.last
-      if previous_screen
-        previous_screen.before_on_show
-        previous_screen.on_show
-      end
-    end
-    @stack_change_reason = nil 
-=end
-  end
-end
-
-class FlowFragmentManagerStackChangedListener
-  def initialize(navigation)
-    @navigation = navigation
-  end
-
-  def onBackStackChanged
-    @navigation._stack_changed
+    @proxy ||= UI.context.fragmentManager
   end
 end
