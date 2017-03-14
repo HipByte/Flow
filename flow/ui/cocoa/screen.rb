@@ -96,6 +96,10 @@ module UI
       proxy.setNeedsStatusBarAppearanceUpdate
     end
 
+    def self.size
+      UIScreen.mainScreen.bounds.size.to_a
+    end
+
     def proxy
       @proxy ||= Controller.alloc.initWithScreen(self)
     end

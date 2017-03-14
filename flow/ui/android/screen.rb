@@ -130,6 +130,12 @@ module UI
       end
     end
 
+    def self.size
+      metrics = Android::Util::DisplayMetrics.new
+      main_screen_metrics = UI.context.windowManager.defaultDisplay.getMetrics(metrics)
+      [main_screen_metrics.width / UI.density, main_screen_metrics.height / UI.density]
+    end
+
     def proxy
       @proxy ||= FlowUIFragment.new(self)
     end
