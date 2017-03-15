@@ -38,6 +38,11 @@ module UI
       if @source != source
         @source = source
         drawable = self.class._drawable_from_source(source)
+        if self.border_radius and self.border_radius > 0
+          drawable = Android::Support::V4::Graphics::Drawable::RoundedBitmapDrawableFactory.create(UI.context.resources, drawable.bitmap)
+          drawable.antiAlias = true
+          drawable.cornerRadius = self.border_radius * UI.density
+        end
         proxy.imageDrawable = drawable
         if width.nan? and height.nan?
           self.width = drawable.intrinsicWidth
@@ -68,6 +73,10 @@ module UI
 
     def proxy
       @proxy ||= Android::Widget::ImageView.new(UI.context)
+    end
+
+    def _regenerate_background
+      # Do nothing.
     end
   end
 end
