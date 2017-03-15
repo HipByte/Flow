@@ -108,7 +108,7 @@ module UI
         paint.color = UI::Color(@background_color).proxy
       end
 
-      shadow_radius = @shadow_radius || 0
+      shadow_radius = (@shadow_radius || 0) * UI.density
       if shadow_radius > 0
         x = y = 0
         if @shadow_offset
@@ -120,7 +120,7 @@ module UI
         proxy.setPadding(shadow_radius, shadow_radius, shadow_radius, shadow_radius)
       end
 
-      corner_radius = @border_radius || 0
+      corner_radius = (@border_radius || 0) * UI.density
       canvas.drawRoundRect(shadow_radius, shadow_radius, width - shadow_radius, height - shadow_radius, corner_radius, corner_radius, paint)
       proxy.background = Android::Graphics::Drawable::BitmapDrawable.new(UI.context.resources, bitmap)
     end
