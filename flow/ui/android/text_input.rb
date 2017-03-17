@@ -18,7 +18,7 @@ end
 
 module UI
   class TextInput < UI::Control
-    include UI::Text
+    include UI::SharedText
     include Eventable
 
     def placeholder=(text)
