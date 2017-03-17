@@ -1,5 +1,9 @@
 module UI
   class View < CSSNode
+    def added?
+      parent != nil
+    end
+
     def on_swipe_left(&block)
       on_swipe [:left], &block
     end
