@@ -63,7 +63,7 @@ module UI
       proxy.textColor = UI::Color(color).proxy
     end
 
-    def secure
+    def secure?
       proxy.secureTextEntry
     end
 

@@ -21,6 +21,16 @@ module UI
     include UI::SharedText
     include Eventable
 
+    def secure?
+      proxy.inputType & Android::Text::InputType::TYPE_TEXT_VARIATION_PASSWORD
+    end
+
+    def secure=(flag)
+      type = Android::Text::InputType::TYPE_CLASS_TEXT
+      type |= Android::Text::InputType::TYPE_TEXT_VARIATION_PASSWORD if flag
+      proxy.inputType = type
+    end
+
     def placeholder=(text)
       proxy.hint = text
     end
