@@ -29,6 +29,14 @@ module UI
       proxy.hint
     end
 
+    def input_offset
+      proxy.paddingLeft
+    end
+
+    def input_offset=(padding)
+      proxy.setPadding(padding * UI.density, 0, 0, 0)
+    end
+
     def proxy
       @proxy ||= begin
         edit_text = Android::Widget::EditText.new(UI.context)

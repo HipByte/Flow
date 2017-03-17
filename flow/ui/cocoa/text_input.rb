@@ -1,3 +1,19 @@
+class FlowTextField < UITextField
+  attr_accessor :_input_offset
+
+  def textRectForBounds(bounds)
+    _padded_rect(bounds)
+  end
+
+  def editingRectForBounds(bounds)
+    _padded_rect(bounds)
+  end
+
+  def _padded_rect(rect)
+    @_input_offset ? CGRectInset(rect, @_input_offset, 0) : rect
+  end
+end
+
 module UI
   class TextInput < Control
     include Eventable
@@ -82,12 +98,16 @@ module UI
       proxy.font = UI::Font(font).proxy
     end
 
+    def input_offset
+      proxy._input_offset
+    end
+
+    def input_offset=(padding)
+      proxy._input_offset = padding
+    end
+
     def proxy
-      @proxy ||= begin
-        ui_text_field = UITextField.alloc.init
-        ui_text_field.translatesAutoresizingMaskIntoConstraints = false
-        ui_text_field
-      end
+      @proxy ||= FlowTextField.alloc.init
     end
   end
 end
