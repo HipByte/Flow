@@ -15,7 +15,7 @@ module UI
     attr_accessor :_previous_width, :_previous_height
 
     # These properties are used when generating the background drawable right after layout.
-    attr_accessor :background_color, :background_gradient, :border_radius, :shadow_offset, :shadow_color, :shadow_radius
+    attr_accessor :background_color, :background_gradient, :border_color, :border_width, :border_radius, :shadow_offset, :shadow_color, :shadow_radius
 
     def hidden?
       proxy.visibility != Android::View::View::VISIBLE
@@ -87,7 +87,7 @@ module UI
     end
 
     def _regenerate_background
-      return unless @background_gradient or @background_color or @shadow_radius
+      return unless @background_gradient or @background_color or @border_width or @shadow_radius
 
       width, height = layout[2], layout[3]
       return unless width > 0 and height > 0
@@ -122,6 +122,16 @@ module UI
 
       corner_radius = (@border_radius || 0) * UI.density
       canvas.drawRoundRect(shadow_radius, shadow_radius, width - shadow_radius, height - shadow_radius, corner_radius, corner_radius, paint)
+
+      border_width = (@border_width || 0) * UI.density
+      if border_width > 0
+        paint = Android::Graphics::Paint.new
+        paint.color = UI::Color(@border_color || :black).proxy
+        paint.style = Android::Graphics::Paint::Style::STROKE
+        paint.strokeWidth = border_width
+        canvas.drawRoundRect(border_width, border_width, width - border_width, height - border_width, corner_radius, corner_radius, paint)
+      end
+
       proxy.background = Android::Graphics::Drawable::BitmapDrawable.new(UI.context.resources, bitmap)
     end
 

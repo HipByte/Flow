@@ -22,6 +22,10 @@ module UI
         })
     end
 
+    def border_width=(width)
+      proxy.layer.borderWidth = width
+    end
+
     def border_color=(color)
       proxy.layer.borderColor = UI::Color(color).proxy.CGColor
     end
