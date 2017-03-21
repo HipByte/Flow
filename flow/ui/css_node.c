@@ -27,6 +27,8 @@ struct ruby_css_node {
 static css_node_t *
 node_get_child(void *context, int i)
 {
+    RubyFrame frame;
+
     VALUE ary = ((struct ruby_css_node *)context)->children;
     assert(i >= 0 && i < RARRAY_LEN(ary));
     return NODE(RARRAY_AT(ary, i))->node;
