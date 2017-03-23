@@ -126,6 +126,7 @@ VALUE rb_define_class(const char*,VALUE);
 VALUE rb_define_class_under(VALUE, const char*, VALUE);
 
 const char *rb_sym2name(VALUE sym);
+void rb_ary_insert(VALUE ary, long i, VALUE obj);
 
 // Empty `RubyFrame' on purpose. Only does stuff on Android.
 typedef struct RubyFrame {
@@ -361,6 +362,7 @@ class RubyFrame {
 
 SEL rb_sym_to_sel(VALUE sym);
 #define rb_sym2name(sym) (const char *)rb_sym_to_sel(sym)
+void rb_ary_insert(VALUE ary, int i, VALUE obj);
 
 #endif
 
