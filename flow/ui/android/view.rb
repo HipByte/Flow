@@ -55,6 +55,11 @@ module UI
       proxy.addView(child.proxy)
     end
 
+    def insert_child(index, child)
+      super
+      proxy.addView(child.proxy, index)
+    end
+
     def delete_child(child)
       if super
         proxy.removeView(child.proxy)

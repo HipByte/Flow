@@ -187,13 +187,25 @@ define_property_sym(flex_wrap, 2)
 #undef define_property_sym
 
 static VALUE
+new_child(VALUE parent, VALUE child)
+{
+    NODE(parent)->node->children_count++;
+    NODE(child)->parent = rb_weak(parent);
+    return child;
+}
+
+static VALUE
 node_add_child(VALUE rcv, SEL sel, VALUE child)
 {
-    struct ruby_css_node *node = NODE(rcv);
-    rb_ary_push(node->children, child);
-    node->node->children_count++;
-    NODE(child)->parent = rb_weak(rcv);
-    return child;
+    rb_ary_push(NODE(rcv)->children, child);
+    return new_child(rcv, child);
+}
+
+static VALUE
+node_insert_child(VALUE rcv, SEL sel, VALUE idx, VALUE child)
+{
+    rb_ary_insert(NODE(rcv)->children, NUM2INT(idx), child);
+    return new_child(rcv, child);
 }
 
 static VALUE
@@ -389,6 +401,7 @@ Init_CSSNode(void)
 #undef declare_property
 
     rb_define_method(rb_cCSSNode, "add_child", node_add_child, 1);
+    rb_define_method(rb_cCSSNode, "insert_child", node_insert_child, 2);
     rb_define_method(rb_cCSSNode, "delete_child", node_delete_child, 1);
     rb_define_method(rb_cCSSNode, "children", node_children, 0);
     rb_define_method(rb_cCSSNode, "parent", node_parent, 0);

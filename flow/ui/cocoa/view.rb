@@ -143,6 +143,11 @@ module UI
       proxy.addSubview(child._proxy_or_shadow_view)
     end
 
+    def insert_child(index, child)
+      super
+      proxy.insertSubview(child._proxy_or_shadow_view, atIndex:index)
+    end
+
     def delete_child(child)
       if super
         child._proxy_or_shadow_view.removeFromSuperview
