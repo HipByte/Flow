@@ -83,7 +83,7 @@ module UI
     end
 
     def placeholder=(text)
-      proxy.placeholder = text
+      proxy.attributedPlaceholder = NSAttributedString.alloc.initWithString(text, attributes: { NSForegroundColorAttributeName => proxy.textColor })
     end
 
     def placeholder
