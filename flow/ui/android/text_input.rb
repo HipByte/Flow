@@ -33,7 +33,7 @@ class FlowUITextInputDateFocusListener
   end
 
   def onDateSet(view, year, month, day)
-    @view.trigger :change, year, month, day
+    @view.trigger :change, year, month + 1, day
   end
 end
 
