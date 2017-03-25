@@ -74,7 +74,7 @@ module UI
     def text=(text)
       if proxy.text != text
         proxy.text = text
-        on_change
+        on_change unless @on_change_disabled
       end
     end
 
@@ -104,6 +104,32 @@ module UI
 
     def input_offset=(padding)
       proxy._input_offset = padding
+    end
+
+    attr_reader :date_picker
+
+    def date_picker=(flag)
+      if @date_picker != flag
+        @date_picker = flag
+        if flag
+          date_picker = UIDatePicker.alloc.init
+          date_picker.datePickerMode = UIDatePickerModeDate
+          date_picker.addTarget(self, action:'_datePickerValueChanged:', forControlEvents:UIControlEventValueChanged)
+          proxy.inputView = date_picker
+        else
+          proxy.inputView = nil
+        end
+      end
+    end
+
+    def _datePickerValueChanged(sender)
+      components = NSCalendar.currentCalendar.components(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit, fromDate:sender.date)
+      @on_change_disabled = true
+      begin
+        trigger :change, components.year, components.month, components.day
+      ensure
+        @on_change_disabled = nil
+      end
     end
 
     def proxy
