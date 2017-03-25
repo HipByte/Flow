@@ -33,7 +33,7 @@ module UI
     end
 
     def color=(color)
-      text_proxy.textColor = UI::Color(color).proxy
+      text_proxy.textColor = text_proxy.hintTextColor = UI::Color(color).proxy
     end
 
     def text=(text)
