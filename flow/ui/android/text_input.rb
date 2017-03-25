@@ -23,16 +23,20 @@ class FlowUITextInputDateFocusListener
 
   def onFocusChange(view, has_focus)
     if has_focus
-      calendar = Java::Util::Calendar.getInstance
-      year = calendar.get(Java::Util::Calendar::YEAR)
-      month = calendar.get(Java::Util::Calendar::MONTH)
-      day = calendar.get(Java::Util::Calendar::DAY_OF_MONTH)
-
+      if @current_date
+        year, month, day = @current_date 
+      else
+        calendar = Java::Util::Calendar.getInstance
+        year = calendar.get(Java::Util::Calendar::YEAR)
+        month = calendar.get(Java::Util::Calendar::MONTH)
+        day = calendar.get(Java::Util::Calendar::DAY_OF_MONTH)
+      end
       Android::App::DatePickerDialog.new(UI.context, self, year, month, day).show
     end
   end
 
   def onDateSet(view, year, month, day)
+    @current_date = [year, month, day]
     @view.trigger :change, year, month + 1, day
   end
 end
