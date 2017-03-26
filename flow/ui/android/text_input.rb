@@ -80,9 +80,11 @@ module UI
         if flag
           proxy.onFocusChangeListener = FlowUITextInputDateFocusListener.new(self)
           proxy.removeTextChangedListener(@text_changed_listener)
+          proxy.keyListener = nil
         else
           proxy.onFocusChangeListener = nil
           proxy.addTextChangedListener(@text_changed_listener)
+          proxy.keyListener = @key_listener
         end
       end
     end
@@ -94,6 +96,7 @@ module UI
         edit_text.backgroundColor = Android::Graphics::Color::TRANSPARENT
         @text_changed_listener = FlowUITextInputTextChangedListener.new(self)
         edit_text.addTextChangedListener(@text_changed_listener)
+        @key_listener = edit_text.keyListener
         edit_text
       end
     end
