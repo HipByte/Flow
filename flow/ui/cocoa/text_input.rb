@@ -64,7 +64,7 @@ module UI
     end
 
     def secure?
-      proxy.secureTextEntry
+      proxy.secureTextEntry?
     end
 
     def secure=(is_secure)
