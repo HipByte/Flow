@@ -132,8 +132,16 @@ module UI
       end
     end
 
+    def textField(view, shouldChangeCharactersInRange:range, replacementString:string)
+      !@date_picker 
+    end
+
     def proxy
-      @proxy ||= FlowTextField.alloc.init
+      @proxy ||= begin
+        view = FlowTextField.alloc.init
+        view.delegate = self
+        view
+      end
     end
   end
 end
