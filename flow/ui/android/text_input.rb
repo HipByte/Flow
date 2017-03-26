@@ -16,28 +16,34 @@ class FlowUITextInputTextChangedListener
   end
 end
 
-class FlowUITextInputDateFocusListener
+class FlowUITextInputDateListener
   def initialize(view)
     @view = view
   end
 
   def onFocusChange(view, has_focus)
-    if has_focus
-      if @current_date
-        year, month, day = @current_date 
-      else
-        calendar = Java::Util::Calendar.getInstance
-        year = calendar.get(Java::Util::Calendar::YEAR)
-        month = calendar.get(Java::Util::Calendar::MONTH)
-        day = calendar.get(Java::Util::Calendar::DAY_OF_MONTH)
-      end
-      Android::App::DatePickerDialog.new(UI.context, self, year, month, day).show
-    end
+    _show_date_picker_dialog if has_focus
+  end
+
+  def onClick(view)
+    _show_date_picker_dialog
   end
 
   def onDateSet(view, year, month, day)
     @current_date = [year, month, day]
     @view.trigger :change, year, month + 1, day
+  end
+
+  def _show_date_picker_dialog
+    if @current_date
+      year, month, day = @current_date 
+    else
+      calendar = Java::Util::Calendar.getInstance
+      year = calendar.get(Java::Util::Calendar::YEAR)
+      month = calendar.get(Java::Util::Calendar::MONTH)
+      day = calendar.get(Java::Util::Calendar::DAY_OF_MONTH)
+    end
+    Android::App::DatePickerDialog.new(UI.context, self, year, month, day).show
   end
 end
 
@@ -78,11 +84,14 @@ module UI
       if @date_picker != flag
         @date_picker = flag
         if flag
-          proxy.onFocusChangeListener = FlowUITextInputDateFocusListener.new(self)
+          listener = FlowUITextInputDateListener.new(self)
+          proxy.onFocusChangeListener = listener
+          proxy.onClickListener = listener
           proxy.removeTextChangedListener(@text_changed_listener)
           proxy.keyListener = nil
         else
           proxy.onFocusChangeListener = nil
+          proxy.onClickListener = nil
           proxy.addTextChangedListener(@text_changed_listener)
           proxy.keyListener = @key_listener
         end
