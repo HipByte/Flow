@@ -47,7 +47,7 @@ module UI
     include Eventable
 
     def secure?
-      proxy.inputType & Android::Text::InputType::TYPE_TEXT_VARIATION_PASSWORD
+      (proxy.inputType & Android::Text::InputType::TYPE_TEXT_VARIATION_PASSWORD) != 0
     end
 
     def secure=(flag)
