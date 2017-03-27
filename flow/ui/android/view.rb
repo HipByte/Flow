@@ -21,25 +21,27 @@ module UI
       proxy.visibility != Android::View::View::VISIBLE
     end
 
-    def hidden=(hidden)
-      if hidden
-        if !self.width.nan?
-          self._previous_width = self.width
-          self.width = 0
+    def hidden=(flag)
+      if flag != hidden?
+        if flag
+          if !self.width.nan?
+            self._previous_width = self.width
+            self.width = 0
+          end
+  
+          if !self.height.nan?
+            self._previous_height = self.height
+            self.height = 0
+          end
+        else
+          self.width = self._previous_width if self._previous_width
+          self.height = self._previous_height if self._previous_height
         end
-
-        if !self.height.nan?
-          self._previous_height = self.height
-          self.height = 0
-        end
-      else
-        self.width = self._previous_width if self._previous_width
-        self.height = self._previous_height if self._previous_height
+  
+        proxy.visibility = flag ? Android::View::View::INVISIBLE : Android::View::View::VISIBLE
+  
+        self.root.update_layout
       end
-
-      proxy.visibility = hidden ? Android::View::View::INVISIBLE : Android::View::View::VISIBLE
-
-      self.root.update_layout
     end
 
     def alpha
