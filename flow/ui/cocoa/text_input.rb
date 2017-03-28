@@ -111,14 +111,13 @@ module UI
     def date_picker=(flag)
       if @date_picker != flag
         @date_picker = flag
-        if flag
-          date_picker = UIDatePicker.alloc.init
-          date_picker.datePickerMode = UIDatePickerModeDate
-          date_picker.addTarget(self, action:'_datePickerValueChanged:', forControlEvents:UIControlEventValueChanged)
-          proxy.inputView = date_picker
-        else
-          proxy.inputView = nil
-        end
+        proxy.inputView =
+          if flag
+            date_picker = UIDatePicker.alloc.init
+            date_picker.datePickerMode = UIDatePickerModeDate
+            date_picker.addTarget(self, action:'_datePickerValueChanged:', forControlEvents:UIControlEventValueChanged)
+            date_picker
+          end
       end
     end
 
