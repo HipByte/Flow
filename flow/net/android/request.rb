@@ -6,6 +6,8 @@ module Net
     attr_reader :configuration, :session, :base_url
 
     def initialize(url, options = {}, session = nil)
+      Net.setup_cookies
+
       @base_url = url
       @url = Java::Net::URL.new(url)
       @options = options
