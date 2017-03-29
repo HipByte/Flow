@@ -41,12 +41,14 @@ module Net
           # Response as text.
           input_reader = Java::Io::InputStreamReader.new(stream)
           input = Java::Io::BufferedReader.new(input_reader)
-          inputLine = ""
           response = Java::Lang::StringBuffer.new
-          while (inputLine = input.readLine) != nil do
-            response.append(inputLine)
+          loop do
+            line = input.readLine
+            break unless line
+            response.append(line)
           end
           input.close
+          response = response.toString
         end
 
         Task.main do

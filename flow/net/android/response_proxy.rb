@@ -48,7 +48,7 @@ module Net
     end
 
     def build_body
-      json? ? JSON.load(@response.toString) : @response
+      json? ? JSON.load(@response) : @response
     end
   end
 end
