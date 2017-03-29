@@ -103,7 +103,7 @@ class UI::Navigation
     new_screen.navigation = self
     fragment = new_screen.proxy
     transaction = proxy.beginTransaction
-    if fragment.isAdded
+    if already_added = fragment.isAdded
       if first_screen = @current_screens.first 
         transaction.hide(first_screen.proxy)
       end
@@ -111,7 +111,9 @@ class UI::Navigation
     else
       transaction.add(UI::Application.instance.proxy.id, fragment, _fragment_tag(fragment))
     end
+    new_screen.before_on_show if already_added
     transaction.commit
+    new_screen.on_show if already_added
 
     @current_screens = [new_screen]
   end
