@@ -69,7 +69,7 @@ module Net
     end
 
     def json?
-      configuration[:headers].fetch('Content-Type', nil) == "application/json"
+      Net::MimeTypes::JSON.include?(configuration[:headers].fetch('Content-Type', nil))
     end
 
     def url_connection
