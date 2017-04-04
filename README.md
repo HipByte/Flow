@@ -51,7 +51,7 @@ $ rake -T
 
 #### RubyMotion projects
 
-Flow can be added as a dependency of an existing iOS, Android or OS X RubyMotion project, by adding the `motion-flow` gem in the project's `Gemfile`.
+Flow can be added as a dependency of an existing iOS, Android or OS X RubyMotion project, by adding the `motion-flow` gem in the project's `Gemfile` assuming Bundler is being used.  If Bundler is not being used, Flow can be added as a dependency by adding `require 'motion-flow'` to the project's `Rakefile`.
 
 ### Code organization
 
