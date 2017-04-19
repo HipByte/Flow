@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.author      = 'HipByte'
   spec.email       = 'info@hipbyte.com'
   spec.homepage    = 'http://www.rubymotion.com'
-  spec.license     = 'Proprietary'
+  spec.license     = 'BSD 2-clause "Simplified" License'
   spec.files       = Dir.glob('lib/**/*.rb') +
                      Dir.glob('flow/**/*.rb') +
                      Dir.glob('flow/**/*.a') +
