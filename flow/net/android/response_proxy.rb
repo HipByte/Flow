@@ -44,7 +44,7 @@ module Net
     end
 
     def json?
-      mime_type.match /application\/json/
+      Net::MimeTypes.json.any? { |json_type| mime_type.include?(json_type) }
     end
 
     def build_body
