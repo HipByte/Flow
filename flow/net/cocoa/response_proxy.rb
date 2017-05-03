@@ -43,7 +43,7 @@ module Net
     end
 
     def build_body
-      json? ? JSON.load(@raw_body.to_str) : @raw_body
+      json? && !@raw_body.length.zero? ? JSON.load(@raw_body.to_str) : @raw_body
     end
   end
 end

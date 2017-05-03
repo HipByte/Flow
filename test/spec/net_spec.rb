@@ -3,24 +3,24 @@ describe Net do
     @response = nil
   end
 
-  describe ".reachable?" do
-    before do
-      @reachable = false
-    end
+  # describe ".reachable?" do
+  #   before do
+  #     @reachable = false
+  #   end
 
-    # FIXME : Sometimes, this spec will be failed with "LocalJumpError: no block given"
-    # it "tracks network reachability state" do
-    #   Net.reachable?("www.google.com") do |reachable|
-    #     sleep 0.1
-    #     @reachable = reachable
-    #     resume
-    #   end
+  #   # FIXME : Sometimes, this spec will be failed with "LocalJumpError: no block given"
+  #   # it "tracks network reachability state" do
+  #   #   Net.reachable?("www.google.com") do |reachable|
+  #   #     sleep 0.1
+  #   #     @reachable = reachable
+  #   #     resume
+  #   #   end
 
-    #   wait do
-    #     @reachable.should == true
-    #   end
-    # end
-  end
+  #   #   wait do
+  #   #     @reachable.should == true
+  #   #   end
+  #   # end
+  # end
 
   describe ".stub" do
     before do
@@ -48,7 +48,7 @@ describe Net do
       end
 
       wait do
-        @response.body.should == "Welcome"
+        @response.body.to_s.should == "Welcome"
       end
     end
 
@@ -62,7 +62,7 @@ describe Net do
       end
 
       wait do
-        @response.body.should == "Welcome"
+        @response.body.to_s.should == "Welcome"
       end
     end
 
@@ -73,7 +73,7 @@ describe Net do
       end
 
       wait do
-        @response.body.should.match /User: 1/
+        @response.body.to_s.should =~ /User: 1/
         @response.status.should == 200
         @response.status_message.should == "HTTP/1.1 200 OK"
       end
