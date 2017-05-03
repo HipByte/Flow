@@ -13,6 +13,7 @@ module UI
     end
 
     def measure(width, height)
+      #https://developer.apple.com/reference/foundation/nsattributedstring/1524971-draw
       at = proxy.attributedText
       return [0, 0] if at == nil or at.length == 0
       size = [width.nan? ? Float::MAX : width, Float::MAX]

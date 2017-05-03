@@ -23,7 +23,7 @@ describe UI::Label do
         label = UI::Label.new
         label.text = "Hello World"
         w = h = 500.0
-        label.measure(w,h).should == [w, 20.287109375]
+        label.measure(w,h).should == [w, 21]
       end
     end
   end
