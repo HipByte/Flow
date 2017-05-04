@@ -4,5 +4,9 @@ module Net
       application/json
       application/vnd.api+json
     )
+
+    def self.json
+      JSON
+    end
   end
 end
