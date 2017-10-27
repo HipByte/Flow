@@ -73,6 +73,10 @@ module UI
       end
     end
 
+    def start
+      replace @root_screen, false
+    end
+
     def push(screen, animated=true)
       @current_screens << screen
       screen.navigation = self
