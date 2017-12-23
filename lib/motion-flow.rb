@@ -188,6 +188,10 @@ else
     task "spec:emulator" do
       invoke_rake 'android', 'spec:emulator'
     end
+    desc "Download and build dependencies"
+    task "gradle:install" do
+      invoke_rake 'android', 'gradle:install'
+    end
   end
   namespace 'osx' do
     desc "Build the project for development"
