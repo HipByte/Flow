@@ -8,8 +8,9 @@ before_install:
   - sudo mkdir -p ~/Library/RubyMotion/build
   - sudo chown -R travis ~/Library/RubyMotion/build
 script:
+  - bundle install
   - rake build:ios
-  - cd test && bundle install
+  - cd test && bundle install --gemfile=./Gemfile
   - ruby server.rb &
-  - bundle exec rake ios:clean:all
-  - bundle exec rake ios:spec
+  - rake ios:clean:all
+  - rake ios:spec

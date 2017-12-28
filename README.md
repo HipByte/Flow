@@ -37,6 +37,12 @@ Flow is currently composed of the following libraries:
 $ gem install motion-flow
 ```
 
+If you are targeting Android, you need to install the dependencies with Gradle:
+
+```
+$ bundle && rake android:gradle:install
+```
+
 ### Projects
 
 #### Flow projects

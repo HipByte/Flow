@@ -8,7 +8,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     motion-gradle (2.1.0)
-    rake (10.5.0)
+    rake (12.3.0)
 
 PLATFORMS
   ruby
