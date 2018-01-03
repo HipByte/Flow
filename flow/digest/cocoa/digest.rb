@@ -5,7 +5,7 @@ module Digest
     end
 
     def update(str)
-      @digest.update(str.to_data)
+      @digest.update(str.dataUsingEncoding(NSUTF8StringEncoding))
       self
     end
 

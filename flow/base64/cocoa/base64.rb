@@ -1,6 +1,6 @@
 class Base64
   def self.encode(string)
-    data = string.to_data
+    data = string.dataUsingEncoding(NSUTF8StringEncoding)
     data.base64EncodedStringWithOptions(0)
   end
 
