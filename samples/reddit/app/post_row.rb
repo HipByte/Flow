@@ -15,7 +15,7 @@ class PostRow < UI::ListRow
 
     if post.thumbnail
       Net.get(post.thumbnail) do |response|
-        thumbnail.source = response.body.to_data
+        thumbnail.source = response.body.dataUsingEncoding(NSUTF8StringEncoding)
       end
     end
   end

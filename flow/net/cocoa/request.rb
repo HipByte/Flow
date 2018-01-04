@@ -65,7 +65,7 @@ module Net
     end
 
     def build_body(body)
-      (json? and body != '') ? body.to_json.to_data : body.to_data
+      (json? and body != '') ? body.to_json.dataUsingEncoding(NSUTF8StringEncoding) : body.dataUsingEncoding(NSUTF8StringEncoding)
     end
 
     def set_defaults
