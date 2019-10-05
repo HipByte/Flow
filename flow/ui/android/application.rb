@@ -38,4 +38,12 @@ class UI::Application
       frame_layout
     end
   end
+
+  def version_number
+    UI.context.applicationContext.packageManager.getPackageInfo(UI.context.applicationContext.packageName, 0).versionName
+  end
+
+  def build_number
+    UI.context.applicationContext.packageManager.getPackageInfo(UI.context.applicationContext.packageName, 0).versionCode
+  end
 end
