@@ -26,9 +26,9 @@ Motion::Project::App.setup do |app|
 
   samples = %w(android ios osx).delete_if {|t| t == template}
   samples.each do |sample|
-    app.files.delete_if { |path| path.start_with?("./app/#{sample}") }
+    app.files.delete_if { |path| path.start_with?("./app/#{sample}") if path.is_a?(String)}
   end
-  app.spec_files.delete_if { |path| path.start_with?('./spec/helpers/android') }
+  app.spec_files.delete_if { |path| path.start_with?('./spec/helpers/android') if path.is_a?(String)}
 
   app.frameworks += ['SystemConfiguration', 'CoreLocation', 'AddressBookUI', 'AVFoundation']
 end
