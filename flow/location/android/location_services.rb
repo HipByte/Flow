@@ -23,7 +23,7 @@ class Location
     obj.latitude = jlocation.latitude
     obj.longitude = jlocation.longitude
     obj.altitude = jlocation.altitude
-    obj.time = Time.new(jlocation.time)
+    obj.time = Time.new.setTimeInMillis(jlocation.time)
     obj.speed = jlocation.speed
     obj.accuracy = jlocation.accuracy
     obj
