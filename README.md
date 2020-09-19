@@ -43,6 +43,13 @@ If you are targeting Android, you need to install the dependencies with Gradle:
 $ bundle && rake android:gradle:install
 ```
 
+NOTE: The Android app API version defaults to version `"23"`.  
+To overwrite it set the environment variable `ANDROID_APP_API_VERSION` to the desired version for example:
+
+```
+echo 'export ANDROID_APP_API_VERSION="28"' >> ~/.zshrc
+```
+
 ### Projects
 
 #### Flow projects
